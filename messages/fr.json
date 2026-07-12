@@ -17,5 +17,13 @@
     "s2Desc": "Des assistants intelligents intégrés à vos outils.",
     "s3Title": "Intégrations sur mesure",
     "s3Desc": "Connectez vos applications et vos données sans friction."
+  },
+  "about": {
+    "title": "À propos d'EasyDigia",
+    "intro": "Nous aidons les entreprises à gagner du temps grâce à l'automatisation et à l'IA.",
+    "missionTitle": "Notre mission",
+    "mission": "Rendre l'automatisation intelligente accessible à toutes les entreprises.",
+    "approachTitle": "Notre approche",
+    "approach": "Comprendre vos processus, identifier les gains rapides, livrer des solutions mesurables."
   }
 }

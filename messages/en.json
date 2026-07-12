@@ -17,5 +17,13 @@
     "s2Desc": "Smart assistants integrated into your tools.",
     "s3Title": "Custom integrations",
     "s3Desc": "Connect your apps and data without friction."
+  },
+  "about": {
+    "title": "About EasyDigia",
+    "intro": "We help businesses save time through automation and AI.",
+    "missionTitle": "Our mission",
+    "mission": "Make intelligent automation accessible to every business.",
+    "approachTitle": "Our approach",
+    "approach": "Understand your processes, find quick wins, deliver measurable solutions."
   }
 }
