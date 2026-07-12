@@ -1,0 +1,9 @@
+node_modules
+.next
+.git
+.superpowers
+docs
+test
+vitest.config.ts
+.env
+.env.local
