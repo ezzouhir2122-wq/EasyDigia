@@ -25,5 +25,17 @@
     "mission": "Make intelligent automation accessible to every business.",
     "approachTitle": "Our approach",
     "approach": "Understand your processes, find quick wins, deliver measurable solutions."
+  },
+  "contact": {
+    "title": "Contact us",
+    "name": "Name",
+    "email": "Email",
+    "company": "Company",
+    "service": "Service of interest",
+    "message": "Your message",
+    "submit": "Send",
+    "success": "Thank you! We'll get back to you shortly.",
+    "error": "Something went wrong. Please try again.",
+    "required": "This field is required."
   }
 }

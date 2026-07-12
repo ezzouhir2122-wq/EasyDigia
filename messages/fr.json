@@ -25,5 +25,17 @@
     "mission": "Rendre l'automatisation intelligente accessible à toutes les entreprises.",
     "approachTitle": "Notre approche",
     "approach": "Comprendre vos processus, identifier les gains rapides, livrer des solutions mesurables."
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "name": "Nom",
+    "email": "Email",
+    "company": "Entreprise",
+    "service": "Service souhaité",
+    "message": "Votre message",
+    "submit": "Envoyer",
+    "success": "Merci ! Nous vous répondrons rapidement.",
+    "error": "Une erreur est survenue. Réessayez.",
+    "required": "Ce champ est requis."
   }
 }
