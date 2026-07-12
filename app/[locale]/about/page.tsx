@@ -1,21 +1,25 @@
 import { useTranslations } from "next-intl";
 import { Orbs } from "@/components/Orbs";
+import { AboutArt } from "@/components/AboutArt";
 
 export default function About() {
   const t = useTranslations("about");
   return (
     <div className="relative overflow-hidden">
       <Orbs />
-      <section className="relative z-[5] mx-auto max-w-[900px] px-[6vw] pb-10 pt-[70px] text-center">
-        <div className="mb-4 font-mono text-[12.5px] uppercase tracking-[0.08em] text-brand-bright">
-          {t("kicker")}
+      <section className="relative z-[5] mx-auto grid max-w-[1100px] items-center gap-12 px-[6vw] pb-12 pt-[70px] lg:grid-cols-[1.05fr_0.95fr]">
+        <div>
+          <div className="mb-4 font-mono text-[12.5px] uppercase tracking-[0.08em] text-brand-bright">
+            {t("kicker")}
+          </div>
+          <h1 className="font-heading text-[clamp(32px,5vw,50px)] font-bold leading-[1.1] tracking-[-0.02em]">
+            {t("title")}
+          </h1>
+          <p className="mt-5 max-w-[620px] text-[17px] leading-[1.6] text-muted">
+            {t("intro")}
+          </p>
         </div>
-        <h1 className="font-heading text-[clamp(32px,5vw,50px)] font-bold leading-[1.1] tracking-[-0.02em]">
-          {t("title")}
-        </h1>
-        <p className="mx-auto mt-5 max-w-[620px] text-[17px] leading-[1.6] text-muted">
-          {t("intro")}
-        </p>
+        <AboutArt />
       </section>
 
       <section className="relative z-[5] mx-auto grid max-w-[1000px] gap-6 px-[6vw] pb-24 md:grid-cols-2">
