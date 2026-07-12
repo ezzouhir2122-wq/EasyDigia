@@ -4,7 +4,7 @@
     "services": "Services",
     "about": "About",
     "contact": "Contact",
-    "cta": "Let's talk"
+    "cta": "Book a demo"
   },
   "home": {
     "title": "Automate. Accelerate. Grow.",
@@ -39,16 +39,28 @@
     "required": "This field is required."
   },
   "services": {
-    "title": "Our services",
-    "intro": "Automation and AI solutions designed for your business.",
-    "cta": "Let's talk about your project",
-    "s1Title": "Process automation",
-    "s1Desc": "We map your processes and automate repetitive tasks to save you time.",
-    "s2Title": "Custom AI agents",
-    "s2Desc": "Smart assistants connected to your tools to reply, triage and act automatically.",
-    "s3Title": "Integrations & workflows",
-    "s3Desc": "We connect your apps (CRM, email, databases) into reliable workflows.",
-    "s4Title": "Consulting & support",
-    "s4Desc": "An audit of your automation opportunities and a clear, measurable roadmap."
+    "kicker": "Our solutions",
+    "title": "Digital solutions and AI agents for every need",
+    "sub": "Whether you're starting from scratch or already have tools in place, we build the digital piece or AI agent you need.",
+    "ctaTitle": "Need something that's not listed? Let's talk.",
+    "ctaButton": "Discuss my project",
+    "items": [
+      { "icon": "🌐", "tag": "WEB", "title": "Websites & landing pages", "desc": "Showcase sites, portfolios and conversion pages, fast and built to turn visitors into customers.", "points": ["Custom design", "Technical SEO", "Responsive"] },
+      { "icon": "💬", "tag": "CHATBOT", "title": "AI chatbots", "desc": "Conversational assistants trained on your business, for support, sales and lead qualification 24/7.", "points": ["Multilingual", "Knowledge base", "Website/WhatsApp integration"] },
+      { "icon": "⚙️", "tag": "AUTOMATION", "title": "Process automation", "desc": "Your repetitive tasks — data entry, follow-ups, reporting — orchestrated and executed automatically end to end.", "points": ["Custom workflows", "No manual input", "Real-time tracking"] },
+      { "icon": "🤖", "tag": "AI AGENT", "title": "Custom AI agents", "desc": "Autonomous agents designed for your specific business workflows: research, decision, action.", "points": ["Multi-tool", "Memory & context", "Human oversight"] },
+      { "icon": "🧑‍💼", "tag": "ASSISTANT", "title": "Executive AI assistant", "desc": "An assistant that manages calendar, emails, priorities and prepares your decisions, for leaders and executive teams.", "points": ["Calendar management", "Email triage", "Daily summaries"] },
+      { "icon": "📊", "tag": "DASHBOARD", "title": "Dashboards", "desc": "Visualize your business data and your AI agents' activity in real time, in a clear interface.", "points": ["Live data", "Multi-source", "Custom alerts"] },
+      { "icon": "📱", "tag": "APP", "title": "Digital applications", "desc": "Custom web and mobile applications, connected to your tools and AI agents.", "points": ["Web & mobile", "Connected to your data", "Scalable"] },
+      { "icon": "🔗", "tag": "API", "title": "API integration", "desc": "Connecting your existing systems (CRM, ERP, business tools) to AI models and agents.", "points": ["CRM / ERP", "AI models", "Secure"] }
+    ]
+  },
+  "footer": {
+    "tagline": "Custom digital solutions and AI agents, for every industry.",
+    "navLabel": "Navigation",
+    "contactLabel": "Contact",
+    "city": "Marrakech, Morocco",
+    "copy": "© 2026 EasyDigia. All rights reserved.",
+    "made": "Marrakech, Morocco"
   }
 }

@@ -4,7 +4,7 @@
     "services": "Services",
     "about": "À propos",
     "contact": "Contact",
-    "cta": "Discutons de votre projet"
+    "cta": "Réserver une démo"
   },
   "home": {
     "title": "Automatisez. Accélérez. Grandissez.",
@@ -39,16 +39,28 @@
     "required": "Ce champ est requis."
   },
   "services": {
-    "title": "Nos services",
-    "intro": "Des solutions d'automatisation et d'IA pensées pour votre entreprise.",
-    "cta": "Discutons de votre projet",
-    "s1Title": "Automatisation des processus",
-    "s1Desc": "Nous cartographions vos processus et automatisons les tâches répétitives pour vous faire gagner du temps.",
-    "s2Title": "Agents IA sur mesure",
-    "s2Desc": "Des assistants intelligents connectés à vos outils pour répondre, trier et agir automatiquement.",
-    "s3Title": "Intégrations & workflows",
-    "s3Desc": "Nous connectons vos applications (CRM, e-mail, bases de données) en workflows fiables.",
-    "s4Title": "Conseil & accompagnement",
-    "s4Desc": "Audit de vos opportunités d'automatisation et feuille de route claire et mesurable."
+    "kicker": "Nos solutions",
+    "title": "Des solutions digitales et agents IA pour chaque besoin",
+    "sub": "Que vous partiez de zéro ou que vous ayez déjà des outils en place, nous concevons la brique digitale ou l'agent IA qu'il vous faut.",
+    "ctaTitle": "Un besoin qui ne figure pas ici ? Parlons-en.",
+    "ctaButton": "Discuter de mon projet",
+    "items": [
+      { "icon": "🌐", "tag": "WEB", "title": "Sites web & landing pages", "desc": "Sites vitrines, portfolios et pages de conversion, rapides et pensés pour transformer vos visiteurs en clients.", "points": ["Design sur-mesure", "SEO technique", "Responsive"] },
+      { "icon": "💬", "tag": "CHATBOT", "title": "Chatbots IA", "desc": "Des assistants conversationnels formés sur votre activité, pour le support client, la vente et la qualification de leads 24/7.", "points": ["Multilingue", "Base de connaissances", "Intégration site/WhatsApp"] },
+      { "icon": "⚙️", "tag": "AUTOMATION", "title": "Automatisation de processus", "desc": "Vos tâches répétitives — saisie, relances, reporting — orchestrées et exécutées automatiquement d'un bout à l'autre.", "points": ["Workflows sur-mesure", "Sans intervention manuelle", "Suivi en temps réel"] },
+      { "icon": "🤖", "tag": "AGENT IA", "title": "Agents IA sur-mesure", "desc": "Des agents autonomes conçus pour vos workflows métier spécifiques : recherche, décision, action.", "points": ["Multi-outils", "Mémoire & contexte", "Supervision humaine"] },
+      { "icon": "🧑‍💼", "tag": "ASSISTANT", "title": "Assistant exécutif IA", "desc": "Un assistant qui gère agenda, emails, priorités et prépare vos décisions, pour les dirigeants et équipes exécutives.", "points": ["Gestion d'agenda", "Tri des emails", "Synthèses quotidiennes"] },
+      { "icon": "📊", "tag": "DASHBOARD", "title": "Tableaux de bord", "desc": "Visualisez vos données métier et l'activité de vos agents IA en temps réel, dans une interface claire.", "points": ["Données en direct", "Multi-sources", "Alertes personnalisées"] },
+      { "icon": "📱", "tag": "APP", "title": "Applications numériques", "desc": "Applications web et mobiles sur-mesure, connectées à vos outils et à vos agents IA.", "points": ["Web & mobile", "Connectée à vos données", "Évolutive"] },
+      { "icon": "🔗", "tag": "API", "title": "Intégration API", "desc": "Connexion de vos systèmes existants (CRM, ERP, outils métier) aux modèles et agents IA.", "points": ["CRM / ERP", "Modèles IA", "Sécurisé"] }
+    ]
+  },
+  "footer": {
+    "tagline": "Solutions digitales et agents IA sur-mesure, pour tous les secteurs.",
+    "navLabel": "Navigation",
+    "contactLabel": "Contact",
+    "city": "Marrakech, Maroc",
+    "copy": "© 2026 EasyDigia. Tous droits réservés.",
+    "made": "Marrakech, Maroc"
   }
 }

@@ -9,10 +9,10 @@ type Props = {
 
 export function Button({ children, href, variant = "primary", type = "button" }: Props) {
   const base =
-    "inline-flex items-center justify-center rounded-lg px-5 py-3 font-medium transition";
+    "inline-flex items-center justify-center rounded-lg px-5 py-3 font-semibold transition";
   const styles =
     variant === "primary"
-      ? "bg-brand text-white hover:opacity-90"
+      ? "bg-gradient-to-br from-brand to-brand-bright text-base shadow-[0_4px_20px_rgba(143,212,0,0.35)] hover:opacity-90"
       : "border border-ink/20 text-ink hover:bg-ink/10";
   const cls = `${base} ${styles}`;
   if (href) {

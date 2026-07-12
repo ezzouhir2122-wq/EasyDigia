@@ -8,14 +8,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        base: "#0B1120",
-        ink: "#E2E8F0",
-        brand: { DEFAULT: "#4F46E5" },
-        accent: { DEFAULT: "#22D3EE" },
+        base: "#0A0B10",
+        surface: "#12141C",
+        ink: "#F5F6FA",
+        muted: "#9BA1B0",
+        brand: { DEFAULT: "#8FD400", bright: "#C6FF00", deep: "#5E9200" },
       },
       fontFamily: {
         heading: ["var(--font-space-grotesk)", "sans-serif"],
-        body: ["var(--font-inter)", "sans-serif"],
+        body: ["var(--font-ibm-plex-sans)", "sans-serif"],
+        mono: ["var(--font-ibm-plex-mono)", "monospace"],
       },
     },
   },
