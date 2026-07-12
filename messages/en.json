@@ -37,5 +37,18 @@
     "success": "Thank you! We'll get back to you shortly.",
     "error": "Something went wrong. Please try again.",
     "required": "This field is required."
+  },
+  "services": {
+    "title": "Our services",
+    "intro": "Automation and AI solutions designed for your business.",
+    "cta": "Let's talk about your project",
+    "s1Title": "Process automation",
+    "s1Desc": "We map your processes and automate repetitive tasks to save you time.",
+    "s2Title": "Custom AI agents",
+    "s2Desc": "Smart assistants connected to your tools to reply, triage and act automatically.",
+    "s3Title": "Integrations & workflows",
+    "s3Desc": "We connect your apps (CRM, email, databases) into reliable workflows.",
+    "s4Title": "Consulting & support",
+    "s4Desc": "An audit of your automation opportunities and a clear, measurable roadmap."
   }
 }

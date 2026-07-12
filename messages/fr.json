@@ -37,5 +37,18 @@
     "success": "Merci ! Nous vous répondrons rapidement.",
     "error": "Une erreur est survenue. Réessayez.",
     "required": "Ce champ est requis."
+  },
+  "services": {
+    "title": "Nos services",
+    "intro": "Des solutions d'automatisation et d'IA pensées pour votre entreprise.",
+    "cta": "Discutons de votre projet",
+    "s1Title": "Automatisation des processus",
+    "s1Desc": "Nous cartographions vos processus et automatisons les tâches répétitives pour vous faire gagner du temps.",
+    "s2Title": "Agents IA sur mesure",
+    "s2Desc": "Des assistants intelligents connectés à vos outils pour répondre, trier et agir automatiquement.",
+    "s3Title": "Intégrations & workflows",
+    "s3Desc": "Nous connectons vos applications (CRM, e-mail, bases de données) en workflows fiables.",
+    "s4Title": "Conseil & accompagnement",
+    "s4Desc": "Audit de vos opportunités d'automatisation et feuille de route claire et mesurable."
   }
 }
