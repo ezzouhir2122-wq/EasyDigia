@@ -9,9 +9,8 @@ export function Footer() {
     <footer className="relative z-[5] border-t border-white/[0.07] px-[6vw] pb-[34px] pt-14">
       <div className="mx-auto mb-10 flex max-w-[1200px] flex-wrap justify-between gap-10">
         <div className="max-w-[280px]">
-          <div className="mb-3.5 flex items-center gap-2.5">
-            <Logo className="h-8 w-8" />
-            <span className="font-heading text-[16.5px] font-semibold text-ink">EasyDigia</span>
+          <div className="mb-3.5">
+            <Logo className="h-14" />
           </div>
           <p className="text-[13.5px] leading-[1.6] text-muted">{t("tagline")}</p>
         </div>
