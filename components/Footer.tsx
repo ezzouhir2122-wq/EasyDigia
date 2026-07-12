@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { Logo } from "./Logo";
 
 export function Footer() {
   const nav = useTranslations("nav");
@@ -9,9 +10,7 @@ export function Footer() {
       <div className="mx-auto mb-10 flex max-w-[1200px] flex-wrap justify-between gap-10">
         <div className="max-w-[280px]">
           <div className="mb-3.5 flex items-center gap-2.5">
-            <span className="flex h-[30px] w-[30px] items-center justify-center rounded-lg bg-gradient-to-br from-brand to-brand-bright font-heading text-[14px] font-bold text-base">
-              E
-            </span>
+            <Logo className="h-8 w-8" />
             <span className="font-heading text-[16.5px] font-semibold text-ink">EasyDigia</span>
           </div>
           <p className="text-[13.5px] leading-[1.6] text-muted">{t("tagline")}</p>

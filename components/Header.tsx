@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { LangSwitcher } from "./LangSwitcher";
+import { Logo } from "./Logo";
 
 export function Header() {
   const t = useTranslations("nav");
@@ -8,9 +9,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-base/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1440px] items-center gap-6 px-[6vw] py-4">
         <Link href="/" className="flex shrink-0 items-center gap-2.5">
-          <span className="flex h-[34px] w-[34px] items-center justify-center rounded-[9px] bg-gradient-to-br from-brand to-brand-bright font-heading text-[16px] font-bold text-base">
-            E
-          </span>
+          <Logo className="h-9 w-9" />
           <span className="font-heading text-[19px] font-semibold tracking-[-0.01em] text-ink">
             EasyDigia
           </span>
