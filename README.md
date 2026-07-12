@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EasyDigia — Site web
 
-## Getting Started
+Site vitrine trilingue (FR / EN / AR) pour **EasyDigia**, agence d'automatisation
+et d'intelligence artificielle. Domaine cible : **www.EasyDigia.com**.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router) + **TypeScript**
+- **Tailwind CSS v3** (mode sombre par défaut)
+- **next-intl** — routes localisées `/fr`, `/en`, `/ar` (RTL automatique pour l'arabe)
+- **Supabase** — stockage des leads du formulaire de contact
+- **Vitest** + Testing Library — tests
+
+## Démarrage
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # puis renseigner les clés Supabase
+npm run dev                  # http://localhost:3000 (redirige vers /fr)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Autres commandes :
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm test        # lance les tests (Vitest)
+npm run build   # build de production
+npm start       # sert le build de production
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Variables d'environnement
 
-## Learn More
+Définies dans `.env.local` en local, et dans les **Environment Variables** du projet
+Vercel en production :
 
-To learn more about Next.js, take a look at the following resources:
+| Variable | Description |
+|---|---|
+| `SUPABASE_URL` | URL du projet Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | Clé service (serveur uniquement — jamais exposée au client) |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Tant que ces variables ne sont pas définies, le formulaire de contact renvoie une
+erreur 500 propre (les autres pages fonctionnent normalement).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Base de données (Supabase)
 
-## Deploy on Vercel
+Appliquer la migration dans le projet Supabase (SQL Editor ou CLI) :
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+supabase/migrations/0001_leads.sql
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Elle crée la table `public.leads` (avec RLS activée, aucune lecture publique). Les
+leads sont insérés côté serveur via la route `POST /api/lead`.
+
+## Internationalisation
+
+- Tous les textes sont dans `messages/fr.json`, `messages/en.json`, `messages/ar.json`.
+  Pour modifier un texte : éditer ces trois fichiers (mêmes clés).
+- L'arabe applique automatiquement `dir="rtl"` ; FR et EN restent en `ltr`.
+
+## Structure
+
+```
+app/[locale]/        Accueil, services, about, contact (+ layout localisé)
+app/api/lead/        Route API du formulaire -> Supabase
+components/           Header, Footer, LangSwitcher, Hero, ServiceCard, Button, Container, ContactForm
+i18n/                 routing, request, navigation (next-intl)
+messages/             fr.json, en.json, ar.json
+lib/                  supabase.ts, leadSchema.ts
+supabase/migrations/  0001_leads.sql
+```
+
+## Page Services
+
+La page `app/[locale]/services/page.tsx` est actuellement une **version provisoire**.
+Elle sera remplacée par le design `Services.dc.html` fourni par le client (conversion
+en JSX + externalisation des textes dans `messages/*.json`).
+
+## Déploiement Vercel
+
+1. Pousser le dépôt sur GitHub.
+2. Importer le projet dans Vercel (framework détecté : Next.js).
+3. Renseigner `SUPABASE_URL` et `SUPABASE_SERVICE_ROLE_KEY` dans les variables
+   d'environnement Vercel.
+4. Rattacher le domaine **www.EasyDigia.com** dans Vercel (Settings → Domains).
+
+> Note Next.js 16 : le fichier `middleware.ts` déclenche un avertissement de
+> dépréciation (« use proxy instead »). Il reste fonctionnel ; migration possible
+> plus tard.
