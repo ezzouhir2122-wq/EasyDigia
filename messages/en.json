@@ -7,6 +7,15 @@
     "cta": "Let's talk"
   },
   "home": {
-    "title": "Automate. Accelerate. Grow."
+    "title": "Automate. Accelerate. Grow.",
+    "subtitle": "EasyDigia builds tailor-made automations and AI agents for your business.",
+    "cta": "Let's talk about your project",
+    "servicesTitle": "What we do",
+    "s1Title": "Process automation",
+    "s1Desc": "Eliminate repetitive tasks with automated workflows.",
+    "s2Title": "AI agents",
+    "s2Desc": "Smart assistants integrated into your tools.",
+    "s3Title": "Custom integrations",
+    "s3Desc": "Connect your apps and data without friction."
   }
 }

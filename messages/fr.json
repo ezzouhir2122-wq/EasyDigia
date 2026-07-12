@@ -7,6 +7,15 @@
     "cta": "Discutons de votre projet"
   },
   "home": {
-    "title": "Automatisez. Accélérez. Grandissez."
+    "title": "Automatisez. Accélérez. Grandissez.",
+    "subtitle": "EasyDigia conçoit des automatisations et des agents IA sur mesure pour votre entreprise.",
+    "cta": "Discutons de votre projet",
+    "servicesTitle": "Ce que nous faisons",
+    "s1Title": "Automatisation des processus",
+    "s1Desc": "Éliminez les tâches répétitives avec des workflows automatisés.",
+    "s2Title": "Agents IA",
+    "s2Desc": "Des assistants intelligents intégrés à vos outils.",
+    "s3Title": "Intégrations sur mesure",
+    "s3Desc": "Connectez vos applications et vos données sans friction."
   }
 }
