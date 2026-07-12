@@ -12,10 +12,10 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.2",
-    "next": "16.2.10",
+    "next": "^15.5.0",
     "next-intl": "^4.13.2",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -28,7 +28,7 @@
     "@vitejs/plugin-react": "^6.0.3",
     "autoprefixer": "^10.5.2",
     "eslint": "^9",
-    "eslint-config-next": "16.2.10",
+    "eslint-config-next": "^15.5.0",
     "jsdom": "^29.1.1",
     "postcss": "^8.5.17",
     "tailwindcss": "^3.4.19",
