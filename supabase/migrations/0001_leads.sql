@@ -10,4 +10,12 @@ create table if not exists public.leads (
 );
 
 alter table public.leads enable row level security;
--- Aucune policy publique : seules les clés service (côté serveur) écrivent/lisent.
+
+-- Le formulaire public écrit avec la clé anon : on autorise UNIQUEMENT l'insertion.
+-- Aucune policy de lecture => la table n'est pas lisible publiquement.
+drop policy if exists "Allow anonymous inserts" on public.leads;
+create policy "Allow anonymous inserts"
+  on public.leads
+  for insert
+  to anon, authenticated
+  with check (true);
