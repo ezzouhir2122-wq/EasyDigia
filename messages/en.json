@@ -1,4 +1,11 @@
 {
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact",
+    "cta": "Let's talk"
+  },
   "home": {
     "title": "Automate. Accelerate. Grow."
   }

@@ -1,4 +1,11 @@
 {
+  "nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "about": "À propos",
+    "contact": "Contact",
+    "cta": "Discutons de votre projet"
+  },
   "home": {
     "title": "Automatisez. Accélérez. Grandissez."
   }
