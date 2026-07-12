@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { Orbs } from "@/components/Orbs";
 
 type ServiceItem = {
   icon: string;
@@ -15,15 +16,7 @@ export default function Services() {
 
   return (
     <div className="relative overflow-hidden">
-      {/* Decorative orb */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-40 -top-52 h-[600px] w-[600px] rounded-full blur-[10px]"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(143,212,0,0.22) 0%, rgba(143,212,0,0) 70%)",
-        }}
-      />
+      <Orbs />
 
       {/* Page header */}
       <section className="relative z-[5] mx-auto max-w-[900px] px-[6vw] pb-16 pt-[70px] text-center">

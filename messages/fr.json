@@ -7,9 +7,11 @@
     "cta": "Réserver une démo"
   },
   "home": {
+    "kicker": "Automatisation & IA",
     "title": "Automatisez. Accélérez. Grandissez.",
     "subtitle": "EasyDigia conçoit des automatisations et des agents IA sur mesure pour votre entreprise.",
     "cta": "Discutons de votre projet",
+    "ctaSecondary": "Voir nos services",
     "servicesTitle": "Ce que nous faisons",
     "s1Title": "Automatisation des processus",
     "s1Desc": "Éliminez les tâches répétitives avec des workflows automatisés.",
@@ -19,6 +21,7 @@
     "s3Desc": "Connectez vos applications et vos données sans friction."
   },
   "about": {
+    "kicker": "Qui sommes-nous",
     "title": "À propos d'EasyDigia",
     "intro": "Nous aidons les entreprises à gagner du temps grâce à l'automatisation et à l'IA.",
     "missionTitle": "Notre mission",
@@ -52,7 +55,8 @@
       { "icon": "🧑‍💼", "tag": "ASSISTANT", "title": "Assistant exécutif IA", "desc": "Un assistant qui gère agenda, emails, priorités et prépare vos décisions, pour les dirigeants et équipes exécutives.", "points": ["Gestion d'agenda", "Tri des emails", "Synthèses quotidiennes"] },
       { "icon": "📊", "tag": "DASHBOARD", "title": "Tableaux de bord", "desc": "Visualisez vos données métier et l'activité de vos agents IA en temps réel, dans une interface claire.", "points": ["Données en direct", "Multi-sources", "Alertes personnalisées"] },
       { "icon": "📱", "tag": "APP", "title": "Applications numériques", "desc": "Applications web et mobiles sur-mesure, connectées à vos outils et à vos agents IA.", "points": ["Web & mobile", "Connectée à vos données", "Évolutive"] },
-      { "icon": "🔗", "tag": "API", "title": "Intégration API", "desc": "Connexion de vos systèmes existants (CRM, ERP, outils métier) aux modèles et agents IA.", "points": ["CRM / ERP", "Modèles IA", "Sécurisé"] }
+      { "icon": "🔗", "tag": "API", "title": "Intégration API", "desc": "Connexion de vos systèmes existants (CRM, ERP, outils métier) aux modèles et agents IA.", "points": ["CRM / ERP", "Modèles IA", "Sécurisé"] },
+      { "icon": "🎓", "tag": "FORMATION", "title": "Formation professionnelle IA & digital", "desc": "Formez vos équipes et vos collaborateurs aux outils d'IA et aux compétences digitales : sessions pratiques, cas concrets et accompagnement pour monter en compétence rapidement.", "points": ["Sessions sur-mesure", "Cas pratiques", "Certification & suivi"] }
     ]
   },
   "footer": {

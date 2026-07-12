@@ -7,9 +7,11 @@
     "cta": "Book a demo"
   },
   "home": {
+    "kicker": "Automation & AI",
     "title": "Automate. Accelerate. Grow.",
     "subtitle": "EasyDigia builds tailor-made automations and AI agents for your business.",
     "cta": "Let's talk about your project",
+    "ctaSecondary": "See our services",
     "servicesTitle": "What we do",
     "s1Title": "Process automation",
     "s1Desc": "Eliminate repetitive tasks with automated workflows.",
@@ -19,6 +21,7 @@
     "s3Desc": "Connect your apps and data without friction."
   },
   "about": {
+    "kicker": "Who we are",
     "title": "About EasyDigia",
     "intro": "We help businesses save time through automation and AI.",
     "missionTitle": "Our mission",
@@ -52,7 +55,8 @@
       { "icon": "🧑‍💼", "tag": "ASSISTANT", "title": "Executive AI assistant", "desc": "An assistant that manages calendar, emails, priorities and prepares your decisions, for leaders and executive teams.", "points": ["Calendar management", "Email triage", "Daily summaries"] },
       { "icon": "📊", "tag": "DASHBOARD", "title": "Dashboards", "desc": "Visualize your business data and your AI agents' activity in real time, in a clear interface.", "points": ["Live data", "Multi-source", "Custom alerts"] },
       { "icon": "📱", "tag": "APP", "title": "Digital applications", "desc": "Custom web and mobile applications, connected to your tools and AI agents.", "points": ["Web & mobile", "Connected to your data", "Scalable"] },
-      { "icon": "🔗", "tag": "API", "title": "API integration", "desc": "Connecting your existing systems (CRM, ERP, business tools) to AI models and agents.", "points": ["CRM / ERP", "AI models", "Secure"] }
+      { "icon": "🔗", "tag": "API", "title": "API integration", "desc": "Connecting your existing systems (CRM, ERP, business tools) to AI models and agents.", "points": ["CRM / ERP", "AI models", "Secure"] },
+      { "icon": "🎓", "tag": "TRAINING", "title": "AI & digital professional training", "desc": "Train your teams and staff on AI tools and digital skills: hands-on sessions, real-world cases and support to upskill fast.", "points": ["Tailored sessions", "Hands-on cases", "Certification & follow-up"] }
     ]
   },
   "footer": {

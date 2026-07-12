@@ -1,3 +1,80 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  @keyframes floatOrb {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(20px, -30px) scale(1.05);
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+  }
+  @keyframes floatSoft {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-14px);
+    }
+  }
+  @keyframes pulseGlow {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  @keyframes shimmerBar {
+    0% {
+      width: 30%;
+    }
+    50% {
+      width: 92%;
+    }
+    100% {
+      width: 30%;
+    }
+  }
+  @keyframes gridPan {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 42px 42px;
+    }
+  }
+
+  .animate-orb {
+    animation: floatOrb 14s ease-in-out infinite;
+  }
+  .animate-orb-slow {
+    animation: floatOrb 20s ease-in-out infinite;
+  }
+  .animate-float {
+    animation: floatSoft 6s ease-in-out infinite;
+  }
+  .animate-glow {
+    animation: pulseGlow 4s ease-in-out infinite;
+  }
+  .animate-shimmer {
+    animation: shimmerBar 3.5s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-orb,
+  .animate-orb-slow,
+  .animate-float,
+  .animate-glow,
+  .animate-shimmer {
+    animation: none !important;
+  }
+}
