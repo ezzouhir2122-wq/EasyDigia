@@ -8,11 +8,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-base/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1440px] items-center gap-6 px-[6vw] py-4">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="EasyDigia — accueil">
-          <Logo className="h-11" />
-          <span className="font-heading text-[20px] font-bold tracking-[-0.02em] text-ink">
-            EasyDigia
-          </span>
+        <Link href="/" className="flex shrink-0 items-center" aria-label="EasyDigia — accueil">
+          <Logo className="h-16" />
         </Link>
 
         <nav className="mx-auto hidden items-center gap-8 lg:flex">
