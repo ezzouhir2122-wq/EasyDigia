@@ -42,11 +42,11 @@ export function loadConfig(): Config {
       : undefined,
     anthropic: { apiKey: process.env.ANTHROPIC_API_KEY ?? '' },
     webp: {
-      quality: process.env.WEBP_QUALITY ? parseInt(process.env.WEBP_QUALITY) : 85,
-      maxKb: process.env.WEBP_MAX_KB ? parseInt(process.env.WEBP_MAX_KB) : 300,
+      quality: process.env.WEBP_QUALITY ? parseInt(process.env.WEBP_QUALITY, 10) : 85,
+      maxKb: process.env.WEBP_MAX_KB ? parseInt(process.env.WEBP_MAX_KB, 10) : 300,
     },
     imagesPerArticle: process.env.IMAGES_PER_ARTICLE
-      ? parseInt(process.env.IMAGES_PER_ARTICLE)
+      ? parseInt(process.env.IMAGES_PER_ARTICLE, 10)
       : 3,
     defaultStatus: (process.env.DEFAULT_STATUS ?? 'draft') as 'draft' | 'publish',
     claudeModel: process.env.CLAUDE_MODEL ?? 'claude-sonnet-5',
