@@ -69,6 +69,48 @@
   }
 }
 
+/* Blog article body styles */
+.prose-blog h2 {
+  font-family: var(--font-heading, sans-serif);
+  font-size: clamp(20px, 2.5vw, 26px);
+  font-weight: 700;
+  color: #F5F6FA;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+.prose-blog p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #9BA1B0;
+  margin-bottom: 1.25rem;
+}
+.prose-blog strong {
+  color: #C6FF00;
+  font-weight: 600;
+}
+.prose-blog ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.25rem;
+}
+.prose-blog ul li {
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #9BA1B0;
+  margin-bottom: 0.5rem;
+}
+.prose-blog ul li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #8FD400;
+  font-weight: 700;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-orb,
   .animate-orb-slow,
