@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#12141C" />
+      <stop offset="100%" stop-color="#0A0B10" />
+    </radialGradient>
+
+    <!-- Lime Green Glow Filter -->
+    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Neon Accents -->
+    <linearGradient id="limeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8FD400" />
+      <stop offset="100%" stop-color="#C6FF00" />
+    </linearGradient>
+
+    <!-- Grid Pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <style>
+    /* CSS Keyframe Animations */
+    @keyframes pulseCore {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+    @keyframes pulseRing {
+      0% { r: 50px; opacity: 0.6; }
+      100% { r: 120px; opacity: 0; }
+    }
+    @keyframes travelData {
+      0% { stroke-dashoffset: 100; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes floatingCard {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes orbitNode {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Classes */
+    .bg-rect { fill: url(#bgGrad); }
+    .grid-overlay { fill: url(#grid); }
+    
+    .agent-core {
+      transform-origin: 300px 250px;
+      animation: pulseCore 3s ease-in-out infinite;
+    }
+    
+    .pulsing-ring {
+      transform-origin: 300px 250px;
+      animation: pulseRing 3s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+      stroke: url(#limeGrad);
+      fill: none;
+      stroke-width: 1.5;
+    }
+    
+    .connection-line {
+      stroke: rgba(143, 212, 0, 0.25);
+      stroke-width: 1.5;
+      fill: none;
+    }
+    
+    .data-flow {
+      stroke: url(#limeGrad);
+      stroke-width: 2.5;
+      stroke-dasharray: 8 12;
+      animation: travelData 4s linear infinite;
+      fill: none;
+    }
+    
+    .floating-ui {
+      animation: floatingCard 5s ease-in-out infinite;
+    }
+    
+    .orbiting-group {
+      transform-origin: 300px 250px;
+      animation: orbitNode 25s linear infinite;
+    }
+  </style>
+
+  <!-- Background -->
+  <rect width="600" height="600" class="bg-rect" />
+  <rect width="600" height="600" class="grid-overlay" />
+
+  <!-- Orbit lines -->
+  <circle cx="300" cy="250" r="140" fill="none" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1.5" />
+  <circle cx="300" cy="250" r="200" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1" stroke-dasharray="5 5" />
+
+  <!-- Neural Connection Network -->
+  <g>
+    <!-- Lines -->
+    <path d="M 300 250 L 160 180" class="connection-line" />
+    <path d="M 300 250 L 440 180" class="connection-line" />
+    <path d="M 300 250 L 300 100" class="connection-line" />
+    <path d="M 300 250 L 220 370" class="connection-line" />
+    <path d="M 300 250 L 380 370" class="connection-line" />
+    
+    <path d="M 160 180 L 300 100" class="connection-line" />
+    <path d="M 440 180 L 300 100" class="connection-line" />
+    
+    <!-- Active Data flows -->
+    <path d="M 300 250 L 160 180" class="data-flow" style="animation-duration: 2.2s;" />
+    <path d="M 300 100 L 300 250" class="data-flow" style="animation-duration: 1.8s;" />
+    <path d="M 300 250 L 380 370" class="data-flow" style="animation-duration: 3s;" />
+  </g>
+
+  <!-- Orbiting Nodes -->
+  <g class="orbiting-group">
+    <circle cx="160" cy="250" r="6" fill="#C6FF00" filter="url(#neonGlow)" />
+    <circle cx="440" cy="250" r="6" fill="#C6FF00" filter="url(#neonGlow)" />
+    <line x1="160" y1="250" x2="440" y2="250" stroke="rgba(143, 212, 0, 0.1)" stroke-width="1" />
+  </g>
+
+  <!-- Pulsing rings expanding outwards from core -->
+  <circle cx="300" cy="250" class="pulsing-ring" />
+  <circle cx="300" cy="250" class="pulsing-ring" style="animation-delay: 1.5s;" />
+
+  <!-- Network Nodes (Slices) -->
+  <g>
+    <!-- Central Agent Core -->
+    <g class="agent-core" filter="url(#neonGlow)">
+      <circle cx="300" cy="250" r="32" fill="#12141C" stroke="url(#limeGrad)" stroke-width="5" />
+      <circle cx="300" cy="250" r="15" fill="url(#limeGrad)" />
+    </g>
+
+    <!-- Satellite Nodes -->
+    <circle cx="160" cy="180" r="12" fill="#12141C" stroke="url(#limeGrad)" stroke-width="2" />
+    <circle cx="160" cy="180" r="5" fill="#8FD400" />
+    
+    <circle cx="440" cy="180" r="12" fill="#12141C" stroke="url(#limeGrad)" stroke-width="2" />
+    <circle cx="440" cy="180" r="5" fill="#8FD400" />
+    
+    <circle cx="300" cy="100" r="14" fill="#12141C" stroke="url(#limeGrad)" stroke-width="2.5" />
+    <circle cx="300" cy="100" r="6" fill="#C6FF00" filter="url(#neonGlow)" />
+    
+    <circle cx="220" cy="370" r="10" fill="#12141C" stroke="url(#limeGrad)" stroke-width="2" />
+    
+    <circle cx="380" cy="370" r="10" fill="#12141C" stroke="url(#limeGrad)" stroke-width="2" />
+  </g>
+
+  <!-- Agent Activity Terminal (Glass Card) -->
+  <g class="floating-ui" transform="translate(180, 420)">
+    <!-- Main Card Body -->
+    <rect width="240" height="120" rx="18" fill="rgba(18, 20, 28, 0.75)" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1.5" style="backdrop-filter: blur(16px);" />
+    <rect width="240" height="120" rx="18" fill="none" stroke="url(#limeGrad)" stroke-width="1.5" opacity="0.25" />
+    
+    <!-- Top Bar -->
+    <path d="M 0 18 A 18 18 0 0 1 18 0 L 222 0 A 18 18 0 0 1 240 18 L 240 32 L 0 32 Z" fill="rgba(255, 255, 255, 0.03)" />
+    <circle cx="20" cy="16" r="4" fill="#FF5F56" />
+    <circle cx="32" cy="16" r="4" fill="#FFBD2E" />
+    <circle cx="44" cy="16" r="4" fill="#27C93F" />
+    <text x="220" y="20" font-family="monospace" font-size="10" fill="rgba(255, 255, 255, 0.4)" text-anchor="end">agent.log</text>
+    
+    <!-- Code Lines / Activity log -->
+    <g font-family="monospace" font-size="10" fill="rgba(255,255,255,0.8)" transform="translate(18, 50)">
+      <!-- Line 1 -->
+      <text x="0" y="0" fill="#C6FF00">&gt; agent.init()</text>
+      <text x="120" y="0" fill="rgba(255, 255, 255, 0.3)">[OK]</text>
+      
+      <!-- Line 2 -->
+      <text x="0" y="18" fill="rgba(255, 255, 255, 0.6)">&gt; task.retrieve()</text>
+      <text x="120" y="18" fill="rgba(255, 255, 255, 0.3)">[PENDING]</text>
+      
+      <!-- Line 3 -->
+      <text x="0" y="36" fill="#8FD400">&gt; database.sync()</text>
+      <!-- Running dynamic dot -->
+      <circle cx="125" cy="32" r="3" fill="#C6FF00">
+        <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="135" cy="32" r="3" fill="#C6FF00">
+        <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" begin="0.4s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="145" cy="32" r="3" fill="#C6FF00">
+        <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" begin="0.8s" repeatCount="indefinite" />
+      </circle>
+    </g>
+  </g>
+
+  <!-- Tiny Glowing Bits -->
+  <circle cx="120" cy="380" r="2" fill="#8FD400" opacity="0.5" />
+  <circle cx="480" cy="300" r="3" fill="#C6FF00" opacity="0.6" />
+  <circle cx="450" cy="110" r="2" fill="#8FD400" opacity="0.4" />
+</svg>
