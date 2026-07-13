@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { generateWithAI, detectProvider, type Provider } from "@/lib/ai-providers";
 import { getSupabaseAdmin } from "@/lib/supabase";
-
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 function slugify(text: string) {
   return text
@@ -13,31 +11,11 @@ function slugify(text: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-export async function POST(req: Request) {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return NextResponse.json(
-      { ok: false, error: "ANTHROPIC_API_KEY non configurée" },
-      { status: 500 }
-    );
-  }
-
-  let body: { topic?: string; category?: string };
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
-  }
-
-  const { topic, category = "ai" } = body;
-  if (!topic?.trim()) {
-    return NextResponse.json({ ok: false, error: "topic requis" }, { status: 400 });
-  }
-
-  const prompt = `Tu es un rédacteur expert pour EasyDigia, une agence digitale spécialisée en IA et automatisation basée à Marrakech, Maroc.
+const PROMPT = (topic: string) => `Tu es un rédacteur expert pour EasyDigia, une agence digitale spécialisée en IA et automatisation basée à Marrakech, Maroc.
 
 Génère un article de blog professionnel sur le sujet : "${topic}"
 
-Réponds UNIQUEMENT avec un objet JSON valide (pas de markdown, pas d'explication) avec cette structure exacte :
+Réponds UNIQUEMENT avec un objet JSON valide (pas de markdown, pas d'explication, pas de \`\`\`json) avec cette structure exacte :
 {
   "slug": "slug-url-en-francais-avec-tirets",
   "read_min": 6,
@@ -49,33 +27,52 @@ Réponds UNIQUEMENT avec un objet JSON valide (pas de markdown, pas d'explicatio
   },
   "en": {
     "title": "Catchy English title",
-    "tag": "Short category",
+    "tag": "Short category (e.g. AI & Agents, Automation, Digital strategy)",
     "excerpt": "1-2 sentence summary (max 180 chars)",
     "body": "<h2>Section title</h2><p>Paragraph...</p>"
   },
   "ar": {
     "title": "عنوان جذاب بالعربية",
     "tag": "فئة قصيرة",
-    "excerpt": "ملخص بجملة أو جملتين",
+    "excerpt": "ملخص بجملة أو جملتين (أقل من 180 حرف)",
     "body": "<h2>عنوان القسم</h2><p>فقرة...</p>"
   }
 }
 
-Règles :
+Règles impératives :
 - body : 4 à 6 sections h2, 3-4 paragraphes chacune, ~500 mots par langue
+- HTML uniquement : h2, p, strong, ul, li (pas de h1, div, script, style)
 - Mention naturelle d'EasyDigia dans la conclusion avec invitation à contacter
-- Ton professionnel mais accessible
-- body doit être du HTML valide (uniquement h2, p, strong, ul, li)`;
+- Ton professionnel mais accessible, adapté aux dirigeants de PME
+- JSON strictement valide, sans échappements inutiles`;
+
+export async function POST(req: Request) {
+  let body: { topic?: string; category?: string; provider?: Provider };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
+  }
+
+  const { topic, category = "ai", provider } = body;
+  if (!topic?.trim()) {
+    return NextResponse.json({ ok: false, error: "topic requis" }, { status: 400 });
+  }
+
+  let selectedProvider: Provider;
+  try {
+    selectedProvider = provider ?? detectProvider();
+  } catch (e) {
+    return NextResponse.json({ ok: false, error: String(e) }, { status: 500 });
+  }
 
   try {
-    const message = await anthropic.messages.create({
-      model: "claude-opus-4-8",
-      max_tokens: 8192,
-      messages: [{ role: "user", content: prompt }],
-    });
+    const raw = await generateWithAI(PROMPT(topic), selectedProvider);
 
-    const raw = (message.content[0] as { type: string; text: string }).text.trim();
-    const jsonStr = raw.startsWith("{") ? raw : raw.slice(raw.indexOf("{"), raw.lastIndexOf("}") + 1);
+    // Extraire le JSON même si le modèle entoure de ```json
+    const jsonStr = raw.includes("{")
+      ? raw.slice(raw.indexOf("{"), raw.lastIndexOf("}") + 1)
+      : raw;
     const article = JSON.parse(jsonStr);
 
     const baseSlug = article.slug || slugify(topic);
@@ -102,9 +99,9 @@ Règles :
 
     if (error) throw error;
 
-    return NextResponse.json({ ok: true, article: data });
+    return NextResponse.json({ ok: true, article: data, provider: selectedProvider });
   } catch (e) {
-    console.error("blog generate error", e);
+    console.error(`blog generate error [${selectedProvider}]`, e);
     return NextResponse.json({ ok: false, error: String(e) }, { status: 500 });
   }
 }

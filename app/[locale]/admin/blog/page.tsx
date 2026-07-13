@@ -19,12 +19,19 @@ const CATEGORIES = [
   { value: "tutorial", label: "Tutoriel" },
 ];
 
+const PROVIDERS = [
+  { value: "grok", label: "Grok (xAI)", icon: "⚡" },
+  { value: "gemini", label: "Gemini (Google)", icon: "💎" },
+  { value: "claude", label: "Claude (Anthropic)", icon: "🧠" },
+];
+
 export default function AdminBlog() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [topic, setTopic] = useState("");
   const [category, setCategory] = useState("ai");
+  const [provider, setProvider] = useState("grok");
   const [msg, setMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
 
   async function loadArticles() {
@@ -46,11 +53,12 @@ export default function AdminBlog() {
       const res = await fetch("/api/blog/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic, category }),
+        body: JSON.stringify({ topic, category, provider }),
       });
       const json = await res.json();
       if (json.ok) {
-        setMsg({ type: "ok", text: `Article "${json.article.content?.fr?.title ?? json.article.slug}" généré en brouillon ✅` });
+        const pLabel = PROVIDERS.find(p => p.value === json.provider)?.label ?? json.provider;
+        setMsg({ type: "ok", text: `Article "${json.article.content?.fr?.title ?? json.article.slug}" généré par ${pLabel} ✅` });
         setTopic("");
         loadArticles();
       } else {
@@ -87,7 +95,7 @@ export default function AdminBlog() {
           </div>
           <h1 className="text-[28px] font-bold tracking-tight">Gestion du Blog IA</h1>
           <p className="mt-1 text-[14px] text-[#9BA1B0]">
-            Générez des articles en FR/EN/AR en un clic avec Claude IA
+            Générez des articles en FR/EN/AR avec Grok, Gemini ou Claude
           </p>
         </div>
 
@@ -95,6 +103,26 @@ export default function AdminBlog() {
         <div className="mb-8 rounded-[18px] border border-white/10 bg-[#12141C] p-7">
           <h2 className="mb-5 text-[17px] font-semibold">Générer un nouvel article</h2>
           <form onSubmit={handleGenerate} className="flex flex-col gap-4">
+            {/* Provider selector */}
+            <div className="flex flex-wrap gap-2">
+              {PROVIDERS.map((p) => (
+                <button
+                  key={p.value}
+                  type="button"
+                  onClick={() => setProvider(p.value)}
+                  disabled={generating}
+                  className={`flex items-center gap-2 rounded-[10px] border px-4 py-2.5 text-[13px] font-medium transition ${
+                    provider === p.value
+                      ? "border-[#8FD400]/60 bg-[#8FD400]/10 text-[#C6FF00]"
+                      : "border-white/10 text-[#9BA1B0] hover:border-white/20"
+                  }`}
+                >
+                  <span>{p.icon}</span>
+                  {p.label}
+                </button>
+              ))}
+            </div>
+
             <div className="flex gap-3 max-sm:flex-col">
               <input
                 type="text"
@@ -207,10 +235,11 @@ export default function AdminBlog() {
 
         {/* Note clé API */}
         <div className="mt-6 rounded-[12px] border border-amber-500/20 bg-amber-500/5 p-4 text-[13px] text-amber-400">
-          <strong>⚠️ Configuration requise :</strong> Ajoutez{" "}
+          <strong>⚠️ Variables d'environnement requises dans .env.local et Vercel :</strong>{" "}
+          <code className="rounded bg-amber-500/10 px-1 py-0.5 font-mono">GROK_API_KEY</code>{" "}·{" "}
+          <code className="rounded bg-amber-500/10 px-1 py-0.5 font-mono">GEMINI_API_KEY</code>{" "}·{" "}
           <code className="rounded bg-amber-500/10 px-1 py-0.5 font-mono">ANTHROPIC_API_KEY</code>{" "}
-          dans <code className="rounded bg-amber-500/10 px-1 py-0.5 font-mono">.env.local</code> et dans
-          les variables d'environnement Vercel pour que la génération fonctionne.
+          — au moins une clé est requise. Grok sélectionné par défaut.
         </div>
       </div>
     </div>
