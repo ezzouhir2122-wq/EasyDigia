@@ -67,20 +67,6 @@ const PROJECTS: Project[] = [
     url: "https://finance-scan-maroc-web.vercel.app",
   },
   {
-    name: "Générateur OFPPT",
-    sector: "Formation professionnelle",
-    icon: "🎓",
-    tag: "Outil IA",
-    title: "Générateur de séances pédagogiques pour formateurs OFPPT",
-    desc: "Application IA qui génère automatiquement des séances de formation complètes au format OFPPT standard, exportables en PDF et Word en moins de 30 secondes.",
-    stats: [
-      { label: "Génération", value: "< 30 secondes" },
-      { label: "Formats export", value: "PDF & Word" },
-      { label: "Conformité", value: "Format OFPPT" },
-    ],
-    url: "https://generateur-seances-ofppt-ezzouhir2122-9529s-projects.vercel.app",
-  },
-  {
     name: "Easy Location IMMO",
     sector: "Immobilier",
     icon: "🏠",
