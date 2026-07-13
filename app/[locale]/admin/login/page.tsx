@@ -4,7 +4,7 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Logo } from "@/components/Logo";
 
-const ADMIN_EMAIL = "ezzouhir19@gmail.com";
+const ADMIN_EMAIL = "ezzouhir2122@gmail.com";
 
 function LoginForm() {
   const router = useRouter();
