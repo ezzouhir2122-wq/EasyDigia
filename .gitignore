@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+database/articles.db
+assets/images/original/*.jpg
+assets/images/original/*.jpeg
+assets/images/original/*.png
+assets/images/webp/*.webp
+reports/*.pdf
+schedule-config.json
