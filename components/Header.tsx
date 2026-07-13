@@ -32,6 +32,12 @@ export function Header() {
             {t("about")}
           </Link>
           <Link
+            href="/blog"
+            className="text-[14.5px] font-medium text-muted transition hover:text-ink"
+          >
+            {t("blog")}
+          </Link>
+          <Link
             href="/contact"
             className="text-[14.5px] font-medium text-muted transition hover:text-ink"
           >

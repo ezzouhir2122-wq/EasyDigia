@@ -3,6 +3,7 @@
     "home": "Accueil",
     "services": "Services",
     "about": "À propos",
+    "blog": "Blog",
     "contact": "Contact",
     "cta": "Réserver une démo"
   },
@@ -58,6 +59,60 @@
       { "icon": "🔗", "tag": "API", "title": "Intégration API", "desc": "Connexion de vos systèmes existants (CRM, ERP, outils métier) aux modèles et agents IA.", "points": ["CRM / ERP", "Modèles IA", "Sécurisé"] },
       { "icon": "🎓", "tag": "FORMATION", "title": "Formation professionnelle IA & digital", "desc": "Formez vos équipes et vos collaborateurs aux outils d'IA et aux compétences digitales : sessions pratiques, cas concrets et accompagnement pour monter en compétence rapidement.", "points": ["Sessions sur-mesure", "Cas pratiques", "Certification & suivi"] }
     ]
+  },
+  "blog": {
+    "kicker": "Ressources & Insights",
+    "title": "Blog EasyDigia",
+    "sub": "Conseils, tendances et cas pratiques sur l'IA, l'automatisation et la transformation digitale.",
+    "readMore": "Lire l'article",
+    "minRead": "min de lecture",
+    "categories": {
+      "all": "Tous",
+      "automation": "Automatisation",
+      "ai": "IA & Agents",
+      "strategy": "Stratégie digitale",
+      "tutorial": "Tutoriel"
+    },
+    "articles": [
+      {
+        "slug": "ia-gestion-emails-entreprise",
+        "category": "ai",
+        "date": "10 juil. 2026",
+        "readMin": 5,
+        "title": "Comment l'IA transforme la gestion des emails en entreprise",
+        "excerpt": "Les dirigeants passent en moyenne 2h30 par jour sur leurs emails. Découvrez comment un assistant exécutif IA peut trier, prioriser et rédiger des réponses à votre place.",
+        "tag": "IA & Agents"
+      },
+      {
+        "slug": "5-processus-automatiser-pme",
+        "category": "automation",
+        "date": "2 juil. 2026",
+        "readMin": 7,
+        "title": "5 processus à automatiser dès maintenant dans votre PME",
+        "excerpt": "Relances clients, reporting hebdomadaire, onboarding collaborateur… Ces 5 tâches peuvent être automatisées cette semaine et vous faire gagner des heures chaque mois.",
+        "tag": "Automatisation"
+      },
+      {
+        "slug": "agents-ia-vs-automatisation-classique",
+        "category": "ai",
+        "date": "24 juin 2026",
+        "readMin": 6,
+        "title": "Agents IA vs automatisation classique : quelle différence ?",
+        "excerpt": "Un workflow Zapier et un agent IA ne font pas la même chose. Comprenez les différences fondamentales pour choisir la bonne solution selon vos besoins.",
+        "tag": "IA & Agents"
+      },
+      {
+        "slug": "tableau-de-bord-ia-performances",
+        "category": "strategy",
+        "date": "15 juin 2026",
+        "readMin": 8,
+        "title": "Pilotez vos performances avec un tableau de bord IA",
+        "excerpt": "Un bon tableau de bord ne se contente pas d'afficher des chiffres — il alerte, prédit et recommande. Voici comment construire un dashboard intelligent pour votre équipe.",
+        "tag": "Stratégie digitale"
+      }
+    ],
+    "ctaTitle": "Vous voulez implémenter ces idées dans votre entreprise ?",
+    "ctaButton": "Discutons de votre projet"
   },
   "footer": {
     "tagline": "Solutions digitales et agents IA sur-mesure, pour tous les secteurs.",

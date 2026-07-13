@@ -3,6 +3,7 @@
     "home": "Home",
     "services": "Services",
     "about": "About",
+    "blog": "Blog",
     "contact": "Contact",
     "cta": "Book a demo"
   },
@@ -58,6 +59,60 @@
       { "icon": "🔗", "tag": "API", "title": "API integration", "desc": "Connecting your existing systems (CRM, ERP, business tools) to AI models and agents.", "points": ["CRM / ERP", "AI models", "Secure"] },
       { "icon": "🎓", "tag": "TRAINING", "title": "AI & digital professional training", "desc": "Train your teams and staff on AI tools and digital skills: hands-on sessions, real-world cases and support to upskill fast.", "points": ["Tailored sessions", "Hands-on cases", "Certification & follow-up"] }
     ]
+  },
+  "blog": {
+    "kicker": "Resources & Insights",
+    "title": "EasyDigia Blog",
+    "sub": "Tips, trends and practical cases on AI, automation and digital transformation.",
+    "readMore": "Read article",
+    "minRead": "min read",
+    "categories": {
+      "all": "All",
+      "automation": "Automation",
+      "ai": "AI & Agents",
+      "strategy": "Digital strategy",
+      "tutorial": "Tutorial"
+    },
+    "articles": [
+      {
+        "slug": "ai-email-management-business",
+        "category": "ai",
+        "date": "Jul 10, 2026",
+        "readMin": 5,
+        "title": "How AI is transforming email management in business",
+        "excerpt": "Executives spend an average of 2.5 hours a day on emails. Discover how an executive AI assistant can sort, prioritize and draft replies for you.",
+        "tag": "AI & Agents"
+      },
+      {
+        "slug": "5-processes-to-automate-now",
+        "category": "automation",
+        "date": "Jul 2, 2026",
+        "readMin": 7,
+        "title": "5 processes to automate right now in your SME",
+        "excerpt": "Client follow-ups, weekly reporting, employee onboarding… These 5 tasks can be automated this week and save you hours every month.",
+        "tag": "Automation"
+      },
+      {
+        "slug": "ai-agents-vs-classic-automation",
+        "category": "ai",
+        "date": "Jun 24, 2026",
+        "readMin": 6,
+        "title": "AI agents vs classic automation: what's the difference?",
+        "excerpt": "A Zapier workflow and an AI agent are not the same thing. Understand the fundamental differences to choose the right solution for your needs.",
+        "tag": "AI & Agents"
+      },
+      {
+        "slug": "ai-dashboard-performance",
+        "category": "strategy",
+        "date": "Jun 15, 2026",
+        "readMin": 8,
+        "title": "Drive your performance with an AI dashboard",
+        "excerpt": "A good dashboard doesn't just display numbers — it alerts, predicts and recommends. Here's how to build an intelligent dashboard for your team.",
+        "tag": "Digital strategy"
+      }
+    ],
+    "ctaTitle": "Want to implement these ideas in your business?",
+    "ctaButton": "Let's talk about your project"
   },
   "footer": {
     "tagline": "Custom digital solutions and AI agents, for every industry.",
