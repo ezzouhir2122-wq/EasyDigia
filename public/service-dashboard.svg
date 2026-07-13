@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#12141C"/>
+      <stop offset="100%" stop-color="#0A0B10"/>
+    </radialGradient>
+    <linearGradient id="limeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8FD400"/>
+      <stop offset="100%" stop-color="#C6FF00"/>
+    </linearGradient>
+    <linearGradient id="limeV" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#5E9200"/>
+      <stop offset="100%" stop-color="#C6FF00"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <style>
+    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+    @keyframes pulse { 0%,100%{opacity:.3;} 50%{opacity:1;} }
+    @keyframes riseBar { from{height:0;y:var(--base);} }
+    @keyframes lineDraw {
+      0%{stroke-dashoffset:300;}
+      100%{stroke-dashoffset:0;}
+    }
+    @keyframes dotMove { 0%{offset-distance:0%;} 100%{offset-distance:100%;} }
+    .float { animation:float 6s ease-in-out infinite; }
+    .pulse { animation:pulse 2.5s ease-in-out infinite; }
+    .pulse2 { animation:pulse 2.5s ease-in-out infinite .6s; }
+    .pulse3 { animation:pulse 2.5s ease-in-out infinite 1.2s; }
+    .line-anim { stroke-dasharray:300; animation:lineDraw 3s ease-out forwards; }
+  </style>
+
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  <rect width="600" height="600" fill="url(#grid)"/>
+
+  <!-- Main dashboard frame -->
+  <g class="float">
+    <rect x="60" y="80" width="480" height="360" rx="20" fill="rgba(18,20,28,0.9)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+    <rect x="60" y="80" width="480" height="360" rx="20" fill="none" stroke="url(#limeGrad)" stroke-width="1" opacity="0.2"/>
+
+    <!-- Top Bar -->
+    <rect x="60" y="80" width="480" height="42" rx="20" fill="rgba(255,255,255,0.03)"/>
+    <rect x="60" y="102" width="480" height="20" fill="rgba(255,255,255,0.03)"/>
+    <circle cx="86" cy="101" r="5" fill="#FF5F56"/>
+    <circle cx="100" cy="101" r="5" fill="#FFBD2E"/>
+    <circle cx="114" cy="101" r="5" fill="#27C93F"/>
+    <text x="140" y="106" font-family="monospace" font-size="10" fill="rgba(255,255,255,0.5)">Dashboard Analytics</text>
+    <!-- Live indicator -->
+    <circle cx="490" cy="101" r="5" fill="#C6FF00" class="pulse" filter="url(#glow)"/>
+    <text x="476" y="106" font-family="monospace" font-size="9" fill="#C6FF00" text-anchor="end">LIVE</text>
+
+    <!-- KPI Cards row -->
+    <rect x="80" y="136" width="128" height="64" rx="12" fill="rgba(143,212,0,0.06)" stroke="rgba(143,212,0,0.2)" stroke-width="1"/>
+    <text x="96" y="155" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)">LEADS / MOIS</text>
+    <text x="96" y="178" font-family="'Space Grotesk',sans-serif" font-size="22" fill="#C6FF00" font-weight="bold">347</text>
+    <text x="186" y="192" font-family="monospace" font-size="8" fill="#8FD400" text-anchor="end">▲ 12%</text>
+
+    <rect x="220" y="136" width="128" height="64" rx="12" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+    <text x="236" y="155" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)">CONVERSION</text>
+    <text x="236" y="178" font-family="'Space Grotesk',sans-serif" font-size="22" fill="rgba(255,255,255,0.85)" font-weight="bold">24%</text>
+    <text x="326" y="192" font-family="monospace" font-size="8" fill="#8FD400" text-anchor="end">▲ 3%</text>
+
+    <rect x="360" y="136" width="162" height="64" rx="12" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+    <text x="376" y="155" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)">REVENUS</text>
+    <text x="376" y="178" font-family="'Space Grotesk',sans-serif" font-size="22" fill="rgba(255,255,255,0.85)" font-weight="bold">€ 82K</text>
+    <text x="502" y="192" font-family="monospace" font-size="8" fill="#C6FF00" text-anchor="end">▲ 8%</text>
+
+    <!-- Bar chart -->
+    <rect x="80" y="215" width="220" height="170" rx="12" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <text x="96" y="234" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.35)">PERFORMANCE MENSUELLE</text>
+    <!-- Baseline -->
+    <line x1="96" y1="368" x2="284" y2="368" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    <!-- Bars -->
+    <rect x="104" y="300" width="20" height="68" rx="4" fill="url(#limeV)" opacity="0.5">
+      <animate attributeName="height" values="0;68" dur="1s" begin="0s" fill="freeze"/>
+      <animate attributeName="y" values="368;300" dur="1s" begin="0s" fill="freeze"/>
+    </rect>
+    <rect x="132" y="280" width="20" height="88" rx="4" fill="url(#limeV)" opacity="0.65">
+      <animate attributeName="height" values="0;88" dur="1s" begin=".2s" fill="freeze"/>
+      <animate attributeName="y" values="368;280" dur="1s" begin=".2s" fill="freeze"/>
+    </rect>
+    <rect x="160" y="320" width="20" height="48" rx="4" fill="url(#limeV)" opacity="0.5">
+      <animate attributeName="height" values="0;48" dur="1s" begin=".4s" fill="freeze"/>
+      <animate attributeName="y" values="368;320" dur="1s" begin=".4s" fill="freeze"/>
+    </rect>
+    <rect x="188" y="255" width="20" height="113" rx="4" fill="url(#limeV)" opacity="0.8">
+      <animate attributeName="height" values="0;113" dur="1s" begin=".6s" fill="freeze"/>
+      <animate attributeName="y" values="368;255" dur="1s" begin=".6s" fill="freeze"/>
+    </rect>
+    <rect x="216" y="240" width="20" height="128" rx="4" fill="url(#limeV)" opacity="0.95">
+      <animate attributeName="height" values="0;128" dur="1s" begin=".8s" fill="freeze"/>
+      <animate attributeName="y" values="368;240" dur="1s" begin=".8s" fill="freeze"/>
+    </rect>
+    <rect x="244" y="268" width="20" height="100" rx="4" fill="url(#limeV)" opacity="0.7">
+      <animate attributeName="height" values="0;100" dur="1s" begin="1s" fill="freeze"/>
+      <animate attributeName="y" values="368;268" dur="1s" begin="1s" fill="freeze"/>
+    </rect>
+
+    <!-- Line chart -->
+    <rect x="312" y="215" width="210" height="170" rx="12" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <text x="328" y="234" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.35)">ACTIVITÉ AGENTS IA</text>
+    <polyline
+      points="328,355 358,320 390,335 420,290 452,305 482,260 512,272"
+      fill="none" stroke="url(#limeGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+      stroke-dasharray="300" class="line-anim"
+    />
+    <!-- Shaded area under line -->
+    <polygon
+      points="328,355 358,320 390,335 420,290 452,305 482,260 512,272 512,368 328,368"
+      fill="url(#limeGrad)" opacity="0.07"
+    />
+    <!-- Data points -->
+    <circle cx="420" cy="290" r="5" fill="#C6FF00" filter="url(#glow)" class="pulse"/>
+    <circle cx="512" cy="272" r="5" fill="#C6FF00" filter="url(#glow)" class="pulse2"/>
+    <!-- Grid lines inside chart -->
+    <line x1="328" y1="310" x2="516" y2="310" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+    <line x1="328" y1="340" x2="516" y2="340" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+    <line x1="328" y1="368" x2="516" y2="368" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  </g>
+
+  <!-- Floating alert card -->
+  <g transform="translate(170,460)" style="animation:float 7s ease-in-out infinite 1s;">
+    <rect width="260" height="60" rx="14" fill="rgba(18,20,28,0.9)" stroke="rgba(143,212,0,0.3)" stroke-width="1.5"/>
+    <circle cx="26" cy="30" r="8" fill="rgba(143,212,0,0.12)" stroke="url(#limeGrad)" stroke-width="1.5"/>
+    <text x="26" y="34" font-family="sans-serif" font-size="10" fill="#C6FF00" text-anchor="middle">!</text>
+    <rect x="44" y="18" width="180" height="6" rx="3" fill="rgba(255,255,255,0.65)"/>
+    <rect x="44" y="30" width="120" height="5" rx="2.5" fill="rgba(255,255,255,0.3)"/>
+    <rect x="44" y="42" width="80" height="5" rx="2.5" fill="rgba(143,212,0,0.5)"/>
+  </g>
+</svg>

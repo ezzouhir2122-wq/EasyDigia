@@ -11,9 +11,13 @@ type ServiceItem = {
 };
 
 const SERVICE_IMAGES: Record<string, string> = {
+  WEB: "/service-web.svg",
   CHATBOT: "/service-ai-agents.png",
   AUTOMATION: "/service-automation.png",
-  "AGENT IA": "/service-ai-agents.png",
+  "AGENT IA": "/service-ai-agents-2.svg",
+  ASSISTANT: "/service-assistant.svg",
+  DASHBOARD: "/service-dashboard.svg",
+  APP: "/service-app.svg",
   API: "/service-integrations.png",
   FORMATION: "/service-training.png",
 };
