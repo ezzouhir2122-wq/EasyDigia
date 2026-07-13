@@ -5,6 +5,7 @@
     "about": "À propos",
     "blog": "Blog",
     "tarifs": "Tarifs",
+    "realisations": "Réalisations",
     "contact": "Contact",
     "cta": "Audit gratuit"
   },
@@ -21,7 +22,10 @@
     "s2Desc": "Des assistants intelligents intégrés à vos outils.",
     "s3Title": "Intégrations sur mesure",
     "s3Desc": "Connectez vos applications et vos données sans friction.",
-    "testimonialsKicker": "Ils nous font confiance",
+    "clientsKicker": "Ils nous font confiance",
+    "clientsTitle": "Des entreprises de tous secteurs",
+    "clientsSectors": ["Immobilier", "Mode & Retail", "Industrie", "Restauration", "Conseil", "E-commerce"],
+    "testimonialsKicker": "Ce que disent nos clients",
     "testimonialsTitle": "Ce que disent nos clients",
     "testimonials": [
       {
@@ -214,6 +218,14 @@
         "a": "Uniquement si vous optez pour un contrat de maintenance mensuelle (outils, mises à jour, support continu). Nos clients Croissance et Entreprise bénéficient souvent de ce suivi."
       }
     ]
+  },
+  "realisations": {
+    "kicker": "Cas clients",
+    "title": "Ce que nous avons réalisé",
+    "sub": "Des projets concrets, des résultats mesurables. Découvrez comment nous aidons des entreprises marocaines à automatiser leur activité.",
+    "ctaTitle": "Un projet similaire en tête ?",
+    "ctaSub": "Décrivez-nous votre besoin et obtenez un audit gratuit sous 24h.",
+    "cta": "Discuter de mon projet"
   },
   "footer": {
     "tagline": "Solutions digitales et agents IA sur-mesure, pour tous les secteurs.",

@@ -5,6 +5,7 @@
     "about": "About",
     "blog": "Blog",
     "tarifs": "Pricing",
+    "realisations": "Case Studies",
     "contact": "Contact",
     "cta": "Free audit"
   },
@@ -21,7 +22,10 @@
     "s2Desc": "Smart assistants integrated into your tools.",
     "s3Title": "Custom integrations",
     "s3Desc": "Connect your apps and data without friction.",
-    "testimonialsKicker": "Trusted by our clients",
+    "clientsKicker": "Trusted by our clients",
+    "clientsTitle": "Companies across all sectors",
+    "clientsSectors": ["Real Estate", "Fashion & Retail", "Industry", "Restaurants", "Consulting", "E-commerce"],
+    "testimonialsKicker": "What our clients say",
     "testimonialsTitle": "What our clients say",
     "testimonials": [
       {
@@ -214,6 +218,14 @@
         "a": "Only if you opt for a monthly maintenance contract (tools, updates, ongoing support). Our Growth and Enterprise clients often benefit from this follow-up."
       }
     ]
+  },
+  "realisations": {
+    "kicker": "Case Studies",
+    "title": "What we've built",
+    "sub": "Real projects, measurable results. See how we help Moroccan businesses automate their operations.",
+    "ctaTitle": "A similar project in mind?",
+    "ctaSub": "Tell us about your need and get a free audit within 24h.",
+    "cta": "Discuss my project"
   },
   "footer": {
     "tagline": "Custom digital solutions and AI agents, for every industry.",

@@ -32,6 +32,12 @@ export function Footer() {
               <Link href="/about" className="text-[14px] text-muted hover:text-ink">
                 {nav("about")}
               </Link>
+              <Link href="/tarifs" className="text-[14px] text-muted hover:text-ink">
+                {nav("tarifs")}
+              </Link>
+              <Link href="/realisations" className="text-[14px] text-muted hover:text-ink">
+                {nav("realisations")}
+              </Link>
               <Link href="/contact" className="text-[14px] text-muted hover:text-ink">
                 {nav("contact")}
               </Link>

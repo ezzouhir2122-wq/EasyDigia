@@ -2,6 +2,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Orbs } from "@/components/Orbs";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { LeadMagnetModal } from "@/components/LeadMagnetModal";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +46,7 @@ export default async function Blog() {
 
   return (
     <div className="relative overflow-hidden">
+      <LeadMagnetModal />
       <Orbs />
 
       {/* Page header */}

@@ -44,6 +44,12 @@ export function Header() {
             {t("tarifs")}
           </Link>
           <Link
+            href="/realisations"
+            className="text-[14.5px] font-medium text-muted transition hover:text-ink"
+          >
+            {t("realisations")}
+          </Link>
+          <Link
             href="/contact"
             className="text-[14.5px] font-medium text-muted transition hover:text-ink"
           >

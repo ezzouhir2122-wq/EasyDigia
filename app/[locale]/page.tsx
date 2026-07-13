@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 
 export default function Home() {
   const t = useTranslations("home");
+  const sectors = t.raw("clientsSectors") as string[];
   const testimonials = t.raw("testimonials") as Array<{
     quote: string; name: string; role: string; company: string; stat: string;
   }>;
@@ -12,6 +13,25 @@ export default function Home() {
   return (
     <>
       <Hero />
+
+      {/* Clients strip */}
+      <section className="border-y border-white/[0.05] bg-[#0D0F17]/60 py-6">
+        <div className="mx-auto max-w-[1200px] px-[6vw]">
+          <p className="mb-5 text-center font-mono text-[11px] uppercase tracking-[0.1em] text-[#9BA1B0]/60">
+            {t("clientsKicker")}
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {sectors.map((sector) => (
+              <span
+                key={sector}
+                className="rounded-[8px] border border-white/[0.07] bg-white/[0.03] px-4 py-2 text-[13px] font-medium text-[#9BA1B0]"
+              >
+                {sector}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Services */}
       <section className="relative mx-auto max-w-[1200px] px-[6vw] py-16">
@@ -74,8 +94,14 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Link to pricing */}
-          <div className="mt-10 text-center">
+          {/* Links */}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/realisations"
+              className="inline-flex items-center gap-2 rounded-[10px] bg-gradient-to-br from-[#8FD400] to-[#C6FF00] px-6 py-3 text-[14px] font-bold text-[#0A0B10] shadow-[0_4px_20px_rgba(143,212,0,0.3)] transition hover:opacity-90"
+            >
+              Voir nos réalisations →
+            </Link>
             <Link
               href="/tarifs"
               className="inline-flex items-center gap-2 rounded-[10px] border border-[#8FD400]/30 px-6 py-3 text-[14px] font-semibold text-[#8FD400] transition hover:bg-[#8FD400]/10"
