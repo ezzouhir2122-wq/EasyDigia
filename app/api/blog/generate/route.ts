@@ -97,11 +97,12 @@ export async function POST(req: Request) {
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) throw new Error(error.message ?? JSON.stringify(error));
 
     return NextResponse.json({ ok: true, article: data, provider: selectedProvider });
   } catch (e) {
     console.error(`blog generate error [${selectedProvider}]`, e);
-    return NextResponse.json({ ok: false, error: String(e) }, { status: 500 });
+    const msg = e instanceof Error ? e.message : JSON.stringify(e);
+    return NextResponse.json({ ok: false, error: msg }, { status: 500 });
   }
 }

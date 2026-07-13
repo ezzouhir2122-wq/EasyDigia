@@ -65,7 +65,7 @@ export default function AdminBlog() {
         setMsg({ type: "err", text: json.error ?? "Erreur inconnue" });
       }
     } catch (e) {
-      setMsg({ type: "err", text: String(e) });
+      setMsg({ type: "err", text: e instanceof Error ? e.message : JSON.stringify(e) });
     }
     setGenerating(false);
   }
