@@ -14,6 +14,7 @@ export function detectProvider(): Provider {
 export async function generateWithAI(prompt: string, provider: Provider): Promise<string> {
   switch (provider) {
     case "grok": {
+      if (!process.env.GROK_API_KEY) throw new Error("GROK_API_KEY manquante — ajoutez-la dans Vercel > Settings > Environment Variables");
       const client = new OpenAI({
         apiKey: process.env.GROK_API_KEY,
         baseURL: "https://api.x.ai/v1",
@@ -27,13 +28,15 @@ export async function generateWithAI(prompt: string, provider: Provider): Promis
     }
 
     case "gemini": {
-      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+      if (!process.env.GEMINI_API_KEY) throw new Error("GEMINI_API_KEY manquante — ajoutez-la dans Vercel > Settings > Environment Variables");
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
       const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
       const result = await model.generateContent(prompt);
       return result.response.text();
     }
 
     case "claude": {
+      if (!process.env.ANTHROPIC_API_KEY) throw new Error("ANTHROPIC_API_KEY manquante — ajoutez-la dans Vercel > Settings > Environment Variables");
       const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
       const msg = await client.messages.create({
         model: "claude-opus-4-8",

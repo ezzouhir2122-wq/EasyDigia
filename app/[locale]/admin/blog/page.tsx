@@ -148,7 +148,9 @@ export default function AdminBlog() {
               disabled={generating || !topic.trim()}
               className="self-start rounded-[10px] bg-gradient-to-br from-[#8FD400] to-[#C6FF00] px-7 py-3 text-[14px] font-bold text-[#0A0B10] shadow-[0_4px_20px_rgba(143,212,0,0.35)] transition hover:opacity-90 disabled:opacity-50"
             >
-              {generating ? "Génération en cours… (30–60s)" : "✨ Générer avec Claude IA"}
+              {generating
+                ? "Génération en cours… (30–60s)"
+                : `✨ Générer avec ${PROVIDERS.find((p) => p.value === provider)?.label ?? provider}`}
             </button>
           </form>
 
