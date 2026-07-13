@@ -4,8 +4,6 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Logo } from "@/components/Logo";
 
-const ADMIN_EMAIL = "ezzouhir2122@gmail.com";
-
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -35,9 +33,9 @@ function LoginForm() {
         return;
       }
 
-      if (data.user.email !== ADMIN_EMAIL) {
+      if (data.user.user_metadata?.role !== "admin") {
         await supabase.auth.signOut();
-        setError("Accès refusé.");
+        setError("Accès refusé — ce compte n'a pas le rôle admin.");
         return;
       }
 
