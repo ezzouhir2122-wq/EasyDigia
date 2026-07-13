@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createSupabaseBrowser } from "@/lib/supabase-browser";
 
 type Article = {
   id: string;
@@ -89,14 +90,26 @@ export default function AdminBlog() {
     <div className="min-h-screen bg-[#0A0B10] p-6 text-[#F5F6FA]">
       <div className="mx-auto max-w-[900px]">
         {/* Header */}
-        <div className="mb-8">
-          <div className="mb-2 font-mono text-[11px] uppercase tracking-[0.1em] text-[#8FD400]">
-            EasyDigia — Admin
+        <div className="mb-8 flex items-start justify-between gap-4">
+          <div>
+            <div className="mb-2 font-mono text-[11px] uppercase tracking-[0.1em] text-[#8FD400]">
+              EasyDigia — Admin
+            </div>
+            <h1 className="text-[28px] font-bold tracking-tight">Gestion du Blog IA</h1>
+            <p className="mt-1 text-[14px] text-[#9BA1B0]">
+              Générez des articles en FR/EN/AR avec Grok, Gemini ou Claude
+            </p>
           </div>
-          <h1 className="text-[28px] font-bold tracking-tight">Gestion du Blog IA</h1>
-          <p className="mt-1 text-[14px] text-[#9BA1B0]">
-            Générez des articles en FR/EN/AR avec Grok, Gemini ou Claude
-          </p>
+          <button
+            onClick={async () => {
+              const supabase = createSupabaseBrowser();
+              await supabase.auth.signOut();
+              window.location.href = "/fr";
+            }}
+            className="shrink-0 rounded-[9px] border border-white/10 px-4 py-2 text-[13px] text-[#9BA1B0] transition hover:border-red-500/40 hover:text-red-400"
+          >
+            Déconnexion
+          </button>
         </div>
 
         {/* Generate form */}

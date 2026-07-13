@@ -13,6 +13,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.111.0",
     "@google/generative-ai": "^0.24.1",
+    "@supabase/ssr": "^0.12.1",
     "@supabase/supabase-js": "^2.110.2",
     "next": "^15.5.0",
     "next-intl": "^4.13.2",
