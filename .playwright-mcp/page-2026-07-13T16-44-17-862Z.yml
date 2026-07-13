@@ -1,0 +1,256 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - link [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "EasyParking" [ref=e7]
+        - generic [ref=e8]:
+          - button "Select language" [ref=e9] [cursor=pointer]:
+            - generic [ref=e10]: FR
+            - generic [ref=e11]: Français
+            - generic [ref=e12]: ▾
+          - button "Espace Pro" [ref=e13] [cursor=pointer]:
+            - generic [ref=e15]: ▾
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - heading [level=1] [ref=e18]:
+            - text: Votre voiture reste.
+            - emphasis [ref=e19]: Vous décollez serein.
+          - paragraph [ref=e20]: Comparez les parkings d'aéroport, consultez les disponibilités en temps réel et réservez directement auprès de prestataires vérifiés, en moins de 60 secondes.
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - generic [ref=e23]:
+              - generic [ref=e24]: Aéroport
+              - combobox [ref=e25] [cursor=pointer]:
+                - option "NL - Amsterdam Schiphol"
+                - option "BE - Brussels Airport"
+                - option "FR - Paris Charles de Gaulle"
+                - option "BE - Brussels South Charleroi" [selected]
+                - option "FR - Paris Orly"
+            - generic [ref=e26]:
+              - generic [ref=e27]: Date & heure de dépose
+              - generic [ref=e30]:
+                - generic [ref=e31] [cursor=pointer]:
+                  - generic [ref=e34]: 16 juil. 2026
+                  - textbox [ref=e35]: 2026-07-16
+                - generic [ref=e37] [cursor=pointer]:
+                  - generic [ref=e41]: 15:00
+                  - textbox [ref=e42]: 15:00
+            - generic [ref=e43]:
+              - generic [ref=e44]: Date & heure de retour
+              - generic [ref=e47]:
+                - generic [ref=e48] [cursor=pointer]:
+                  - generic [ref=e51]: 21 juil. 2026
+                  - textbox [ref=e52]: 2026-07-21
+                - generic [ref=e54] [cursor=pointer]:
+                  - generic [ref=e58]: 15:00
+                  - textbox [ref=e59]: 15:00
+          - button "Trouver mon parking →" [ref=e60] [cursor=pointer]
+        - generic [ref=e61]:
+          - generic [ref=e62]: Navette gratuite vers le terminal
+          - generic [ref=e63]: Paiement 100% sécurisé
+          - generic [ref=e64]: Annulation gratuite, à tout moment
+          - generic [ref=e65]: Prix le plus bas, garanti
+      - generic [ref=e67]:
+        - generic [ref=e68]: 💡 Meilleurs prix cette semaine à partir de, par jour
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - generic [ref=e71]: lun.
+            - generic [ref=e72]: "13"
+            - generic [ref=e73]: €9
+            - generic [ref=e74]: Meilleur
+          - generic [ref=e75]:
+            - generic [ref=e76]: mar.
+            - generic [ref=e77]: "14"
+            - generic [ref=e78]: €9
+            - generic [ref=e79]: Meilleur
+          - generic [ref=e80]:
+            - generic [ref=e81]: mer.
+            - generic [ref=e82]: "15"
+            - generic [ref=e83]: €9
+            - generic [ref=e84]: Meilleur
+          - generic [ref=e85]:
+            - generic [ref=e86]: jeu.
+            - generic [ref=e87]: "16"
+            - generic [ref=e88]: €9
+            - generic [ref=e89]: Meilleur
+          - generic [ref=e90]:
+            - generic [ref=e91]: ven.
+            - generic [ref=e92]: "17"
+            - generic [ref=e93]: €10
+          - generic [ref=e94]:
+            - generic [ref=e95]: sam.
+            - generic [ref=e96]: "18"
+            - generic [ref=e97]: €11
+          - generic [ref=e98]:
+            - generic [ref=e99]: dim.
+            - generic [ref=e100]: "19"
+            - generic [ref=e101]: €11
+      - generic [ref=e102]:
+        - generic [ref=e103]:
+          - generic [ref=e104]: 52,000+
+          - generic [ref=e105]: voyageurs satisfaits / an
+        - generic [ref=e107]:
+          - generic [ref=e108]: 4.8/5
+          - generic [ref=e109]: sur 5 · avis vérifiés
+        - generic [ref=e111]:
+          - generic [ref=e112]: 120+
+          - generic [ref=e113]: partenaires parking vérifiés
+        - generic [ref=e115]:
+          - generic [ref=e116]: "5"
+          - generic [ref=e117]: pays et en expansion
+      - generic [ref=e118]:
+        - heading "Comment ça marche" [level=2] [ref=e119]
+        - generic [ref=e120]:
+          - generic [ref=e122]:
+            - generic [ref=e123]:
+              - generic [ref=e124]: "1"
+              - img "Choisissez votre spot" [ref=e125]
+            - heading "Choisissez votre spot" [level=3] [ref=e126]
+            - paragraph [ref=e127]: Entrez votre aéroport et vos dates. Nous affichons instantanément toutes les options vérifiées à proximité, prix, distance et horaires navette compris.
+          - generic [ref=e128]:
+            - generic [ref=e129]: →
+            - generic [ref=e130]:
+              - generic [ref=e131]:
+                - generic [ref=e132]: "2"
+                - img "Réservez en quelques secondes" [ref=e133]
+              - heading "Réservez en quelques secondes" [level=3] [ref=e134]
+              - paragraph [ref=e135]: Choisissez votre place, renseignez vos coordonnées et payez en toute sécurité. Votre place est bloquée dès la confirmation.
+          - generic [ref=e136]:
+            - generic [ref=e137]: →
+            - generic [ref=e138]:
+              - generic [ref=e139]:
+                - generic [ref=e140]: "3"
+                - img "Déposez & décollez" [ref=e141]
+              - heading "Déposez & décollez" [level=3] [ref=e142]
+              - paragraph [ref=e143]: Arrivez, montrez votre bon et c'est parti. La navette gratuite vous dépose au terminal en quelques minutes.
+      - generic [ref=e144]:
+        - generic [ref=e145]:
+          - generic [ref=e146]:
+            - paragraph [ref=e147]: Pourquoi des milliers choisissent EasyParking
+            - heading "Garez malin, voyagez serein" [level=2] [ref=e148]
+          - paragraph [ref=e149]: Zéro mauvaise surprise, zéro stress, juste une façon simple de vous garer près de l'aéroport et de vraiment économiser.
+        - generic [ref=e150]:
+          - article [ref=e151]:
+            - generic [ref=e156]:
+              - heading "Flexibilité totale" [level=3] [ref=e157]
+              - paragraph [ref=e158]: La vie change. Modifiez vos dates, mettez à jour vos infos ou annulez à tout moment, sans appel téléphonique, sans tracas.
+          - article [ref=e159]:
+            - generic [ref=e164]:
+              - heading "Payez en confiance" [level=3] [ref=e165]
+              - paragraph [ref=e166]: Le chiffrement SSL 256 bits niveau bancaire protège chaque transaction. Payez comme vous voulez, carte, PayPal ou virement.
+          - article [ref=e167]:
+            - generic [ref=e171]:
+              - heading "Le prix affiché, c'est le prix payé" [level=3] [ref=e172]
+              - paragraph [ref=e173]: Ce que vous voyez, c'est ce que vous payez. Taxes et navette toujours incluses, aucune surprise au moment de payer.
+          - article [ref=e174]:
+            - generic [ref=e179]:
+              - heading "Annulation gratuite" [level=3] [ref=e180]
+              - paragraph [ref=e181]: Vol retardé ? Plans modifiés ? Annulez jusqu'à 24h avant la dépose et ne payez absolument rien.
+          - article [ref=e182]:
+            - generic [ref=e186]:
+              - heading "Garantie meilleur prix" [level=3] [ref=e187]
+              - paragraph [ref=e188]: Nous mettons en concurrence tous les opérateurs vérifiés pour que le prix le plus bas l'emporte toujours. Vous trouvez moins cher ? Nous nous alignons.
+          - article [ref=e189]:
+            - generic [ref=e195]:
+              - heading "De vraies personnes, 7j/7" [level=3] [ref=e196]
+              - paragraph [ref=e197]: Une question ? Une vraie personne décroche, avant, pendant et après votre voyage. Téléphone, chat ou email.
+      - generic [ref=e199]:
+        - heading "Adoré par les voyageurs en Europe" [level=2] [ref=e200]
+        - generic [ref=e201]:
+          - generic [ref=e202]:
+            - generic [ref=e203]: ★★★★★
+            - paragraph [ref=e204]: "\"Booked for Brussels Airport in 2 minutes. The shuttle was on time and the parking was spotless. Will never use the airport car park again.\""
+            - generic [ref=e205]:
+              - generic [ref=e206]: 🇧🇪
+              - strong [ref=e207]: Sophie V.
+              - generic [ref=e208]: · Brussels
+          - generic [ref=e209]:
+            - generic [ref=e210]: ★★★★★
+            - paragraph [ref=e211]: "\"Saved €48 compared to the official airport parking. The whole process was super smooth, the voucher system worked perfectly.\""
+            - generic [ref=e212]:
+              - generic [ref=e213]: 🇳🇱
+              - strong [ref=e214]: Mark T.
+              - generic [ref=e215]: · Amsterdam
+          - generic [ref=e216]:
+            - generic [ref=e217]: ★★★★☆
+            - paragraph [ref=e218]: "\"Great value at Orly. The operator was professional and the shuttle ran every 10 minutes. I earned loyalty points too!\""
+            - generic [ref=e219]:
+              - generic [ref=e220]: 🇫🇷
+              - strong [ref=e221]: Isabelle R.
+              - generic [ref=e222]: · Paris
+        - generic [ref=e223]:
+          - generic [ref=e224]: ★ 4.8 / 5
+          - generic [ref=e225]: 12 400+ avis vérifiés, de vrais voyages, de vraies opinions
+      - contentinfo [ref=e226]:
+        - generic [ref=e227]:
+          - generic [ref=e228]:
+            - link [ref=e229] [cursor=pointer]:
+              - /url: /
+              - img "EasyParking" [ref=e230]
+            - paragraph [ref=e231]: La façon la plus intelligente de vous garer à l'aéroport. Zéro surprise, zéro stress, que des économies.
+          - generic [ref=e232]:
+            - heading "Services" [level=4] [ref=e233]
+            - list [ref=e234]:
+              - listitem [ref=e235]:
+                - link "Comment ça marche" [ref=e236] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e237]:
+                - link "Rechercher un parking" [ref=e238] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e239]:
+                - link "Récompenses & fidélité" [ref=e240] [cursor=pointer]:
+                  - /url: /rewards
+              - listitem [ref=e241]:
+                - link "Devenir partenaire" [ref=e242] [cursor=pointer]:
+                  - /url: /partner
+              - listitem [ref=e243]:
+                - link "Guide des aéroports" [ref=e244] [cursor=pointer]:
+                  - /url: "#"
+          - generic [ref=e245]:
+            - heading "Assistance" [level=4] [ref=e246]
+            - list [ref=e247]:
+              - listitem [ref=e248]:
+                - link "FAQ" [ref=e249] [cursor=pointer]:
+                  - /url: /faq
+              - listitem [ref=e250]:
+                - link "Gérer ma réservation" [ref=e251] [cursor=pointer]:
+                  - /url: /mes-reservations
+              - listitem [ref=e252]:
+                - link "Nous contacter" [ref=e253] [cursor=pointer]:
+                  - /url: mailto:support@easyparking.one
+              - listitem [ref=e254]:
+                - link "Conditions d'utilisation" [ref=e255] [cursor=pointer]:
+                  - /url: /cgv
+              - listitem [ref=e256]:
+                - link "Politique de confidentialité" [ref=e257] [cursor=pointer]:
+                  - /url: /confidentialite
+              - listitem [ref=e258]:
+                - link "Mentions légales" [ref=e259] [cursor=pointer]:
+                  - /url: /mentions-legales
+              - listitem [ref=e260]:
+                - link "Politique de cookies" [ref=e261] [cursor=pointer]:
+                  - /url: /cookies
+          - generic [ref=e262]:
+            - heading "Contact" [level=4] [ref=e263]
+            - list [ref=e264]:
+              - listitem [ref=e265]:
+                - generic [ref=e269]: support@easyparking.one
+              - listitem [ref=e270]:
+                - generic [ref=e273]: Lun – Sam · 8h – 20h
+              - listitem [ref=e274]:
+                - generic [ref=e278]: Réponse en moins de 2 heures
+        - generic [ref=e279]:
+          - generic [ref=e280]: © 2026 EasyParking · Tous droits réservés
+          - generic [ref=e281]: ·
+          - generic [ref=e282]: Pays-Bas · Europe
+    - link "Chat with us on WhatsApp" [ref=e283] [cursor=pointer]:
+      - /url: https://wa.me/31648268168?text=Hello%2C%20I%20need%20help%20with%20my%20EasyParking%20booking
+      - generic [ref=e286]: Chat with us
+  - generic [ref=e287]:
+    - paragraph [ref=e288]:
+      - text: Ce site utilise des cookies strictement nécessaires au fonctionnement du paiement et à la sécurité.
+      - link "En savoir plus" [ref=e289] [cursor=pointer]:
+        - /url: /cookies
+    - button "J'ai compris" [ref=e290] [cursor=pointer]

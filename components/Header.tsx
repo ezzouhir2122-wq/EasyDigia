@@ -32,7 +32,7 @@ export function Header() {
     const supabase = createSupabaseBrowser();
     await supabase.auth.signOut();
     setUser(null);
-    window.location.href = "/fr";
+    window.location.href = "/fr/admin-login";
   }
 
   const isAdmin = user?.email === ADMIN_EMAIL;
