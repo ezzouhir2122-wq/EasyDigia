@@ -8,6 +8,7 @@ function timestamp(): string {
   return new Date().toISOString().replace('T', ' ').slice(0, 19)
 }
 
+// ASCII symbols used intentionally for Windows terminal compatibility (cmd/PowerShell strip Unicode)
 export const logger = {
   info(msg: string): void {
     process.stdout.write(`${CYAN}[${timestamp()}] i ${msg}${RESET}\n`)
