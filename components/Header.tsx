@@ -7,7 +7,7 @@ import { LangSwitcher } from "./LangSwitcher";
 import { Logo } from "./Logo";
 import type { User } from "@supabase/supabase-js";
 
-const ADMIN_EMAIL = "ezzouhir2122@gmail.com";
+const ADMIN_EMAIL = "ezzouhir19@gmail.com";
 
 export function Header() {
   const t = useTranslations("nav");
