@@ -4,14 +4,15 @@
     "services": "Services",
     "about": "About",
     "blog": "Blog",
+    "tarifs": "Pricing",
     "contact": "Contact",
-    "cta": "Book a demo"
+    "cta": "Free audit"
   },
   "home": {
     "kicker": "Automation & AI",
     "title": "Automate. Accelerate. Grow.",
     "subtitle": "EasyDigia builds tailor-made automations and AI agents for your business.",
-    "cta": "Let's talk about your project",
+    "cta": "Request a free audit",
     "ctaSecondary": "See our services",
     "servicesTitle": "What we do",
     "s1Title": "Process automation",
@@ -19,7 +20,32 @@
     "s2Title": "AI agents",
     "s2Desc": "Smart assistants integrated into your tools.",
     "s3Title": "Custom integrations",
-    "s3Desc": "Connect your apps and data without friction."
+    "s3Desc": "Connect your apps and data without friction.",
+    "testimonialsKicker": "Trusted by our clients",
+    "testimonialsTitle": "What our clients say",
+    "testimonials": [
+      {
+        "quote": "Client follow-ups are now automatic. We save 3 hours a week and missed leads have completely disappeared.",
+        "name": "Rachid B.",
+        "role": "CEO",
+        "company": "Real estate agency — Marrakech",
+        "stat": "3h saved/week"
+      },
+      {
+        "quote": "Our chatbot answers customers on WhatsApp 24/7. Sales grew by 25% in the very first month.",
+        "name": "Fatima Z.",
+        "role": "CEO",
+        "company": "Fashion boutique — Casablanca",
+        "stat": "+25% sales"
+      },
+      {
+        "quote": "Employee onboarding is fully automated. What used to take 2 days now takes 2 hours.",
+        "name": "Karim M.",
+        "role": "HR Director",
+        "company": "Industrial SME — Agadir",
+        "stat": "2 days → 2 hours"
+      }
+    ]
   },
   "about": {
     "kicker": "Who we are",
@@ -113,6 +139,81 @@
     ],
     "ctaTitle": "Want to implement these ideas in your business?",
     "ctaButton": "Let's talk about your project"
+  },
+  "tarifs": {
+    "kicker": "Transparent pricing",
+    "title": "Clear packages, no surprises",
+    "sub": "Every project is unique. These ranges give you a realistic idea of the investment — we'll refine it together during your free audit.",
+    "popular": "Most popular",
+    "cta": "Request a free audit",
+    "ctaSub": "Response within 24h · No commitment",
+    "faqTitle": "Frequently asked questions",
+    "plans": [
+      {
+        "name": "Starter",
+        "price": "3,500",
+        "currency": "MAD",
+        "period": "from",
+        "desc": "Perfect to get started: a professional website or a first turnkey automation.",
+        "points": [
+          "Showcase site or landing page",
+          "1 process automation",
+          "Integration with one existing tool",
+          "User training included",
+          "30-day support"
+        ],
+        "highlight": false
+      },
+      {
+        "name": "Growth",
+        "price": "9,500",
+        "currency": "MAD",
+        "period": "from",
+        "desc": "For SMEs ready to go further: custom AI agent or advanced automation system.",
+        "points": [
+          "Custom AI agent or chatbot",
+          "Advanced automations (multi-step)",
+          "CRM / ERP / WhatsApp integrations",
+          "Monitoring dashboard",
+          "Team training included",
+          "60-day support"
+        ],
+        "highlight": true
+      },
+      {
+        "name": "Enterprise",
+        "price": "Custom",
+        "currency": "",
+        "period": "",
+        "desc": "Complete solutions for organizations with complex or multi-site needs.",
+        "points": [
+          "Multi-agent architecture",
+          "Unlimited integrations",
+          "AI steering dashboard",
+          "Continuous training & support",
+          "SLA & dedicated support"
+        ],
+        "highlight": false
+      }
+    ],
+    "faqs": [
+      {
+        "q": "What is a free audit?",
+        "a": "A 30-minute call to understand your processes, identify quick wins and propose a solution tailored to your budget. No commitment required."
+      },
+      {
+        "q": "Are prices negotiable?",
+        "a": "Yes, we tailor every quote to your business reality. The ranges shown are indicative — some projects cost less, others more depending on complexity."
+      },
+      {
+        "q": "How long does a project take?",
+        "a": "Starter: 1 to 2 weeks. Growth: 3 to 5 weeks. Enterprise: 6 to 12 weeks depending on scope."
+      },
+      {
+        "q": "Are there recurring fees?",
+        "a": "Only if you opt for a monthly maintenance contract (tools, updates, ongoing support). Our Growth and Enterprise clients often benefit from this follow-up."
+      }
+    ]
   },
   "footer": {
     "tagline": "Custom digital solutions and AI agents, for every industry.",

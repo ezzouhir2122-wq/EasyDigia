@@ -4,14 +4,15 @@
     "services": "Services",
     "about": "À propos",
     "blog": "Blog",
+    "tarifs": "Tarifs",
     "contact": "Contact",
-    "cta": "Réserver une démo"
+    "cta": "Audit gratuit"
   },
   "home": {
     "kicker": "Automatisation & IA",
     "title": "Automatisez. Accélérez. Grandissez.",
     "subtitle": "EasyDigia conçoit des automatisations et des agents IA sur mesure pour votre entreprise.",
-    "cta": "Discutons de votre projet",
+    "cta": "Demander un audit gratuit",
     "ctaSecondary": "Voir nos services",
     "servicesTitle": "Ce que nous faisons",
     "s1Title": "Automatisation des processus",
@@ -19,7 +20,32 @@
     "s2Title": "Agents IA",
     "s2Desc": "Des assistants intelligents intégrés à vos outils.",
     "s3Title": "Intégrations sur mesure",
-    "s3Desc": "Connectez vos applications et vos données sans friction."
+    "s3Desc": "Connectez vos applications et vos données sans friction.",
+    "testimonialsKicker": "Ils nous font confiance",
+    "testimonialsTitle": "Ce que disent nos clients",
+    "testimonials": [
+      {
+        "quote": "Les relances clients sont désormais automatiques. On récupère 3h par semaine et les oublis ont complètement disparu.",
+        "name": "Rachid B.",
+        "role": "Directeur Général",
+        "company": "Agence immobilière — Marrakech",
+        "stat": "3h récupérées/semaine"
+      },
+      {
+        "quote": "Notre chatbot répond aux clients sur WhatsApp 24h/24. Les ventes ont progressé de 25 % dès le premier mois.",
+        "name": "Fatima Z.",
+        "role": "CEO",
+        "company": "Boutique de mode — Casablanca",
+        "stat": "+25 % de ventes"
+      },
+      {
+        "quote": "L'onboarding des nouveaux collaborateurs est entièrement automatisé. Ce qui prenait 2 jours se fait maintenant en 2 heures.",
+        "name": "Karim M.",
+        "role": "Directeur RH",
+        "company": "PME industrielle — Agadir",
+        "stat": "2 jours → 2 heures"
+      }
+    ]
   },
   "about": {
     "kicker": "Qui sommes-nous",
@@ -113,6 +139,81 @@
     ],
     "ctaTitle": "Vous voulez implémenter ces idées dans votre entreprise ?",
     "ctaButton": "Discutons de votre projet"
+  },
+  "tarifs": {
+    "kicker": "Tarifs transparents",
+    "title": "Des forfaits clairs, sans surprise",
+    "sub": "Chaque projet est unique. Ces fourchettes vous donnent une idée réaliste de l'investissement — nous affinerons ensemble lors de votre audit gratuit.",
+    "popular": "Le plus choisi",
+    "cta": "Demander un audit gratuit",
+    "ctaSub": "Réponse sous 24h · Sans engagement",
+    "faqTitle": "Questions fréquentes",
+    "plans": [
+      {
+        "name": "Starter",
+        "price": "3 500",
+        "currency": "MAD",
+        "period": "à partir de",
+        "desc": "Idéal pour démarrer : un site vitrine professionnel ou une première automatisation clé en main.",
+        "points": [
+          "Site vitrine ou landing page",
+          "1 automatisation de processus",
+          "Intégration d'un outil existant",
+          "Formation utilisateur incluse",
+          "Support 30 jours"
+        ],
+        "highlight": false
+      },
+      {
+        "name": "Croissance",
+        "price": "9 500",
+        "currency": "MAD",
+        "period": "à partir de",
+        "desc": "Pour les PME qui veulent aller plus loin : agent IA ou système d'automatisation avancé.",
+        "points": [
+          "Agent IA ou chatbot sur-mesure",
+          "Automatisations avancées (multi-étapes)",
+          "Intégrations CRM / ERP / WhatsApp",
+          "Dashboard de suivi",
+          "Formation équipe incluse",
+          "Support 60 jours"
+        ],
+        "highlight": true
+      },
+      {
+        "name": "Entreprise",
+        "price": "Sur devis",
+        "currency": "",
+        "period": "",
+        "desc": "Solutions complètes pour les organisations avec des besoins complexes ou multi-sites.",
+        "points": [
+          "Architecture multi-agents",
+          "Intégrations illimitées",
+          "Dashboard IA de pilotage",
+          "Formation et accompagnement continu",
+          "SLA & support dédié"
+        ],
+        "highlight": false
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Qu'est-ce qu'un audit gratuit ?",
+        "a": "Un appel de 30 minutes pour comprendre vos processus, identifier les gains rapides et vous proposer une solution adaptée à votre budget. Sans engagement."
+      },
+      {
+        "q": "Les prix sont-ils négociables ?",
+        "a": "Oui, nous adaptons chaque devis à la réalité de votre entreprise. Les fourchettes affichées sont indicatives — certains projets coûtent moins, d'autres plus selon la complexité."
+      },
+      {
+        "q": "Combien de temps prend un projet ?",
+        "a": "Starter : 1 à 2 semaines. Croissance : 3 à 5 semaines. Entreprise : 6 à 12 semaines selon la portée."
+      },
+      {
+        "q": "Y a-t-il des frais récurrents ?",
+        "a": "Uniquement si vous optez pour un contrat de maintenance mensuelle (outils, mises à jour, support continu). Nos clients Croissance et Entreprise bénéficient souvent de ce suivi."
+      }
+    ]
   },
   "footer": {
     "tagline": "Solutions digitales et agents IA sur-mesure, pour tous les secteurs.",
