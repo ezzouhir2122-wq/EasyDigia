@@ -104,7 +104,7 @@ export default function AdminBlog() {
             onClick={async () => {
               const supabase = createSupabaseBrowser();
               await supabase.auth.signOut();
-              window.location.href = "/fr/admin-login";
+              window.location.href = "/fr/admin/login";
             }}
             className="shrink-0 rounded-[9px] border border-white/10 px-4 py-2 text-[13px] text-[#9BA1B0] transition hover:border-red-500/40 hover:text-red-400"
           >

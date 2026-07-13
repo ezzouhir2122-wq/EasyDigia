@@ -3,7 +3,7 @@ import { createSupabaseServer } from "@/lib/supabase-server";
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "ezzouhir2122@gmail.com";
 
-export default async function AdminLayout({
+export default async function AdminProtectedLayout({
   children,
   params,
 }: {
@@ -15,7 +15,7 @@ export default async function AdminLayout({
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user || user.email !== ADMIN_EMAIL) {
-    redirect(`/${locale}/admin-login`);
+    redirect(`/${locale}/admin/login`);
   }
 
   return <>{children}</>;
