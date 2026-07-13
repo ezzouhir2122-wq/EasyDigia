@@ -2,7 +2,6 @@ import { useTranslations } from "next-intl";
 import { Button } from "./Button";
 import { Link } from "@/i18n/navigation";
 import { Orbs } from "./Orbs";
-import { HeroArt } from "./HeroArt";
 
 export function Hero() {
   const t = useTranslations("home");
@@ -31,8 +30,15 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Right: custom animated illustration */}
-        <HeroArt />
+        {/* Right: hero visual */}
+        <div className="relative hidden lg:block">
+          <div className="absolute -inset-6 rounded-3xl bg-brand/10 blur-3xl" />
+          <img
+            src="/hero-banner.png"
+            alt="EasyDigia — réseau d'agents IA interconnectés"
+            className="relative z-10 w-full rounded-2xl border border-white/10 shadow-[0_24px_80px_rgba(143,212,0,0.18)]"
+          />
+        </div>
       </div>
     </section>
   );

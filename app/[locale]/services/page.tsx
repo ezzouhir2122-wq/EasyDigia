@@ -10,6 +10,14 @@ type ServiceItem = {
   points: string[];
 };
 
+const SERVICE_IMAGES: Record<string, string> = {
+  CHATBOT: "/service-ai-agents.png",
+  AUTOMATION: "/service-automation.png",
+  "AGENT IA": "/service-ai-agents.png",
+  API: "/service-integrations.png",
+  FORMATION: "/service-training.png",
+};
+
 export default function Services() {
   const t = useTranslations("services");
   const items = t.raw("items") as ServiceItem[];
@@ -33,37 +41,55 @@ export default function Services() {
 
       {/* Services list */}
       <section className="relative z-[5] mx-auto flex max-w-[1100px] flex-col gap-5 px-[6vw] pb-[100px] pt-5">
-        {items.map((svc) => (
-          <div
-            key={svc.tag + svc.title}
-            className="grid grid-cols-[64px_1fr] items-start gap-6 rounded-[18px] border border-white/10 bg-surface p-9 max-sm:grid-cols-1"
-          >
-            <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[13px] bg-brand/10 text-2xl">
-              {svc.icon}
-            </div>
-            <div>
-              <div className="mb-2.5 flex flex-wrap items-baseline gap-3">
-                <h3 className="font-heading text-[21px] font-semibold text-ink">
-                  {svc.title}
-                </h3>
-                <span className="font-mono text-[11.5px] text-muted/70">{svc.tag}</span>
+        {items.map((svc) => {
+          const img = SERVICE_IMAGES[svc.tag];
+          return (
+            <div
+              key={svc.tag + svc.title}
+              className="flex overflow-hidden rounded-[18px] border border-white/10 bg-surface transition hover:border-brand/30"
+            >
+              {/* Main content */}
+              <div className="flex flex-1 items-start gap-6 p-9 max-sm:flex-col">
+                <div className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-[13px] bg-brand/10 text-2xl">
+                  {svc.icon}
+                </div>
+                <div>
+                  <div className="mb-2.5 flex flex-wrap items-baseline gap-3">
+                    <h3 className="font-heading text-[21px] font-semibold text-ink">
+                      {svc.title}
+                    </h3>
+                    <span className="font-mono text-[11.5px] text-muted/70">{svc.tag}</span>
+                  </div>
+                  <p className="mb-4 max-w-[680px] text-[15px] leading-[1.7] text-muted">
+                    {svc.desc}
+                  </p>
+                  <div className="flex flex-wrap gap-2.5">
+                    {svc.points.map((pt) => (
+                      <span
+                        key={pt}
+                        className="rounded-[20px] border border-brand/20 bg-brand/[0.08] px-3 py-[5px] text-[13px] text-brand-bright"
+                      >
+                        {pt}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <p className="mb-4 max-w-[680px] text-[15px] leading-[1.7] text-muted">
-                {svc.desc}
-              </p>
-              <div className="flex flex-wrap gap-2.5">
-                {svc.points.map((pt) => (
-                  <span
-                    key={pt}
-                    className="rounded-[20px] border border-brand/20 bg-brand/[0.08] px-3 py-[5px] text-[13px] text-brand-bright"
-                  >
-                    {pt}
-                  </span>
-                ))}
-              </div>
+
+              {/* Service image */}
+              {img && (
+                <div className="relative hidden w-[220px] shrink-0 md:block">
+                  <img
+                    src={img}
+                    alt={svc.title}
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-surface via-surface/40 to-transparent" />
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </section>
 
       {/* CTA banner */}

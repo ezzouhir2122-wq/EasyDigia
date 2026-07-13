@@ -1,6 +1,5 @@
 import { useTranslations } from "next-intl";
 import { Orbs } from "@/components/Orbs";
-import { AboutArt } from "@/components/AboutArt";
 
 export default function About() {
   const t = useTranslations("about");
@@ -19,7 +18,14 @@ export default function About() {
             {t("intro")}
           </p>
         </div>
-        <AboutArt />
+        <div className="relative">
+          <div className="absolute -inset-6 rounded-3xl bg-brand/10 blur-3xl" />
+          <img
+            src="/about-illustration.png"
+            alt="EasyDigia — croissance et optimisation par l'IA"
+            className="relative z-10 w-full rounded-2xl border border-white/10 shadow-[0_24px_80px_rgba(143,212,0,0.18)]"
+          />
+        </div>
       </section>
 
       <section className="relative z-[5] mx-auto grid max-w-[1000px] gap-6 px-[6vw] pb-24 md:grid-cols-2">
