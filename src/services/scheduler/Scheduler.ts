@@ -6,7 +6,7 @@ import type { Config } from '../../config/config'
 import { Publisher } from '../../orchestrator/Publisher'
 import { logger } from '../../utils/logger'
 
-const SCHEDULE_CONFIG_PATH = path.resolve(process.cwd(), 'schedule-config.json')
+const CONFIG_PATH = path.resolve(process.cwd(), 'config', 'schedule-config.json')
 
 export class Scheduler {
   private config: Config
@@ -16,14 +16,15 @@ export class Scheduler {
   }
 
   loadScheduleConfig(): ScheduleConfig {
-    if (!fs.existsSync(SCHEDULE_CONFIG_PATH)) {
-      throw new Error(`schedule-config.json introuvable. Copie schedule-config.json.example vers schedule-config.json et configure-le.`)
+    if (!fs.existsSync(CONFIG_PATH)) {
+      throw new Error(`schedule-config.json introuvable. Copie config/schedule-config.json.example vers config/schedule-config.json et configure-le.`)
     }
-    return JSON.parse(fs.readFileSync(SCHEDULE_CONFIG_PATH, 'utf-8')) as ScheduleConfig
+    return JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8')) as ScheduleConfig
   }
 
   saveScheduleConfig(cfg: ScheduleConfig): void {
-    fs.writeFileSync(SCHEDULE_CONFIG_PATH, JSON.stringify(cfg, null, 2))
+    fs.mkdirSync(path.dirname(CONFIG_PATH), { recursive: true })
+    fs.writeFileSync(CONFIG_PATH, JSON.stringify(cfg, null, 2))
   }
 
   start(): void {

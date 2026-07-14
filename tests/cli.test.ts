@@ -28,6 +28,7 @@ const mocks = vi.hoisted(() => {
     fsExistsSync: vi.fn().mockReturnValue(true),
     fsReadFileSync: vi.fn().mockReturnValue(scheduleCfg),
     fsWriteFileSync: vi.fn(),
+    fsMkdirSync: vi.fn(),
     rlQuestion: vi.fn(),
     rlClose: vi.fn(),
   }
@@ -65,10 +66,12 @@ vi.mock('fs', () => ({
     existsSync: mocks.fsExistsSync,
     readFileSync: mocks.fsReadFileSync,
     writeFileSync: mocks.fsWriteFileSync,
+    mkdirSync: mocks.fsMkdirSync,
   },
   existsSync: mocks.fsExistsSync,
   readFileSync: mocks.fsReadFileSync,
   writeFileSync: mocks.fsWriteFileSync,
+  mkdirSync: mocks.fsMkdirSync,
 }))
 
 vi.mock('readline/promises', () => ({
@@ -190,19 +193,16 @@ describe('CLI commande publish', () => {
   it('parcours heureux : lance Publisher.run avec le sujet, articleCount et wpStatus corrects', async () => {
     process.argv = ['node', 'src/cli/index.ts', 'publish']
 
-    // Importer le CLI déclenche parseAsync ; attendre la résolution
-    const cliPromise = import('../src/cli/index.ts')
-    await cliPromise
-    // Laisser la pile d'événements se vider pour que l'action async se termine
-    await new Promise(resolve => setTimeout(resolve, 50))
+    // Importer le CLI déclenche parseAsync ; vi.waitFor attend que l'action async se termine
+    await import('../src/cli/index.ts')
 
-    expect(mocks.run).toHaveBeenCalledWith(
+    await vi.waitFor(() => expect(mocks.run).toHaveBeenCalledWith(
       expect.objectContaining({
         subject: 'Intelligence Artificielle',
         articleCount: 2,
         wpStatus: 'draft',
       }),
-    )
+    ))
     expect(mocks.rlClose).toHaveBeenCalled()
   })
 })
@@ -236,8 +236,7 @@ describe('CLI commande schedule', () => {
     process.argv = ['node', 'src/cli/index.ts', 'schedule']
 
     await import('../src/cli/index.ts')
-    await new Promise(resolve => setTimeout(resolve, 50))
 
-    expect(mocks.cronSchedule).toHaveBeenCalledWith('0 8 * * *', expect.any(Function))
+    await vi.waitFor(() => expect(mocks.cronSchedule).toHaveBeenCalledWith('0 8 * * *', expect.any(Function)))
   })
 })

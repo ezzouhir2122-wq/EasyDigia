@@ -8,4 +8,4 @@ assets/images/original/*.png
 assets/images/webp/*.webp
 !assets/images/webp/test-*.webp
 reports/*.pdf
-schedule-config.json
+config/schedule-config.json

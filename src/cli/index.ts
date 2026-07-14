@@ -28,8 +28,8 @@ program
         process.exit(1)
       }
 
-      const countRaw = await rl.question('Nombre d\'articles à générer (défaut : 1) : ')
-      const articleCount = parseInt(countRaw) || 1
+      const countRaw = await rl.question('Nombre d\'articles (1-5, défaut: 1) : ')
+      const articleCount = Math.min(Math.max(parseInt(countRaw, 10) || 1, 1), 5)
 
       const statusRaw = await rl.question('Statut WordPress — draft ou publish (défaut : draft) : ')
       const wpStatus = statusRaw.trim() === 'publish' ? 'publish' : 'draft'
@@ -62,12 +62,7 @@ program
       const config = loadConfig()
       const scheduler = new Scheduler(config)
 
-      logger.info('Vérification de schedule-config.json…')
-      const cfg = scheduler.loadScheduleConfig()
-      logger.info(`Heure planifiée : ${cfg.cronTime}`)
-      logger.info(`Sujets : ${cfg.subjects.join(', ')}`)
       logger.info('Appuie sur Ctrl+C pour arrêter.')
-
       scheduler.start()
     } catch (err) {
       logger.error(err instanceof Error ? err.message : String(err))

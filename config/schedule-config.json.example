@@ -1,0 +1,7 @@
+{
+  "cronTime": "0 8 * * *",
+  "subjects": ["IA et automatisation", "Transformation digitale PME"],
+  "currentIndex": 0,
+  "wpStatus": "draft",
+  "articleCount": 1
+}
