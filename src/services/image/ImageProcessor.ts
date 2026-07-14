@@ -35,6 +35,9 @@ export class ImageProcessor {
       }
     } while (true)
 
+    if (sizeKb > this.config.webp.maxKb) {
+      logger.warn(`ImageProcessor: ${path.basename(webpPath)} (${sizeKb}KB) dépasse maxKb=${this.config.webp.maxKb}KB même à qualité 30`)
+    }
     logger.success(`${filename} : ${sizeKb} KB (qualité ${quality}%)`)
     return { webpPath, webpSizeKb: sizeKb }
   }

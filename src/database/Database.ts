@@ -121,8 +121,11 @@ export class Db {
   }
 
   updateArticle(id: number, data: Partial<Omit<ArticleRow, 'id' | 'created_at'>>): void {
+    const ALLOWED_ARTICLE_COLS = new Set(['wp_post_id', 'wp_url', 'wp_status', 'pdf_path', 'title', 'meta_title', 'meta_description', 'category', 'tags', 'content', 'word_count', 'status', 'slug'])
     const keys = Object.keys(data)
     if (keys.length === 0) return
+    const unknown = keys.filter(k => !ALLOWED_ARTICLE_COLS.has(k))
+    if (unknown.length) throw new Error(`updateArticle: colonnes non autorisées: ${unknown.join(', ')}`)
     const fields = keys.map(k => `${k} = ?`).join(', ')
     const values = keys.map(k => (data as Record<string, unknown>)[k] ?? null)
     this.db.prepare(`UPDATE articles SET ${fields} WHERE id = ?`).run(...values, id)
@@ -161,8 +164,11 @@ export class Db {
   }
 
   updateImage(id: number, data: Partial<Omit<ImageRow, 'id'>>): void {
+    const ALLOWED_IMAGE_COLS = new Set(['original_path', 'webp_path', 'wp_media_id', 'wp_url', 'alt', 'caption', 'author', 'source_url', 'licence', 'width', 'height', 'article_id'])
     const keys = Object.keys(data)
     if (keys.length === 0) return
+    const unknown = keys.filter(k => !ALLOWED_IMAGE_COLS.has(k))
+    if (unknown.length) throw new Error(`updateImage: colonnes non autorisées: ${unknown.join(', ')}`)
     const fields = keys.map(k => `${k} = ?`).join(', ')
     const values = keys.map(k => (data as Record<string, unknown>)[k] ?? null)
     this.db.prepare(`UPDATE images SET ${fields} WHERE id = ?`).run(...values, id)

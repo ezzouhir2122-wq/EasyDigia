@@ -94,7 +94,6 @@ export class ImageSearcher {
       params: { query, per_page: Math.max(count, 10), orientation: 'landscape' },
     })
     const items = (res?.data?.results as UnsplashPhoto[]) ?? []
-    if (!Array.isArray(items)) return []
     return items
       .filter((p) => p.width >= 1920 && p.height >= 1080)
       .map((p): ImageCandidate => ({
@@ -114,7 +113,6 @@ export class ImageSearcher {
       params: { query, per_page: Math.max(count, 10), orientation: 'landscape' },
     })
     const items = (res?.data?.photos as PexelsPhoto[]) ?? []
-    if (!Array.isArray(items)) return []
     return items
       .filter((p) => p.width >= 1920 && p.height >= 1080)
       .map((p): ImageCandidate => ({
@@ -141,7 +139,6 @@ export class ImageSearcher {
       },
     })
     const items = (res?.data?.hits as PixabayHit[]) ?? []
-    if (!Array.isArray(items)) return []
     return items
       .filter((p) => p.imageWidth >= 1920 && p.imageHeight >= 1080)
       .map((p): ImageCandidate => ({

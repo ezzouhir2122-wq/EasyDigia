@@ -27,7 +27,7 @@ const { createMock } = vi.hoisted(() => {
     seoFilename: "intelligence-artificielle-comptabilite.webp",
   })
   const articleSeo = JSON.stringify({
-    metaTitle: "Intelligence Artificielle en Comptabilité : Guide Complet 2026",
+    metaTitle: "Intelligence Artificielle en Comptabilité 2026",
     metaDescription: "Découvrez comment l'IA transforme la comptabilité avec des outils automatisés, des analyses prédictives et des gains de productivité mesurables.",
     slug: "intelligence-artificielle-comptabilite-guide",
     tags: ["IA", "Comptabilité", "Automatisation", "Finance"],
@@ -82,8 +82,8 @@ describe('SeoGenerator', () => {
     const { SeoGenerator } = await import('../src/services/seo/SeoGenerator')
     const gen = new SeoGenerator(MOCK_CONFIG as any)
     const seo = await gen.generateArticleSeo('Intelligence Artificielle en Comptabilité')
-    expect(seo.metaTitle.length).toBeLessThanOrEqual(70)
-    expect(seo.metaDescription.length).toBeLessThanOrEqual(170)
+    expect(seo.metaTitle.length).toBeLessThanOrEqual(60)
+    expect(seo.metaDescription.length).toBeLessThanOrEqual(160)
     expect(seo.slug).toMatch(/^[a-z0-9-]+$/)
     expect(seo.tags.length).toBeGreaterThan(0)
   })

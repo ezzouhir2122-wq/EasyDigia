@@ -55,7 +55,7 @@ Réponds UNIQUEMENT avec le HTML de l'article, sans markdown, sans balises html/
         messages: [{ role: 'user', content: prompt }],
       })
       const block = res.content[0]
-      if (block.type !== 'text') throw new ArticleGenerationError(subject, 'réponse non textuelle')
+      if (!block || block.type !== 'text') throw new ArticleGenerationError(subject, 'réponse non textuelle')
       return block.text.trim()
     }, 3, 'ArticleGenerator.generate')
 
