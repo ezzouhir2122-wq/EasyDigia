@@ -6,5 +6,6 @@ assets/images/original/*.jpg
 assets/images/original/*.jpeg
 assets/images/original/*.png
 assets/images/webp/*.webp
+!assets/images/webp/test-*.webp
 reports/*.pdf
 schedule-config.json
