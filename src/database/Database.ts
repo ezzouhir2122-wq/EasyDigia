@@ -40,7 +40,7 @@ export interface ImageRow {
 
 export interface LogRow {
   id?: number
-  article_id: number
+  article_id: number | null
   step: string
   status: 'ok' | 'error'
   message: string

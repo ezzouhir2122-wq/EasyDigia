@@ -48,7 +48,7 @@ export class Publisher {
       } catch (err) {
         logger.error(`Article ${i + 1} echoue : ${err instanceof Error ? err.message : String(err)}`)
         this.db.insertLog({
-          article_id: null as unknown as number,
+          article_id: null,
           step: `pipeline:${job.subject}`,
           status: 'error',
           message: err instanceof Error ? err.message : String(err),
