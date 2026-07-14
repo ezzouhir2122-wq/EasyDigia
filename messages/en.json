@@ -6,6 +6,8 @@
     "blog": "Blog",
     "tarifs": "Pricing",
     "realisations": "Case Studies",
+    "faq": "FAQ",
+    "temoignages": "Testimonials",
     "contact": "Contact",
     "cta": "Free audit",
     "signin": "My account"
@@ -18,11 +20,11 @@
     "ctaSecondary": "See our services",
     "servicesTitle": "What we do",
     "s1Title": "Process automation",
-    "s1Desc": "Eliminate repetitive tasks with automated workflows.",
+    "s1Desc": "Eliminate repetitive tasks — follow-ups, data entry, reporting — with custom automated workflows. Our clients save an average of 3 hours per week from the first month.",
     "s2Title": "AI agents",
-    "s2Desc": "Smart assistants integrated into your tools.",
+    "s2Desc": "Autonomous AI agents trained on your business, capable of searching, deciding and acting without human intervention. Deployed on your website, WhatsApp or internal tools.",
     "s3Title": "Custom integrations",
-    "s3Desc": "Connect your apps and data without friction.",
+    "s3Desc": "Connect your existing apps — CRM, ERP, email, WhatsApp — to AI models without changing everything. Our integrations adapt to your environment, not the other way around.",
     "clientsKicker": "Trusted by our clients",
     "clientsTitle": "Companies across all sectors",
     "clientsSectors": ["Real Estate", "Fashion & Retail", "Industry", "Restaurants", "Consulting", "E-commerce"],
@@ -50,16 +52,39 @@
         "company": "Industrial SME — Agadir",
         "stat": "2 days → 2 hours"
       }
+    ],
+    "processKicker": "How it works",
+    "processTitle": "From idea to results in 4 steps",
+    "processSteps": [
+      { "num": "01", "icon": "📞", "title": "Discovery call", "desc": "A free 30-min audit to understand your processes, identify bottlenecks and pinpoint quick wins." },
+      { "num": "02", "icon": "📋", "title": "Custom quote", "desc": "A clear proposal with scope, timeline and fixed budget. Response within 24 hours, no commitment." },
+      { "num": "03", "icon": "🚀", "title": "Fast delivery", "desc": "Sprint-based development with regular check-ins. First functional version in under 2 weeks." },
+      { "num": "04", "icon": "🔄", "title": "Support & follow-up", "desc": "Team training included, post-delivery support and optional maintenance to keep things running." }
     ]
   },
   "about": {
     "kicker": "Who we are",
     "title": "About EasyDigia",
-    "intro": "We help businesses save time through automation and AI.",
+    "intro": "EasyDigia is a Moroccan agency founded in Marrakech, specialising in custom process automation and AI agents for SMEs. Over 3 years, we have delivered more than 50 projects in real estate, retail and industry, helping our clients save an average of 3 hours of manual work per week.",
     "missionTitle": "Our mission",
-    "mission": "Make intelligent automation accessible to every business.",
+    "mission": "Make intelligent automation and AI agents accessible to every business, regardless of size. We work where large agencies don't go: Moroccan SMEs that need concrete results, fast, with a controlled budget.",
     "approachTitle": "Our approach",
-    "approach": "Understand your processes, find quick wins, deliver measurable solutions."
+    "approach": "We start with a free 30-minute audit to identify repetitive tasks and quick wins. We then deliver a first working version in under 2 weeks, training included. Every project is measured against jointly defined KPIs: time saved, errors avoided, revenue generated.",
+    "statsLabel": "By the numbers",
+    "stats": [
+      { "value": "3+", "label": "Years of experience" },
+      { "value": "50+", "label": "Projects delivered" },
+      { "value": "3", "label": "Countries served" },
+      { "value": "100%", "label": "Satisfied clients" }
+    ],
+    "storyTitle": "Our story",
+    "story": "EasyDigia was founded in Marrakech in 2022 from a simple observation: automation and AI tools exist, but remain out of reach for Moroccan SMEs due to lack of tailored guidance. In 3 years, the agency has delivered 50+ projects in Morocco, France and Belgium, enabling clients to reduce manual tasks by an average of 60% and measurably improve their response time to customers.",
+    "valuesTitle": "Our values",
+    "values": [
+      { "icon": "💡", "title": "Pragmatic innovation", "desc": "We use the best technologies available — GPT-4, Claude, Make, n8n — always in service of concrete, measurable results for your business, not to impress." },
+      { "icon": "🎯", "title": "Measurable results", "desc": "Every project starts with clear KPIs defined together: hours saved, errors avoided, leads processed. No vague promises — clients see the numbers move within the first weeks." },
+      { "icon": "🤝", "title": "Total transparency", "desc": "Fixed quotes with no surprises, deadlines met, honest communication at every step — even when it's difficult. Our clients always know where their project stands and why." }
+    ]
   },
   "contact": {
     "title": "Contact us",
@@ -227,6 +252,47 @@
     "ctaTitle": "A similar project in mind?",
     "ctaSub": "Tell us about your need and get a free audit within 24h.",
     "cta": "Discuss my project"
+  },
+  "faq": {
+    "kicker": "Help Center",
+    "title": "Frequently Asked Questions",
+    "sub": "Everything you need to know before starting your project with EasyDigia.",
+    "ctaTitle": "Didn't find your answer?",
+    "ctaButton": "Contact us",
+    "categories": [
+      {
+        "label": "Automation",
+        "questions": [
+          { "q": "What does automation mean for my business?", "a": "Automation means delegating your repetitive tasks — follow-ups, data entry, reports — to intelligent workflows. The result: your team focuses on what creates value, while processes run on their own." },
+          { "q": "Which tools do you use?", "a": "We primarily work with Make (formerly Integromat), n8n and Zapier for workflows, combined with custom APIs and AI models based on your specific needs." },
+          { "q": "Does it work with my existing tools?", "a": "Yes. We connect your existing tools (CRM, ERP, WhatsApp, email, Excel…) without forcing you to change everything. Our work integrates into your environment, not the other way around." }
+        ]
+      },
+      {
+        "label": "Artificial Intelligence",
+        "questions": [
+          { "q": "What's the difference between a chatbot and an AI agent?", "a": "A chatbot follows a fixed script and answers predefined questions. An AI agent understands context, makes decisions and acts autonomously — it can search for information, draft content, send messages and adapt to each situation." },
+          { "q": "Does my data remain confidential?", "a": "Absolutely. We never share your data with third parties. Depending on the project, we can deploy models locally or in your own cloud environment for total control." },
+          { "q": "Can the AI respond in Darija or Arabic?", "a": "Yes. Our AI agents support French, classical Arabic, English and Moroccan Darija. You can configure the primary language based on your customer base." }
+        ]
+      },
+      {
+        "label": "Timeline & Process",
+        "questions": [
+          { "q": "What is the average project timeline?", "a": "Starter: 1 to 2 weeks. Growth: 3 to 5 weeks. Enterprise: 6 to 12 weeks. In all cases, a first functional version is delivered within 2 weeks for validation." },
+          { "q": "How does a collaboration work?", "a": "1) Free 30-min audit to understand your needs. 2) Custom proposal with quote. 3) Sprint-based development with regular check-ins. 4) Delivery + team training. 5) Included post-delivery support." },
+          { "q": "What happens after delivery?", "a": "You get 30 to 60 days of included support (depending on the plan) to answer your questions and fix any bugs. A monthly maintenance contract is available for ongoing follow-up." }
+        ]
+      },
+      {
+        "label": "Payment & Pricing",
+        "questions": [
+          { "q": "What payment methods do you accept in Morocco?", "a": "Bank transfer, certified cheque and Mobile Money (Maroc Telecom, Orange Money). A 50% deposit is required at kickoff, the balance due on final delivery." },
+          { "q": "Is there a minimum commitment?", "a": "No. Each project is treated as a one-off engagement, with no forced subscription or automatic renewal. Monthly maintenance remains entirely optional." },
+          { "q": "Do you offer free quotes?", "a": "Yes. The initial audit and detailed quote are completely free and no-commitment. We respond within 24 business hours of your request." }
+        ]
+      }
+    ]
   },
   "footer": {
     "tagline": "Custom digital solutions and AI agents, for every industry.",
