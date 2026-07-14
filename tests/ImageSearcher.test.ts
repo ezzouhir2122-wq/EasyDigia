@@ -47,19 +47,28 @@ describe('ImageSearcher', () => {
   })
 
   it('bascule sur Pexels si Unsplash renvoie 0 résultat', async () => {
+    const QUERIES_COUNT = 5 // QUERIES_FROM_SUBJECT returns 5 queries
+    const emptyUnsplash = { data: { results: [] } }
+    const pexelsResponse = {
+      data: {
+        photos: [{
+          src: { original: 'https://images.pexels.com/1.jpg' },
+          photographer: 'Bob',
+          photographer_url: 'https://pexels.com/u/bob',
+          width: 3000,
+          height: 2000,
+        }],
+      },
+    }
     mockedAxios.get = vi.fn()
-      .mockResolvedValueOnce({ data: { results: [] } })
-      .mockResolvedValueOnce({
-        data: {
-          photos: [{
-            src: { original: 'https://images.pexels.com/1.jpg' },
-            photographer: 'Bob',
-            photographer_url: 'https://pexels.com/u/bob',
-            width: 3000,
-            height: 2000,
-          }],
-        },
-      })
+      // 5 Unsplash queries all empty
+      .mockResolvedValueOnce(emptyUnsplash)
+      .mockResolvedValueOnce(emptyUnsplash)
+      .mockResolvedValueOnce(emptyUnsplash)
+      .mockResolvedValueOnce(emptyUnsplash)
+      .mockResolvedValueOnce(emptyUnsplash)
+      // First Pexels query returns results
+      .mockResolvedValueOnce(pexelsResponse)
     const { ImageSearcher } = await import('../src/services/image/ImageSearcher')
     const searcher = new ImageSearcher(MOCK_CONFIG)
     const results = await searcher.search('comptabilité', 1)

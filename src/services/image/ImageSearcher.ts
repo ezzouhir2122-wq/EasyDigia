@@ -19,14 +19,38 @@ const QUERIES_FROM_SUBJECT = (subject: string): string[] => [
   `modern office`,
 ]
 
+interface UnsplashPhoto {
+  urls: { full: string }
+  user: { name: string }
+  links: { html: string }
+  width: number
+  height: number
+}
+
+interface PexelsPhoto {
+  src: { original: string }
+  photographer: string
+  photographer_url: string
+  width: number
+  height: number
+}
+
+interface PixabayHit {
+  largeImageURL: string
+  user: string
+  pageURL: string
+  imageWidth: number
+  imageHeight: number
+}
+
 export class ImageSearcher {
   constructor(private config: Config) {}
 
   async search(subject: string, count: number): Promise<ImageCandidate[]> {
     const queries = QUERIES_FROM_SUBJECT(subject)
 
-    for (const query of queries) {
-      if (this.config.unsplash) {
+    if (this.config.unsplash) {
+      for (const query of queries) {
         logger.step('Recherche Unsplash', query)
         const results = await withRetry(
           () => this.searchUnsplash(query, count),
@@ -35,8 +59,10 @@ export class ImageSearcher {
         )
         if (results.length > 0) return results.slice(0, count)
       }
+    }
 
-      if (this.config.pexels) {
+    if (this.config.pexels) {
+      for (const query of queries) {
         logger.step('Recherche Pexels', query)
         const results = await withRetry(
           () => this.searchPexels(query, count),
@@ -45,8 +71,10 @@ export class ImageSearcher {
         )
         if (results.length > 0) return results.slice(0, count)
       }
+    }
 
-      if (this.config.pixabay) {
+    if (this.config.pixabay) {
+      for (const query of queries) {
         logger.step('Recherche Pixabay', query)
         const results = await withRetry(
           () => this.searchPixabay(query, count),
@@ -65,11 +93,11 @@ export class ImageSearcher {
       headers: { Authorization: `Client-ID ${this.config.unsplash!.accessKey}` },
       params: { query, per_page: Math.max(count, 10), orientation: 'landscape' },
     })
-    const items: any[] = res?.data?.results
+    const items = (res?.data?.results as UnsplashPhoto[]) ?? []
     if (!Array.isArray(items)) return []
     return items
-      .filter((p: any) => p.width >= 1920 && p.height >= 1080)
-      .map((p: any): ImageCandidate => ({
+      .filter((p) => p.width >= 1920 && p.height >= 1080)
+      .map((p): ImageCandidate => ({
         url: p.urls.full,
         author: p.user.name,
         sourceUrl: p.links.html,
@@ -85,11 +113,11 @@ export class ImageSearcher {
       headers: { Authorization: this.config.pexels!.apiKey },
       params: { query, per_page: Math.max(count, 10), orientation: 'landscape' },
     })
-    const items: any[] = res?.data?.photos
+    const items = (res?.data?.photos as PexelsPhoto[]) ?? []
     if (!Array.isArray(items)) return []
     return items
-      .filter((p: any) => p.width >= 1920 && p.height >= 1080)
-      .map((p: any): ImageCandidate => ({
+      .filter((p) => p.width >= 1920 && p.height >= 1080)
+      .map((p): ImageCandidate => ({
         url: p.src.original,
         author: p.photographer,
         sourceUrl: p.photographer_url,
@@ -112,16 +140,18 @@ export class ImageSearcher {
         min_height: 1080,
       },
     })
-    const items: any[] = res?.data?.hits
+    const items = (res?.data?.hits as PixabayHit[]) ?? []
     if (!Array.isArray(items)) return []
-    return items.map((p: any): ImageCandidate => ({
-      url: p.largeImageURL,
-      author: p.user,
-      sourceUrl: p.pageURL,
-      licence: 'Pixabay License',
-      width: p.imageWidth,
-      height: p.imageHeight,
-      provider: 'pixabay',
-    }))
+    return items
+      .filter((p) => p.imageWidth >= 1920 && p.imageHeight >= 1080)
+      .map((p): ImageCandidate => ({
+        url: p.largeImageURL,
+        author: p.user,
+        sourceUrl: p.pageURL,
+        licence: 'Pixabay License',
+        width: p.imageWidth,
+        height: p.imageHeight,
+        provider: 'pixabay',
+      }))
   }
 }
