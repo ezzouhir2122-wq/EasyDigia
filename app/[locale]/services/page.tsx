@@ -1,6 +1,18 @@
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { Orbs } from "@/components/Orbs";
+
+export const metadata: Metadata = {
+  title: "Nos services — Automatisation, IA & Digital | EasyDigia",
+  description: "Sites web, chatbots IA, automatisation de processus, agents IA, tableaux de bord et formations. Des solutions digitales sur mesure pour votre entreprise.",
+  openGraph: {
+    title: "Nos services — Automatisation, IA & Digital | EasyDigia",
+    description: "Sites web, chatbots IA, automatisation de processus, agents IA et formations sur mesure.",
+    images: [{ url: "https://easydigia.com/og-image.png", width: 1200, height: 630 }],
+  },
+};
 
 type ServiceItem = {
   icon: string;
@@ -26,8 +38,31 @@ export default function Services() {
   const t = useTranslations("services");
   const items = t.raw("items") as ServiceItem[];
 
+  const servicesSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Services EasyDigia",
+    description: "Automatisation, agents IA et solutions digitales sur mesure pour PME",
+    provider: { "@id": "https://easydigia.com/#organization" },
+    itemListElement: items.map((svc, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Service",
+        name: svc.title,
+        description: svc.desc,
+        provider: { "@id": "https://easydigia.com/#organization" },
+        areaServed: { "@type": "Country", name: "Morocco" },
+      },
+    })),
+  };
+
   return (
     <div className="relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }}
+      />
       <Orbs />
 
       {/* Page header */}
@@ -82,11 +117,13 @@ export default function Services() {
 
               {/* Service image */}
               {img && (
-                <div className="relative hidden w-[220px] shrink-0 md:block">
-                  <img
+                <div className="relative hidden w-[220px] shrink-0 overflow-hidden md:block">
+                  <Image
                     src={img}
                     alt={svc.title}
-                    className="h-full w-full object-cover"
+                    fill
+                    sizes="220px"
+                    className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-surface via-surface/40 to-transparent" />
                 </div>

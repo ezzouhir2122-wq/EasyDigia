@@ -6,6 +6,8 @@
     "blog": "Blog",
     "tarifs": "Tarifs",
     "realisations": "Réalisations",
+    "faq": "FAQ",
+    "temoignages": "Témoignages",
     "contact": "Contact",
     "cta": "Audit gratuit",
     "signin": "Mon compte"
@@ -18,11 +20,11 @@
     "ctaSecondary": "Voir nos services",
     "servicesTitle": "Ce que nous faisons",
     "s1Title": "Automatisation des processus",
-    "s1Desc": "Éliminez les tâches répétitives avec des workflows automatisés.",
+    "s1Desc": "Éliminez les tâches répétitives — relances, saisies, reporting — avec des workflows automatisés sur mesure. Nos clients récupèrent en moyenne 3h par semaine dès le premier mois.",
     "s2Title": "Agents IA",
-    "s2Desc": "Des assistants intelligents intégrés à vos outils.",
+    "s2Desc": "Des agents IA autonomes formés sur votre activité, capables de chercher, décider et agir sans intervention humaine. Déployés sur site web, WhatsApp ou dans vos outils internes.",
     "s3Title": "Intégrations sur mesure",
-    "s3Desc": "Connectez vos applications et vos données sans friction.",
+    "s3Desc": "Connectez vos applications existantes — CRM, ERP, email, WhatsApp — aux modèles IA sans tout changer. Nos intégrations s'adaptent à votre environnement, pas l'inverse.",
     "clientsKicker": "Ils nous font confiance",
     "clientsTitle": "Des entreprises de tous secteurs",
     "clientsSectors": ["Immobilier", "Mode & Retail", "Industrie", "Restauration", "Conseil", "E-commerce"],
@@ -50,16 +52,39 @@
         "company": "PME industrielle — Agadir",
         "stat": "2 jours → 2 heures"
       }
+    ],
+    "processKicker": "Comment ça marche",
+    "processTitle": "De l'idée au résultat en 4 étapes",
+    "processSteps": [
+      { "num": "01", "icon": "📞", "title": "Appel découverte", "desc": "Un audit gratuit de 30 min pour comprendre vos processus, identifier les blocages et cibler les gains rapides." },
+      { "num": "02", "icon": "📋", "title": "Devis sur mesure", "desc": "Une proposition claire avec périmètre, délais et budget fixe. Réponse sous 24h, sans engagement." },
+      { "num": "03", "icon": "🚀", "title": "Livraison rapide", "desc": "Développement en sprints avec points réguliers. Première version fonctionnelle en moins de 2 semaines." },
+      { "num": "04", "icon": "🔄", "title": "Suivi & support", "desc": "Formation de votre équipe incluse, support post-livraison et maintenance optionnelle pour durer dans le temps." }
     ]
   },
   "about": {
     "kicker": "Qui sommes-nous",
     "title": "À propos d'EasyDigia",
-    "intro": "Nous aidons les entreprises à gagner du temps grâce à l'automatisation et à l'IA.",
+    "intro": "EasyDigia est une agence marocaine fondée à Marrakech, spécialisée en automatisation de processus et agents IA sur mesure pour les PME. En 3 ans d'activité, nous avons livré plus de 50 projets dans l'immobilier, le retail et l'industrie, aidant nos clients à récupérer en moyenne 3 heures de travail manuel par semaine.",
     "missionTitle": "Notre mission",
-    "mission": "Rendre l'automatisation intelligente accessible à toutes les entreprises.",
+    "mission": "Rendre l'automatisation intelligente et les agents IA accessibles à toutes les entreprises, quelle que soit leur taille. Nous intervenons là où les grandes agences ne vont pas : les PME marocaines qui ont besoin de résultats concrets, rapidement, avec un budget maîtrisé.",
     "approachTitle": "Notre approche",
-    "approach": "Comprendre vos processus, identifier les gains rapides, livrer des solutions mesurables."
+    "approach": "Nous commençons par un audit gratuit de 30 minutes pour identifier vos tâches répétitives et les gains rapides. Ensuite, nous livrons une première version fonctionnelle en moins de 2 semaines, avec formation incluse. Chaque projet est mesuré sur des indicateurs définis ensemble : temps gagné, erreurs évitées, revenus générés.",
+    "statsLabel": "En chiffres",
+    "stats": [
+      { "value": "3+", "label": "Années d'expérience" },
+      { "value": "50+", "label": "Projets livrés" },
+      { "value": "3", "label": "Pays desservis" },
+      { "value": "100 %", "label": "Clients satisfaits" }
+    ],
+    "storyTitle": "Notre histoire",
+    "story": "EasyDigia est née à Marrakech en 2022 d'un constat simple : les outils d'automatisation et d'IA existent, mais restent inaccessibles aux PME marocaines faute d'accompagnement adapté. En 3 ans, l'agence a livré 50+ projets au Maroc, en France et en Belgique, permettant à ses clients de réduire leurs tâches manuelles de 60 % en moyenne et d'augmenter leur réactivité client de façon mesurable.",
+    "valuesTitle": "Nos valeurs",
+    "values": [
+      { "icon": "💡", "title": "Innovation pragmatique", "desc": "Nous utilisons les meilleures technologies disponibles — GPT-4, Claude, Make, n8n — toujours au service de résultats concrets et mesurables pour votre entreprise, pas pour impressionner." },
+      { "icon": "🎯", "title": "Résultats mesurables", "desc": "Chaque projet démarre avec des indicateurs clairs définis ensemble : heures récupérées, erreurs évitées, leads traités. Pas de promesses vagues — nos clients voient les chiffres évoluer dès les premières semaines." },
+      { "icon": "🤝", "title": "Transparence totale", "desc": "Devis fixe sans surprises, délais tenus, communication honnête à chaque étape — même quand c'est difficile. Nos clients savent toujours où en est leur projet et pourquoi." }
+    ]
   },
   "contact": {
     "title": "Contactez-nous",
@@ -227,6 +252,47 @@
     "ctaTitle": "Un projet similaire en tête ?",
     "ctaSub": "Décrivez-nous votre besoin et obtenez un audit gratuit sous 24h.",
     "cta": "Discuter de mon projet"
+  },
+  "faq": {
+    "kicker": "Centre d'aide",
+    "title": "Questions fréquentes",
+    "sub": "Tout ce que vous devez savoir avant de démarrer votre projet avec EasyDigia.",
+    "ctaTitle": "Vous n'avez pas trouvé votre réponse ?",
+    "ctaButton": "Nous contacter",
+    "categories": [
+      {
+        "label": "Automatisation",
+        "questions": [
+          { "q": "Qu'est-ce que l'automatisation pour mon business ?", "a": "L'automatisation consiste à déléguer vos tâches répétitives — relances, saisies, rapports — à des workflows intelligents. Résultat : votre équipe se concentre sur ce qui crée de la valeur, pendant que les processus tournent seuls." },
+          { "q": "Quels outils utilisez-vous ?", "a": "Nous travaillons principalement avec Make (ex-Integromat), n8n et Zapier pour les workflows, couplés à des API sur mesure et des modèles IA selon vos besoins spécifiques." },
+          { "q": "Ça fonctionne avec mes outils actuels ?", "a": "Oui. Nous connectons vos outils existants (CRM, ERP, WhatsApp, email, Excel…) sans vous obliger à tout changer. Notre travail s'intègre dans votre environnement, pas l'inverse." }
+        ]
+      },
+      {
+        "label": "Intelligence Artificielle",
+        "questions": [
+          { "q": "Quelle différence entre un chatbot et un agent IA ?", "a": "Un chatbot suit un script fixe et répond à des questions prédéfinies. Un agent IA comprend le contexte, prend des décisions et agit de manière autonome — il peut chercher de l'info, rédiger, envoyer des messages et s'adapter à chaque situation." },
+          { "q": "Mes données restent-elles confidentielles ?", "a": "Absolument. Nous ne partageons jamais vos données avec des tiers. Selon le projet, nous pouvons déployer des modèles en local ou dans votre propre environnement cloud pour un contrôle total." },
+          { "q": "L'IA peut-elle répondre en darija ou en arabe ?", "a": "Oui. Nos agents IA supportent le français, l'arabe classique, l'anglais et le darija marocain. Vous pouvez configurer la langue principale selon votre clientèle." }
+        ]
+      },
+      {
+        "label": "Délais & Process",
+        "questions": [
+          { "q": "Quel est le délai moyen pour un projet ?", "a": "Starter : 1 à 2 semaines. Croissance : 3 à 5 semaines. Entreprise : 6 à 12 semaines. Dans tous les cas, une première version fonctionnelle est livrée sous 2 semaines pour validation." },
+          { "q": "Comment se déroule une collaboration ?", "a": "1) Audit gratuit de 30 min pour comprendre vos besoins. 2) Proposition sur mesure avec devis. 3) Développement en sprints avec points réguliers. 4) Livraison + formation de votre équipe. 5) Support post-livraison inclus." },
+          { "q": "Que se passe-t-il après la livraison ?", "a": "Vous bénéficiez d'un support inclus de 30 à 60 jours selon le forfait pour répondre à vos questions et corriger tout bug. Un contrat de maintenance mensuelle est disponible pour un suivi continu." }
+        ]
+      },
+      {
+        "label": "Paiement & Tarifs",
+        "questions": [
+          { "q": "Quels modes de paiement acceptez-vous au Maroc ?", "a": "Virement bancaire, chèque certifié et paiement Mobile Money (Maroc Telecom, Orange Money). Un acompte de 50 % est demandé au démarrage, le solde à la livraison finale." },
+          { "q": "Y a-t-il un engagement minimum ?", "a": "Non. Chaque projet est traité comme une mission ponctuelle, sans abonnement forcé ni reconduction automatique. La maintenance mensuelle reste entièrement optionnelle." },
+          { "q": "Proposez-vous des devis gratuits ?", "a": "Oui. L'audit initial et le devis détaillé sont entièrement gratuits et sans engagement. Nous répondons sous 24h ouvrées après votre demande." }
+        ]
+      }
+    ]
   },
   "footer": {
     "tagline": "Solutions digitales et agents IA sur-mesure, pour tous les secteurs.",
