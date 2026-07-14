@@ -7,7 +7,7 @@ import { logger } from '../../utils/logger'
 const REPORTS_DIR = path.resolve(process.cwd(), 'assets', 'reports')
 
 export class ReportGenerator {
-  async generate(result: PublicationResult, seo: ArticleSeo, coverImageWebpPath: string): Promise<string> {
+  async generate(result: PublicationResult, seo: ArticleSeo, coverImageWebpPath?: string): Promise<string> {
     fs.mkdirSync(REPORTS_DIR, { recursive: true })
 
     const date = new Date().toISOString().slice(0, 10)
