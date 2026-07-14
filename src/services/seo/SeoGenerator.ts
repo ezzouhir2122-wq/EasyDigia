@@ -12,10 +12,10 @@ export class SeoGenerator {
   }
 
   async generateImageMeta(img: ProcessedImage, subject: string): Promise<SeoImageMeta> {
-    logger.step('SEO image', img.webpPath.split('/').pop())
+    logger.step('SEO image', img.webpPath.split('/').pop() ?? img.webpPath)
 
-    const text = await withRetry(() =>
-      this.ask(`Tu es un expert SEO francophone.
+    return withRetry(async () => {
+      const text = await this.ask(`Tu es un expert SEO francophone.
 Génère les métadonnées SEO pour une image professionnelle liée au sujet : "${subject}".
 Image : ${img.width}×${img.height}px, auteur : ${img.author}, source : ${img.sourceUrl}
 
@@ -26,17 +26,16 @@ Réponds UNIQUEMENT en JSON valide, sans markdown, sans commentaires :
   "seoTitle": "titre SEO (max 60 caractères)",
   "description": "description longue (max 200 caractères)",
   "seoFilename": "nom-de-fichier-seo.webp"
-}`),
-    3, 'SeoGenerator.generateImageMeta')
-
-    return JSON.parse(text) as SeoImageMeta
+}`)
+      return JSON.parse(text) as SeoImageMeta
+    }, 3, 'SeoGenerator.generateImageMeta')
   }
 
   async generateArticleSeo(subject: string): Promise<ArticleSeo> {
     logger.step('SEO article', subject)
 
-    const text = await withRetry(() =>
-      this.ask(`Tu es un expert SEO francophone spécialisé en IA et automatisation.
+    return withRetry(async () => {
+      const text = await this.ask(`Tu es un expert SEO francophone spécialisé en IA et automatisation.
 Génère les métadonnées SEO pour un article sur : "${subject}".
 
 Réponds UNIQUEMENT en JSON valide, sans markdown, sans commentaires :
@@ -47,10 +46,9 @@ Réponds UNIQUEMENT en JSON valide, sans markdown, sans commentaires :
   "tags": ["tag1", "tag2", "tag3", "tag4"],
   "category": "catégorie principale",
   "keywords": ["mot-clé principal", "variante 1", "variante 2"]
-}`),
-    3, 'SeoGenerator.generateArticleSeo')
-
-    return JSON.parse(text) as ArticleSeo
+}`)
+      return JSON.parse(text) as ArticleSeo
+    }, 3, 'SeoGenerator.generateArticleSeo')
   }
 
   private async ask(prompt: string): Promise<string> {
@@ -60,7 +58,7 @@ Réponds UNIQUEMENT en JSON valide, sans markdown, sans commentaires :
       messages: [{ role: 'user', content: prompt }],
     })
     const block = res.content[0]
-    if (block.type !== 'text') throw new Error('Réponse Claude non textuelle')
+    if (!block || block.type !== 'text') throw new Error('Réponse Claude non textuelle')
     return block.text.trim()
   }
 }
