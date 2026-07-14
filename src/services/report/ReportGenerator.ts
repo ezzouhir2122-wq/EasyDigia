@@ -1,17 +1,17 @@
 import PDFDocument from 'pdfkit'
 import fs from 'fs'
 import path from 'path'
-import type { PublicationResult } from '../../types'
+import type { PublicationResult, ArticleSeo } from '../../types'
 import { logger } from '../../utils/logger'
 
-const REPORTS_DIR = path.resolve(process.cwd(), 'reports')
+const REPORTS_DIR = path.resolve(process.cwd(), 'assets', 'reports')
 
 export class ReportGenerator {
-  async generate(result: PublicationResult, coverImageWebpPath: string): Promise<string> {
+  async generate(result: PublicationResult, seo: ArticleSeo, coverImageWebpPath: string): Promise<string> {
     fs.mkdirSync(REPORTS_DIR, { recursive: true })
 
     const date = new Date().toISOString().slice(0, 10)
-    const filename = `${date}-${result.slug}.pdf`
+    const filename = `report-${result.slug}-${date}.pdf`
     const pdfPath = path.join(REPORTS_DIR, filename)
 
     logger.step('Génération rapport PDF', filename)
@@ -56,6 +56,14 @@ export class ReportGenerator {
         doc.font('Helvetica').fillColor('#000000').text(` ${value}`)
         doc.moveDown(0.3)
       }
+
+      // SEO fields
+      doc.fontSize(11).text(`Meta : ${seo.metaDescription}`)
+      doc.moveDown().text(`Tags : ${seo.tags.join(', ')}`)
+      doc.moveDown().text(`Publié le : ${new Date().toLocaleDateString('fr-FR')}`)
+
+      // Footer
+      doc.moveDown().fontSize(9).text('Généré par EasyDigia AI Publisher', { align: 'center' })
 
       doc.end()
       stream.on('finish', resolve)
