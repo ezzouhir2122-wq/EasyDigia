@@ -71,18 +71,19 @@ vi.mock('../src/database/Database', () => ({
 
 afterEach(() => vi.clearAllMocks())
 
+const MOCK_CONFIG = {
+  wp: { url: 'https://easydigia.com', username: 'u', appPassword: 'p' },
+  anthropic: { apiKey: 'sk' },
+  unsplash: { accessKey: 'uk' },
+  webp: { quality: 85, maxKb: 300 },
+  imagesPerArticle: 1,
+  defaultStatus: 'draft' as const,
+  claudeModel: 'claude-sonnet-5',
+}
+
 describe('Publisher', () => {
-  it('execute le pipeline complet et retourne les resultats', async () => {
+  it('exécute le pipeline complet et retourne les résultats', async () => {
     const { Publisher } = await import('../src/orchestrator/Publisher')
-    const MOCK_CONFIG = {
-      wp: { url: 'https://easydigia.com', username: 'u', appPassword: 'p' },
-      anthropic: { apiKey: 'sk' },
-      unsplash: { accessKey: 'uk' },
-      webp: { quality: 85, maxKb: 300 },
-      imagesPerArticle: 1,
-      defaultStatus: 'draft' as const,
-      claudeModel: 'claude-sonnet-5',
-    }
     const publisher = new Publisher(MOCK_CONFIG as any)
     const job: PublishJob = { subject: 'IA', articleCount: 1, wpStatus: 'draft' }
     const results = await publisher.run(job)
@@ -92,29 +93,46 @@ describe('Publisher', () => {
     expect(results[0].pdfPath).toContain('.pdf')
   })
 
-  it('skip un article si le slug existe deja en DB', async () => {
+  it('publie un article avec un slug suffixé si le slug initial existe déjà en DB', async () => {
     const { Publisher } = await import('../src/orchestrator/Publisher')
-    const MOCK_CONFIG = {
-      wp: { url: 'https://easydigia.com', username: 'u', appPassword: 'p' },
-      anthropic: { apiKey: 'sk' },
-      unsplash: { accessKey: 'uk' },
-      webp: { quality: 85, maxKb: 300 },
-      imagesPerArticle: 1,
-      defaultStatus: 'draft' as const,
-      claudeModel: 'claude-sonnet-5',
-    }
     const { Db } = await import('../src/database/Database')
     vi.mocked(Db).mockImplementationOnce(() => ({
-      articleExistsBySlug: vi.fn().mockReturnValue(true),
-      insertArticle: vi.fn(),
+      articleExistsBySlug: vi.fn().mockReturnValueOnce(true).mockReturnValue(false),
+      insertArticle: vi.fn().mockReturnValue(1),
       updateArticle: vi.fn(),
-      insertImage: vi.fn(),
+      insertImage: vi.fn().mockReturnValue(1),
       updateImage: vi.fn(),
       insertLog: vi.fn(),
       close: vi.fn(),
     }))
     const publisher = new Publisher(MOCK_CONFIG as any)
     const results = await publisher.run({ subject: 'IA', articleCount: 1, wpStatus: 'draft' })
+    expect(results).toHaveLength(1)
+    expect(results[0].slug).toBe('ia-guide-2')
+  })
+
+  it('gère gracieusement une ImageNotFoundError et log l\'erreur en DB', async () => {
+    const { Publisher } = await import('../src/orchestrator/Publisher')
+    const { ImageSearcher, ImageNotFoundError } = await import('../src/services/image/ImageSearcher')
+    const { Db } = await import('../src/database/Database')
+    const mockInsertLog = vi.fn()
+    vi.mocked(Db).mockImplementationOnce(() => ({
+      articleExistsBySlug: vi.fn().mockReturnValue(false),
+      insertArticle: vi.fn().mockReturnValue(1),
+      updateArticle: vi.fn(),
+      insertImage: vi.fn().mockReturnValue(1),
+      updateImage: vi.fn(),
+      insertLog: mockInsertLog,
+      close: vi.fn(),
+    }))
+    vi.mocked(ImageSearcher).mockImplementationOnce(() => ({
+      search: vi.fn().mockRejectedValueOnce(new ImageNotFoundError('IA')),
+    }))
+    const publisher = new Publisher(MOCK_CONFIG as any)
+    const results = await publisher.run({ subject: 'IA', articleCount: 1, wpStatus: 'draft' })
     expect(results).toHaveLength(0)
+    expect(mockInsertLog).toHaveBeenCalledWith(
+      expect.objectContaining({ status: 'error' })
+    )
   })
 })

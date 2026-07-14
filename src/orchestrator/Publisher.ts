@@ -8,6 +8,7 @@ import { ArticleGenerator } from '../services/ai/ArticleGenerator'
 import { WordPressPublisher } from '../services/wordpress/WordPressPublisher'
 import { ReportGenerator } from '../services/report/ReportGenerator'
 import { Db } from '../database/Database'
+import { withRetry } from '../utils/retry'
 import { logger } from '../utils/logger'
 
 // Extends ProcessedImage with SEO metadata and the WordPress media id/url already
@@ -46,6 +47,12 @@ export class Publisher {
         if (result) results.push(result)
       } catch (err) {
         logger.error(`Article ${i + 1} echoue : ${err instanceof Error ? err.message : String(err)}`)
+        this.db.insertLog({
+          article_id: null as unknown as number,
+          step: `pipeline:${job.subject}`,
+          status: 'error',
+          message: err instanceof Error ? err.message : String(err),
+        })
       }
     }
 
@@ -57,10 +64,13 @@ export class Publisher {
     logger.step('Generation SEO article')
     const articleSeo = await this.seoGen.generateArticleSeo(job.subject)
 
-    if (this.db.articleExistsBySlug(articleSeo.slug)) {
-      logger.warn(`Doublon detecte — slug "${articleSeo.slug}" existe deja. Skip.`)
-      return null
+    let slug = articleSeo.slug
+    let n = 2
+    while (this.db.articleExistsBySlug(slug)) {
+      logger.warn(`Doublon detecte — slug "${slug}" existe deja. Tentative avec suffixe -${n}.`)
+      slug = `${articleSeo.slug}-${n++}`
     }
+    articleSeo.slug = slug
 
     const articleId = this.db.insertArticle({ slug: articleSeo.slug, title: job.subject, status: 'pending' })
     this.db.insertLog({ article_id: articleId, step: 'seo', status: 'ok', message: `slug: ${articleSeo.slug}` })
@@ -83,7 +93,7 @@ export class Publisher {
       const originalPath = await this.downloader.download(candidate, articleSeo.slug, idx)
       this.db.insertLog({ article_id: articleId, step: 'download', status: 'ok', message: originalPath })
 
-      const { webpPath, webpSizeKb } = await this.processor.process(originalPath, articleSeo.slug, idx)
+      const { webpPath, webpSizeKb } = await withRetry(() => this.processor.process(originalPath, articleSeo.slug, idx), 3, 'Publisher:process')
       this.db.insertLog({ article_id: articleId, step: 'process', status: 'ok', message: `${webpSizeKb} KB` })
 
       const processed: ProcessedImage = { ...candidate, originalPath, webpPath, webpSizeKb }
