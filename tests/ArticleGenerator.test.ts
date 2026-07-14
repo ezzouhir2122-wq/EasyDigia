@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 
 // vi.hoisted ensures this value is available when vi.mock factory runs (hoisted before const declarations)
 const { MOCK_ARTICLE_HTML, mockCreate } = vi.hoisted(() => {
@@ -63,6 +63,12 @@ const MOCK_IMAGES = [{
 }]
 
 describe('ArticleGenerator', () => {
+  afterEach(() => {
+    vi.useRealTimers()
+    mockCreate.mockReset()
+    mockCreate.mockResolvedValue({ content: [{ type: 'text', text: MOCK_ARTICLE_HTML }] })
+  })
+
   it('génère un article HTML avec H1, TOC, au moins 4 H2, FAQ, CTA', async () => {
     const { ArticleGenerator } = await import('../src/services/ai/ArticleGenerator')
     const gen = new ArticleGenerator(MOCK_CONFIG as any)
@@ -79,9 +85,20 @@ describe('ArticleGenerator', () => {
   })
 
   it('lève ArticleGenerationError si la réponse Claude n\'est pas textuelle', async () => {
-    mockCreate.mockResolvedValueOnce({ content: [{ type: 'image', source: {} }] })
+    vi.useFakeTimers()
+    const nonText = { content: [{ type: 'image', source: {} }] }
+    // withRetry makes 4 total attempts (attempt 0..retries=3) — mock all of them
+    mockCreate
+      .mockResolvedValueOnce(nonText)
+      .mockResolvedValueOnce(nonText)
+      .mockResolvedValueOnce(nonText)
+      .mockResolvedValueOnce(nonText)
     const { ArticleGenerator, ArticleGenerationError } = await import('../src/services/ai/ArticleGenerator')
     const gen = new ArticleGenerator(MOCK_CONFIG as any)
-    await expect(gen.generate('IA', MOCK_SEO, [])).rejects.toThrow(ArticleGenerationError)
+    const promise = gen.generate('IA', MOCK_SEO, [])
+    // Attach rejection handler BEFORE running timers to prevent unhandled rejection
+    const assertion = expect(promise).rejects.toThrow(ArticleGenerationError)
+    await vi.runAllTimersAsync()
+    await assertion
   })
 })

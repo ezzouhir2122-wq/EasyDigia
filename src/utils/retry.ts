@@ -17,7 +17,5 @@ export async function withRetry<T>(
     }
   }
 
-  throw new Error(
-    `${label} failed after ${retries + 1} attempts: ${lastError instanceof Error ? lastError.message : String(lastError)}`
-  )
+  throw lastError
 }

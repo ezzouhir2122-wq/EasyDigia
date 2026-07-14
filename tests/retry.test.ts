@@ -27,7 +27,7 @@ describe('withRetry', () => {
     vi.useFakeTimers()
     const promise = withRetry(fn, 2, 'test')
     // Attach rejection handler before running timers to avoid unhandled rejection
-    const assertion = expect(promise).rejects.toThrow('test failed after 3 attempts')
+    const assertion = expect(promise).rejects.toThrow('always fail')
     await vi.runAllTimersAsync()
     await assertion
     vi.useRealTimers()
