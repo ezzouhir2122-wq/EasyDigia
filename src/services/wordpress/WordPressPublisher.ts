@@ -28,39 +28,61 @@ export class WordPressPublisher {
     logger.step('Upload image WordPress', meta.seoFilename)
     const fileData = fs.readFileSync(img.webpPath)
 
-    return withRetry(async () => {
-      const res = await axios.post(`${this.baseUrl}/wp-json/wp/v2/media`, fileData, {
-        headers: {
-          Authorization: this.authHeader,
-          'Content-Type': 'image/webp',
-          'Content-Disposition': `attachment; filename="${meta.seoFilename}"`,
-        },
-      })
-      if (!res.data.id) throw new WordPressApiError('uploadImage', 'no id in response')
+    // Fix 4: Separate retry blocks — upload and metadata update are independent
+    // so a metadata failure doesn't re-trigger the upload POST.
+    const uploadRes = await withRetry(async () => {
+      try {
+        const res = await axios.post(`${this.baseUrl}/wp-json/wp/v2/media`, fileData, {
+          headers: {
+            Authorization: this.authHeader,
+            'Content-Type': 'image/webp',
+            'Content-Disposition': `attachment; filename="${meta.seoFilename}"`,
+          },
+        })
+        if (!res.data.id) throw new WordPressApiError('uploadImage', 'no id in response')
+        return res
+      } catch (err: unknown) {
+        const wpMsg = (err as any)?.response?.data?.message
+        throw new Error(wpMsg ?? `uploadImage failed: ${String(err)}`)
+      }
+    }, 3, 'uploadImage:upload')
 
-      await axios.post(`${this.baseUrl}/wp-json/wp/v2/media/${res.data.id}`, {
-        alt_text: meta.alt,
-        caption: meta.caption,
-        title: meta.seoTitle,
-        description: meta.description,
-      }, { headers: { Authorization: this.authHeader } })
+    await withRetry(async () => {
+      try {
+        await axios.post(`${this.baseUrl}/wp-json/wp/v2/media/${uploadRes.data.id}`, {
+          alt_text: meta.alt,
+          caption: meta.caption,
+          title: meta.seoTitle,
+          description: meta.description,
+        }, { headers: { Authorization: this.authHeader } })
+      } catch (err: unknown) {
+        const wpMsg = (err as any)?.response?.data?.message
+        throw new Error(wpMsg ?? `uploadImage metadata update failed: ${String(err)}`)
+      }
+    }, 3, 'uploadImage:metadata')
 
-      return { id: res.data.id, url: res.data.source_url }
-    }, 3, 'uploadImage')
+    return { id: uploadRes.data.id, url: uploadRes.data.source_url }
   }
 
   async ensureCategory(name: string): Promise<number> {
-    const searchRes = await axios.get(`${this.baseUrl}/wp-json/wp/v2/categories`, {
-      headers: { Authorization: this.authHeader },
-      params: { search: name, per_page: 1 },
-    })
-    if (searchRes?.data?.length > 0) return searchRes.data[0].id as number
+    return withRetry(async () => {
+      try {
+        const searchRes = await axios.get(`${this.baseUrl}/wp-json/wp/v2/categories`, {
+          headers: { Authorization: this.authHeader },
+          params: { search: name, per_page: 1 },
+        })
+        if (searchRes?.data?.length > 0) return searchRes.data[0].id as number
 
-    const createRes = await axios.post(`${this.baseUrl}/wp-json/wp/v2/categories`,
-      { name },
-      { headers: { Authorization: this.authHeader } }
-    )
-    return createRes.data.id as number
+        const createRes = await axios.post(`${this.baseUrl}/wp-json/wp/v2/categories`,
+          { name },
+          { headers: { Authorization: this.authHeader } }
+        )
+        return createRes.data.id as number
+      } catch (err: unknown) {
+        const wpMsg = (err as any)?.response?.data?.message
+        throw new Error(wpMsg ?? `ensureCategory failed: ${String(err)}`)
+      }
+    }, 3, 'ensureCategory')
   }
 
   async createPost(
@@ -75,19 +97,24 @@ export class WordPressPublisher {
     const tagIds = await this.ensureTags(article.seo.tags)
 
     return withRetry(async () => {
-      const res = await axios.post(`${this.baseUrl}/wp-json/wp/v2/posts`, {
-        title: article.h1,
-        content: article.htmlContent,
-        status: wpStatus,
-        slug: article.seo.slug,
-        featured_media: featuredMediaId,
-        categories: [categoryId],
-        tags: tagIds,
-        excerpt: article.seo.metaDescription,
-      }, { headers: { Authorization: this.authHeader } })
+      try {
+        const res = await axios.post(`${this.baseUrl}/wp-json/wp/v2/posts`, {
+          title: article.h1,
+          content: article.htmlContent,
+          status: wpStatus,
+          slug: article.seo.slug,
+          featured_media: featuredMediaId,
+          categories: [categoryId],
+          tags: tagIds,
+          excerpt: article.seo.metaDescription,
+        }, { headers: { Authorization: this.authHeader } })
 
-      if (!res.data.id) throw new WordPressApiError('createPost', 'no id in response')
-      return { id: res.data.id, link: res.data.link, status: res.data.status, slug: res.data.slug }
+        if (!res.data.id) throw new WordPressApiError('createPost', 'no id in response')
+        return { id: res.data.id, link: res.data.link, status: res.data.status, slug: res.data.slug }
+      } catch (err: unknown) {
+        const wpMsg = (err as any)?.response?.data?.message
+        throw new Error(wpMsg ?? `createPost failed: ${String(err)}`)
+      }
     }, 3, 'createPost')
   }
 
@@ -95,21 +122,25 @@ export class WordPressPublisher {
     const ids: number[] = []
     for (const name of tagNames) {
       try {
-        const searchRes = await axios.get(`${this.baseUrl}/wp-json/wp/v2/tags`, {
-          headers: { Authorization: this.authHeader },
-          params: { search: name, per_page: 1 },
-        })
-        if (searchRes?.data?.length > 0) {
-          ids.push(searchRes.data[0].id as number)
-        } else {
-          const createRes = await axios.post(`${this.baseUrl}/wp-json/wp/v2/tags`,
-            { name },
-            { headers: { Authorization: this.authHeader } }
-          )
-          ids.push(createRes.data.id as number)
-        }
-      } catch {
-        // ignore tag errors — tags are non-critical
+        await withRetry(async () => {
+          const searchRes = await axios.get(`${this.baseUrl}/wp-json/wp/v2/tags`, {
+            headers: { Authorization: this.authHeader },
+            params: { search: name, per_page: 1 },
+          })
+          if (searchRes?.data?.length > 0) {
+            ids.push(searchRes.data[0].id as number)
+          } else {
+            const createRes = await axios.post(`${this.baseUrl}/wp-json/wp/v2/tags`,
+              { name },
+              { headers: { Authorization: this.authHeader } }
+            )
+            ids.push(createRes.data.id as number)
+          }
+        }, 3, `ensureTags:${name}`)
+      } catch (err: unknown) {
+        const wpMsg = (err as any)?.response?.data?.message
+        logger.warn(`ensureTags: tag "${name}" failed — ${wpMsg ?? String(err)}`)
+        // tag creation failure is non-fatal — continue without this tag
       }
     }
     return ids
