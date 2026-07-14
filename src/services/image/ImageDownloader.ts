@@ -23,12 +23,9 @@ export class ImageDownloader {
       await new Promise<void>((resolve, reject) => {
         const writer = fs.createWriteStream(dest)
         res.data.pipe(writer)
-        // writer.on('finish') is the canonical production signal;
-        // res.data.on('end') acts as an early-resolve fallback for test environments
-        // where the fs.createWriteStream mock may not propagate stream events.
+        res.data.on('error', reject)
         writer.on('finish', resolve)
         writer.on('error', reject)
-        res.data.on('end', resolve)
       })
     }, 3, `download ${filename}`)
 

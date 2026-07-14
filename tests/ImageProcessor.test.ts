@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 const mockSharpInstance = {
   webp: vi.fn().mockReturnThis(),
@@ -16,6 +16,8 @@ const MOCK_CONFIG = {
 }
 
 describe('ImageProcessor', () => {
+  beforeEach(() => vi.clearAllMocks())
+
   it('convertit en webp et retourne le chemin', async () => {
     const { ImageProcessor } = await import('../src/services/image/ImageProcessor')
     const processor = new ImageProcessor(MOCK_CONFIG as any)
