@@ -70,6 +70,16 @@
 }
 
 /* Blog article body styles */
+.prose-blog {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+}
+.prose-blog img,
+.prose-blog figure {
+  max-width: 100%;
+  height: auto;
+}
 .prose-blog h2 {
   font-family: var(--font-heading, sans-serif);
   font-size: clamp(20px, 2.5vw, 26px);
