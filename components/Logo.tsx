@@ -1,10 +1,14 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
+
 export function Logo({ className = "h-14" }: { className?: string }) {
   return (
-    <img
+    <Image
       src="/logo-easydigia-new.jpeg"
       alt="EasyDigia — Automatisez. Accélérez. Grandissez."
+      width={168}
+      height={112}
       className={`w-auto object-contain ${className}`}
+      priority
     />
   );
 }
