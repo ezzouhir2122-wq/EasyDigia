@@ -34,6 +34,18 @@ export function ContactForm() {
 
   const field = "w-full rounded-lg border border-ink/20 bg-transparent px-4 py-3 text-ink";
 
+  if (status === "ok") {
+    return (
+      <div className="mt-8 flex max-w-xl flex-col items-center gap-4 rounded-[16px] border border-[#8FD400]/20 bg-[#8FD400]/5 px-8 py-12 text-center">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#8FD400]/15 text-3xl">
+          ✅
+        </div>
+        <h2 className="text-xl font-semibold text-ink">{t("success")}</h2>
+        <p className="text-sm text-muted">Nous vous répondons sous 24h.</p>
+      </div>
+    );
+  }
+
   return (
     <form onSubmit={onSubmit} className="mt-8 grid max-w-xl gap-4">
       <label className="grid gap-1">
@@ -56,8 +68,9 @@ export function ContactForm() {
         {t("message")}
         <textarea name="message" required rows={5} className={field} />
       </label>
-      <Button type="submit">{t("submit")}</Button>
-      {status === "ok" && <p className="text-accent">{t("success")}</p>}
+      <Button type="submit" disabled={status === "sending"}>
+        {status === "sending" ? "Envoi en cours…" : t("submit")}
+      </Button>
       {status === "error" && <p className="text-red-400">{t("error")}</p>}
     </form>
   );
