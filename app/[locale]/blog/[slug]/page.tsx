@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { ShareButtons } from "@/components/ShareButtons";
 import { TableOfContents } from "@/components/TableOfContents";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +30,7 @@ type ArticleRow = {
   category: string;
   read_min: number;
   published_at: string;
+  image_url?: string;
   content: Record<string, { title: string; excerpt: string; tag: string; body: string }>;
 };
 
@@ -112,6 +114,23 @@ export default async function BlogArticle({
 
         <div className="mt-8 h-px bg-gradient-to-r from-brand/40 via-brand-bright/20 to-transparent" />
       </section>
+
+      {/* Cover image */}
+      {article.image_url && (
+        <section className="relative z-[5] mx-auto max-w-[780px] px-[6vw] pb-8">
+          <div className="relative h-[320px] w-full overflow-hidden rounded-[16px] md:h-[420px]">
+            <Image
+              src={article.image_url as string}
+              alt={loc.title}
+              fill
+              className="object-cover"
+              priority
+              sizes="(max-width: 768px) 100vw, 780px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B10]/60 to-transparent" />
+          </div>
+        </section>
+      )}
 
       {/* Article body with sticky TOC */}
       <section className="relative z-[5] mx-auto max-w-[1200px] px-[6vw] pb-4">

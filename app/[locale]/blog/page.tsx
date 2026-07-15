@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Orbs } from "@/components/Orbs";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { LeadMagnetModal } from "@/components/LeadMagnetModal";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,7 @@ type ArticleRow = {
   category: string;
   read_min: number;
   published_at: string;
+  image_url?: string;
   content: Record<string, { title: string; excerpt: string; tag: string; body: string }>;
 };
 
@@ -38,7 +40,7 @@ export default async function Blog() {
   const supabase = getSupabaseAdmin();
   const { data: articles } = await supabase
     .from("blog_articles")
-    .select("id, slug, category, read_min, published_at, content")
+    .select("id, slug, category, read_min, published_at, image_url, content")
     .eq("published", true)
     .order("published_at", { ascending: false });
 
@@ -77,7 +79,21 @@ export default async function Blog() {
               key={article.id}
               className={`group flex flex-col overflow-hidden rounded-[18px] border border-white/10 bg-surface transition hover:border-brand/30${i === 0 ? " md:col-span-2" : ""}`}
             >
-              <div className="h-[3px] w-full bg-gradient-to-r from-brand to-brand-bright opacity-60" />
+              {/* Cover image */}
+              {article.image_url ? (
+                <div className={`relative w-full overflow-hidden${i === 0 ? " h-[260px] md:h-[340px]" : " h-[180px]"}`}>
+                  <Image
+                    src={article.image_url}
+                    alt={loc.title}
+                    fill
+                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                    sizes={i === 0 ? "(max-width: 768px) 100vw, 1100px" : "(max-width: 768px) 100vw, 550px"}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B10]/70 to-transparent" />
+                </div>
+              ) : (
+                <div className="h-[3px] w-full bg-gradient-to-r from-brand to-brand-bright opacity-60" />
+              )}
               <div className={`flex flex-1 flex-col p-8${i === 0 ? " md:p-10" : ""}`}>
                 {/* Meta */}
                 <div className="mb-4 flex flex-wrap items-center gap-3">

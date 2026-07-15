@@ -6,6 +6,7 @@ export interface GeneratedArticleResult {
   slug: string;
   title: string;
   excerpt: string;
+  imageUrl?: string;
 }
 
 function slugify(text: string): string {
@@ -17,41 +18,90 @@ function slugify(text: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
-function buildArticlePrompt(topic: string): string {
-  return `Tu es un rédacteur expert pour EasyDigia, une agence digitale spécialisée en IA et automatisation basée à Marrakech, Maroc.
+// Fallback images par catégorie (Unsplash CDN stable, pas d'API key requise)
+const FALLBACK_IMAGES: Record<string, string> = {
+  ai:         "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1400&q=80",
+  automation: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=80",
+  strategy:   "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&q=80",
+  tutorial:   "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1400&q=80",
+};
 
-Génère un article de blog professionnel sur le sujet : "${topic}"
+async function fetchPexelsImage(keyword: string): Promise<string | null> {
+  const key = process.env.PEXELS_API_KEY;
+  if (!key) return null;
 
-Réponds UNIQUEMENT avec un objet JSON valide (pas de markdown, pas d'explication, pas de \`\`\`json) avec cette structure exacte :
-{
-  "slug": "slug-url-en-francais-avec-tirets",
-  "read_min": 6,
-  "fr": {
-    "title": "Titre accrocheur en français",
-    "tag": "Catégorie courte (ex: IA & Agents, Automatisation, Stratégie digitale)",
-    "excerpt": "Résumé en 1-2 phrases percutantes (max 180 caractères)",
-    "body": "<h2>Titre section</h2><p>Paragraphe...</p><h2>...</h2><p>...</p>"
-  },
-  "en": {
-    "title": "Catchy English title",
-    "tag": "Short category (e.g. AI & Agents, Automation, Digital strategy)",
-    "excerpt": "1-2 sentence summary (max 180 chars)",
-    "body": "<h2>Section title</h2><p>Paragraph...</p>"
-  },
-  "ar": {
-    "title": "عنوان جذاب بالعربية",
-    "tag": "فئة قصيرة",
-    "excerpt": "ملخص بجملة أو جملتين (أقل من 180 حرف)",
-    "body": "<h2>عنوان القسم</h2><p>فقرة...</p>"
+  try {
+    const res = await fetch(
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(keyword)}&per_page=1&orientation=landscape`,
+      { headers: { Authorization: key } }
+    );
+    if (!res.ok) return null;
+    const json = await res.json() as { photos?: Array<{ src?: { large2x?: string } }> };
+    return json.photos?.[0]?.src?.large2x ?? null;
+  } catch {
+    return null;
   }
 }
 
-Règles impératives :
-- body : 4 à 6 sections h2, 3-4 paragraphes chacune, ~500 mots par langue
-- HTML uniquement : h2, p, strong, ul, li (pas de h1, div, script, style)
-- Mention naturelle d'EasyDigia dans la conclusion avec invitation à contacter
-- Ton professionnel mais accessible, adapté aux dirigeants de PME
-- JSON strictement valide, sans échappements inutiles`;
+async function resolveImage(keyword: string, category: string): Promise<string> {
+  const pexels = await fetchPexelsImage(keyword);
+  if (pexels) return pexels;
+  return FALLBACK_IMAGES[category] ?? FALLBACK_IMAGES.ai;
+}
+
+function buildArticlePrompt(topic: string): string {
+  return `Tu es un rédacteur expert senior pour EasyDigia, une agence IA et automatisation basée à Marrakech, Maroc. Ton style : professionnel, direct, orienté résultats concrets pour les PME.
+
+Génère un article de blog complet et approfondi sur : "${topic}"
+
+Réponds UNIQUEMENT avec un objet JSON valide (aucun markdown, aucune explication, aucun bloc \`\`\`json) :
+{
+  "slug": "slug-url-francais-tirets-max-8-mots",
+  "read_min": 8,
+  "image_keyword": "mot-clé anglais pour recherche photo (ex: artificial intelligence robot office)",
+  "fr": {
+    "title": "Titre H1 accrocheur, orienté bénéfice, 8-12 mots",
+    "tag": "Catégorie courte (IA & Agents | Automatisation | Stratégie digitale | Tutoriel)",
+    "excerpt": "Résumé 2 phrases percutantes avec chiffre clé, max 200 caractères",
+    "body": "<!-- HTML complet ici -->"
+  },
+  "en": {
+    "title": "...",
+    "tag": "...",
+    "excerpt": "...",
+    "body": "<!-- HTML complet ici -->"
+  },
+  "ar": {
+    "title": "...",
+    "tag": "...",
+    "excerpt": "...",
+    "body": "<!-- HTML complet ici -->"
+  }
+}
+
+EXIGENCES POUR LE BODY (chaque langue) :
+- MINIMUM 900 mots de texte visible (hors balises HTML)
+- 7 à 9 sections H2 avec titres accrocheurs orientés bénéfice
+- Chaque section : 4 à 5 paragraphes de 3-4 phrases minimum
+- Utiliser <strong> pour les chiffres et concepts clés
+- Au moins 2 listes <ul><li> dans l'article (bénéfices, étapes, exemples)
+- Section "Conclusion et prochaines étapes" avec appel à action EasyDigia naturel
+- Chiffres concrets et exemples réels (économies de temps, ROI, pourcentages)
+- NE PAS utiliser h1, div, script, style, header, footer
+
+STRUCTURE RECOMMANDÉE :
+<h2>Introduction : contexte et enjeu</h2>
+<p>...</p>
+<h2>Pourquoi [problème] coûte cher aux PME</h2>
+<p>...<strong>3h/semaine</strong>...</p>
+<ul><li>...</li></ul>
+<h2>Comment [solution] change la donne</h2>
+<p>...</p>
+[... 4 à 6 autres sections ...]
+<h2>Conclusion : passez à l'action</h2>
+<p>...EasyDigia...</p>
+
+JSON strictement valide, chaînes échappées correctement, pas de retour à la ligne brut dans les valeurs.`;
 }
 
 export async function generateAndSaveArticle(params: {
@@ -72,11 +122,17 @@ export async function generateAndSaveArticle(params: {
   const baseSlug = article.slug || slugify(topic);
   const slug = `${baseSlug}-${Date.now().toString(36)}`;
 
+  const imageUrl = await resolveImage(
+    article.image_keyword ?? `${topic} business technology`,
+    category
+  );
+
   const record = {
     slug,
     category,
-    read_min: article.read_min ?? 6,
+    read_min: article.read_min ?? 8,
     published: false,
+    image_url: imageUrl,
     content: {
       fr: article.fr,
       en: article.en,
@@ -98,5 +154,6 @@ export async function generateAndSaveArticle(params: {
     slug: data.slug,
     title: article.fr?.title ?? topic,
     excerpt: article.fr?.excerpt ?? "",
+    imageUrl,
   };
 }
