@@ -56,8 +56,6 @@ export function Header() {
     closeTimer.current = setTimeout(() => setDropdownOpen(false), 150);
   }
 
-  const isAdmin = user?.user_metadata?.role === "admin";
-
   // Detect if current path is in the services group
   const inServicesGroup = ["/services", "/tarifs", "/realisations", "/temoignages", "/about"].some(
     (p) => pathname === p || pathname.startsWith(p + "/")
@@ -195,15 +193,6 @@ export function Header() {
         {/* Right actions desktop */}
         <div className="hidden shrink-0 items-center gap-2 lg:flex lg:ms-0">
           <LangSwitcher />
-
-          {isAdmin && (
-            <Link
-              href="/admin/blog"
-              className="rounded-lg border border-[#8FD400]/40 bg-[#8FD400]/10 px-3.5 py-2 text-[13px] font-semibold text-[#8FD400] transition hover:bg-[#8FD400]/20"
-            >
-              ⚙ Admin
-            </Link>
-          )}
 
           {user ? (
             <button
