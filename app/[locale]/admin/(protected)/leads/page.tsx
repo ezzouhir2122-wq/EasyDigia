@@ -54,6 +54,11 @@ export default function AdminLeads() {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Lead | null>(null);
   const [filter, setFilter] = useState("all");
+  const [replyOpen, setReplyOpen] = useState(false);
+  const [replySubject, setReplySubject] = useState("");
+  const [replyMessage, setReplyMessage] = useState("");
+  const [replySending, setReplySending] = useState(false);
+  const [replyStatus, setReplyStatus] = useState<"idle" | "ok" | "error">("idle");
 
   async function load() {
     setLoading(true);
@@ -64,6 +69,39 @@ export default function AdminLeads() {
   }
 
   useEffect(() => { load(); }, []);
+
+  function openReply(lead: Lead) {
+    setSelected(lead);
+    setReplySubject(`EasyDigia — Suite de votre demande`);
+    setReplyMessage(`Bonjour ${lead.name.split(" ")[0]},\n\nMerci pour votre intérêt pour EasyDigia.\n\n`);
+    setReplyOpen(true);
+    setReplyStatus("idle");
+  }
+
+  async function sendReply() {
+    if (!selected || !replyMessage.trim()) return;
+    setReplySending(true);
+    setReplyStatus("idle");
+    const res = await fetch("/api/admin/leads/reply", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        to: selected.email,
+        name: selected.name.split(" ")[0],
+        subject: replySubject,
+        message: replyMessage,
+      }),
+    });
+    const json = await res.json();
+    setReplySending(false);
+    if (json.ok) {
+      setReplyStatus("ok");
+      updateStatus(selected.id, "contacted");
+      setTimeout(() => { setReplyOpen(false); setReplyStatus("idle"); }, 2000);
+    } else {
+      setReplyStatus("error");
+    }
+  }
 
   async function updateStatus(id: string, status: string) {
     await fetch("/api/admin/leads", {
@@ -243,12 +281,55 @@ export default function AdminLeads() {
                 </div>
               </div>
 
-              <a
-                href={`mailto:${selected.email}?subject=EasyDigia — Suite de votre demande`}
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-[10px] bg-gradient-to-br from-[#8FD400] to-[#C6FF00] py-2.5 text-[13.5px] font-bold text-[#0A0B10] shadow-[0_4px_16px_rgba(143,212,0,0.3)] transition hover:opacity-90"
-              >
-                ✉ Répondre par email
-              </a>
+              {/* Formulaire de réponse */}
+              {replyOpen && selected ? (
+                <div className="mt-5 rounded-[12px] border border-[#8FD400]/20 bg-[#0A0B10] p-4">
+                  <p className="mb-3 text-[11px] uppercase tracking-[0.08em] text-[#9BA1B0]">
+                    Répondre à {selected.email}
+                  </p>
+                  <input
+                    value={replySubject}
+                    onChange={(e) => setReplySubject(e.target.value)}
+                    placeholder="Objet"
+                    className="mb-2 w-full rounded-[8px] border border-white/10 bg-[#12141C] px-3 py-2 text-[13px] text-[#F5F6FA] placeholder-[#9BA1B0]/40 outline-none focus:border-[#8FD400]/40"
+                  />
+                  <textarea
+                    value={replyMessage}
+                    onChange={(e) => setReplyMessage(e.target.value)}
+                    rows={6}
+                    placeholder="Votre message…"
+                    className="w-full rounded-[8px] border border-white/10 bg-[#12141C] px-3 py-2 text-[13px] leading-relaxed text-[#F5F6FA] placeholder-[#9BA1B0]/40 outline-none focus:border-[#8FD400]/40"
+                  />
+                  {replyStatus === "ok" && (
+                    <p className="mt-2 text-[12px] text-[#8FD400]">✅ Email envoyé avec succès !</p>
+                  )}
+                  {replyStatus === "error" && (
+                    <p className="mt-2 text-[12px] text-red-400">❌ Erreur d'envoi. Réessayez.</p>
+                  )}
+                  <div className="mt-3 flex gap-2">
+                    <button
+                      onClick={sendReply}
+                      disabled={replySending || !replyMessage.trim()}
+                      className="flex-1 rounded-[8px] bg-gradient-to-br from-[#8FD400] to-[#C6FF00] py-2 text-[13px] font-bold text-[#0A0B10] transition hover:opacity-90 disabled:opacity-50"
+                    >
+                      {replySending ? "Envoi…" : "✉ Envoyer"}
+                    </button>
+                    <button
+                      onClick={() => setReplyOpen(false)}
+                      className="rounded-[8px] border border-white/10 px-4 py-2 text-[12px] text-[#9BA1B0] transition hover:text-[#F5F6FA]"
+                    >
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => openReply(selected)}
+                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-[10px] bg-gradient-to-br from-[#8FD400] to-[#C6FF00] py-2.5 text-[13.5px] font-bold text-[#0A0B10] shadow-[0_4px_16px_rgba(143,212,0,0.3)] transition hover:opacity-90"
+                >
+                  ✉ Répondre par email
+                </button>
+              )}
             </div>
           )}
         </div>
