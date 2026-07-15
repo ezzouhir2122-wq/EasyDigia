@@ -3,32 +3,33 @@
 import { useEffect, useState } from "react";
 
 const ENTRIES = [
-  { name: "Rachid B.",    action: "vient de demander un audit",        city: "Marrakech",    ago: "il y a 2h" },
-  { name: "Fatima Z.",    action: "a contacté EasyDigia",              city: "Casablanca",   ago: "il y a 45 min" },
-  { name: "Karim M.",     action: "vient de demander un devis",        city: "Agadir",       ago: "il y a 3h" },
-  { name: "Youssef A.",   action: "vient de demander un audit IA",     city: "Rabat",        ago: "il y a 1h" },
-  { name: "Sara L.",      action: "a demandé une démo chatbot",        city: "Tanger",       ago: "il y a 30 min" },
+  { name: "Fatima Z.",    action: "a contacté EasyDigia",              city: "Casablanca",   ago: "il y a 10 min" },
+  { name: "Karim M.",     action: "vient de demander un devis",        city: "Agadir",       ago: "il y a 15 min" },
   { name: "Nadia E.",     action: "a réservé une consultation",        city: "Casablanca",   ago: "il y a 20 min" },
-  { name: "Omar H.",      action: "vient de demander un audit",        city: "Fès",          ago: "il y a 4h" },
-  { name: "Zineb R.",     action: "a demandé une démo automatisation", city: "Rabat",        ago: "il y a 55 min" },
-  { name: "Amine T.",     action: "a démarré un projet IA",            city: "Marrakech",    ago: "il y a 2h" },
-  { name: "Hasnaa K.",    action: "a contacté EasyDigia",              city: "Meknès",       ago: "il y a 1h30" },
-  { name: "Mehdi O.",     action: "vient de demander un devis",        city: "Tanger",       ago: "hier" },
-  { name: "Loubna S.",    action: "a demandé une démo chatbot",        city: "Agadir",       ago: "il y a 6h" },
-  { name: "Tariq B.",     action: "a réservé une consultation",        city: "Oujda",        ago: "il y a 3h" },
-  { name: "Salma F.",     action: "vient de demander un audit IA",     city: "Casablanca",   ago: "il y a 40 min" },
-  { name: "Hamza D.",     action: "a démarré un projet automation",    city: "Rabat",        ago: "il y a 5h" },
-  { name: "Imane W.",     action: "a contacté EasyDigia",              city: "Marrakech",    ago: "il y a 1h" },
-  { name: "Khalid N.",    action: "vient de demander un audit",        city: "El Jadida",    ago: "il y a 2h30" },
-  { name: "Meryem A.",    action: "a demandé une démo automatisation", city: "Kénitra",      ago: "il y a 50 min" },
-  { name: "Iliass C.",    action: "vient de demander un devis",        city: "Tétouan",      ago: "hier" },
-  { name: "Dounia M.",    action: "a réservé une consultation",        city: "Casablanca",   ago: "il y a 15 min" },
-  { name: "Soufiane G.",  action: "a demandé une démo chatbot",        city: "Fès",          ago: "il y a 3h" },
+  { name: "Youssef A.",   action: "vient de demander un audit IA",     city: "Rabat",        ago: "il y a 25 min" },
+  { name: "Sara L.",      action: "a demandé une démo chatbot",        city: "Tanger",       ago: "il y a 30 min" },
   { name: "Chaimaa R.",   action: "vient de demander un audit IA",     city: "Marrakech",    ago: "il y a 35 min" },
+  { name: "Salma F.",     action: "vient de demander un audit IA",     city: "Casablanca",   ago: "il y a 40 min" },
+  { name: "Zineb R.",     action: "a demandé une démo automatisation", city: "Rabat",        ago: "il y a 45 min" },
+  { name: "Meryem A.",    action: "a demandé une démo automatisation", city: "Kénitra",      ago: "il y a 50 min" },
+  { name: "Rachid B.",    action: "vient de demander un audit",        city: "Marrakech",    ago: "il y a 60 min" },
+  { name: "Imane W.",     action: "a contacté EasyDigia",              city: "Marrakech",    ago: "il y a 10 min" },
+  { name: "Amine T.",     action: "a démarré un projet IA",            city: "Marrakech",    ago: "il y a 25 min" },
+  { name: "Dounia M.",    action: "a réservé une consultation",        city: "Casablanca",   ago: "il y a 15 min" },
+  { name: "Omar H.",      action: "vient de demander un audit",        city: "Fès",          ago: "il y a 35 min" },
+  { name: "Hasnaa K.",    action: "a contacté EasyDigia",              city: "Meknès",       ago: "il y a 20 min" },
+  { name: "Tariq B.",     action: "a réservé une consultation",        city: "Oujda",        ago: "il y a 50 min" },
+  { name: "Mehdi O.",     action: "vient de demander un devis",        city: "Tanger",       ago: "il y a 30 min" },
+  { name: "Loubna S.",    action: "a demandé une démo chatbot",        city: "Agadir",       ago: "il y a 45 min" },
+  { name: "Hamza D.",     action: "a démarré un projet automation",    city: "Rabat",        ago: "il y a 60 min" },
+  { name: "Khalid N.",    action: "vient de demander un audit",        city: "El Jadida",    ago: "il y a 25 min" },
+  { name: "Soufiane G.",  action: "a demandé une démo chatbot",        city: "Fès",          ago: "il y a 40 min" },
+  { name: "Iliass C.",    action: "vient de demander un devis",        city: "Tétouan",      ago: "il y a 15 min" },
 ];
 
 export function FomoNotification() {
-  const [index, setIndex] = useState(0);
+  // Démarrer aléatoirement pour ne pas toujours commencer par la même personne
+  const [index, setIndex] = useState(() => Math.floor(Math.random() * ENTRIES.length));
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
