@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Button } from "./Button";
 
 export function ContactForm() {
   const t = useTranslations("contact");
@@ -68,9 +67,13 @@ export function ContactForm() {
         {t("message")}
         <textarea name="message" required rows={5} className={field} />
       </label>
-      <Button type="submit" disabled={status === "sending"}>
+      <button
+        type="submit"
+        disabled={status === "sending"}
+        className="rounded-lg bg-gradient-to-br from-brand to-brand-deep px-6 py-3 font-semibold text-white shadow-[0_4px_20px_rgba(143,212,0,0.35)] transition hover:opacity-90 disabled:opacity-60"
+      >
         {status === "sending" ? "Envoi en cours…" : t("submit")}
-      </Button>
+      </button>
       {status === "error" && <p className="text-red-400">{t("error")}</p>}
     </form>
   );
