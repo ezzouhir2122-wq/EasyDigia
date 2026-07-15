@@ -14,7 +14,6 @@ const SERVICES_DROPDOWN = [
   { href: "/tarifs",       icon: "💰",  labelKey: "tarifs" },
   { href: "/realisations", icon: "🏆",  labelKey: "realisations" },
   { href: "/temoignages",  icon: "💬",  labelKey: "temoignages" },
-  { href: "/about",        icon: "🏢",  labelKey: "about" },
 ] as const;
 
 export function Header() {
@@ -103,6 +102,14 @@ export function Header() {
             className="text-[14.5px] font-medium text-muted transition hover:text-ink"
           >
             {t("home")}
+          </Link>
+
+          {/* À propos */}
+          <Link
+            href="/about"
+            className="text-[14.5px] font-medium text-muted transition hover:text-ink"
+          >
+            {t("about")}
           </Link>
 
           {/* Services dropdown */}
