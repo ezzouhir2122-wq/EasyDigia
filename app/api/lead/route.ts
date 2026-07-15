@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       const resend = new Resend(resendKey);
       const result = await resend.emails.send({
         from: "EasyDigia <contact@easydigia.com>",
-        to: process.env.RESEND_TO_EMAIL ?? "contact@easydigia.com",
+        to: process.env.RESEND_TO_EMAIL ?? "ezzouhir2122@gmail.com",
         subject: `Nouveau contact — ${name}${company ? ` (${company})` : ""}`,
         html: `
           <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0A0B10;color:#F5F6FA;padding:32px;border-radius:12px">

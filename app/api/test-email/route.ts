@@ -9,7 +9,7 @@ export async function GET() {
 
   const send = await resend.emails.send({
     from: "EasyDigia <contact@easydigia.com>",
-    to: process.env.RESEND_TO_EMAIL ?? "contact@easydigia.com",
+    to: process.env.RESEND_TO_EMAIL ?? "ezzouhir2122@gmail.com",
     subject: "✅ Test boîte contact@easydigia.com",
     html: `
       <div style="font-family:sans-serif;max-width:500px;margin:0 auto;background:#0A0B10;color:#F5F6FA;padding:32px;border-radius:12px">
