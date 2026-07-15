@@ -46,10 +46,10 @@ export function Footer() {
             </div>
             <div className="flex flex-col gap-2.5">
               <a
-                href="mailto:Contact@EasyDigia.com"
+                href="mailto:contact@easydigia.com"
                 className="text-[14px] text-muted hover:text-ink"
               >
-                Contact@EasyDigia.com
+                contact@easydigia.com
               </a>
               <span className="text-[14px] text-muted">+212 781 995 665</span>
               <span className="text-[14px] text-muted">{t("city")}</span>

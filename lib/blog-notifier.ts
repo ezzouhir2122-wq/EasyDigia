@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const FROM = "EasyDigia <noreply@easydigia.com>";
+const FROM = "EasyDigia <contact@easydigia.com>";
 const ADMIN_URL = "https://easydigia.com/fr/admin/blog";
 
 function getTo(): string {
