@@ -5,10 +5,10 @@ import Anthropic from "@anthropic-ai/sdk";
 export type Provider = "grok" | "gemini" | "claude";
 
 export function detectProvider(): Provider {
+  if (process.env.ANTHROPIC_API_KEY) return "claude";
   if (process.env.GROK_API_KEY) return "grok";
   if (process.env.GEMINI_API_KEY) return "gemini";
-  if (process.env.ANTHROPIC_API_KEY) return "claude";
-  throw new Error("Aucune clé API IA configurée (GROK_API_KEY, GEMINI_API_KEY ou ANTHROPIC_API_KEY)");
+  throw new Error("Aucune clé API IA configurée (ANTHROPIC_API_KEY, GROK_API_KEY ou GEMINI_API_KEY)");
 }
 
 export async function generateWithAI(prompt: string, provider: Provider): Promise<string> {
