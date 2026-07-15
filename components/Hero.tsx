@@ -1,7 +1,9 @@
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { Button } from "./Button";
 import { Link } from "@/i18n/navigation";
 import { Orbs } from "./Orbs";
+import availability from "@/config/availability";
 
 export function Hero() {
   const t = useTranslations("home");
@@ -11,6 +13,12 @@ export function Hero() {
       <div className="relative z-[5] mx-auto grid max-w-[1200px] items-center gap-12 px-[6vw] py-20 md:py-28 lg:grid-cols-[1.05fr_0.95fr]">
         {/* Left: copy */}
         <div>
+          {availability.slots > 0 && (
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/[0.07] px-3.5 py-1.5 font-mono text-[11.5px] text-emerald-400">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
+              {availability.slots} {availability.label}
+            </div>
+          )}
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/[0.08] px-3.5 py-1.5 font-mono text-[12px] uppercase tracking-[0.08em] text-brand-bright">
             <span className="h-1.5 w-1.5 animate-glow rounded-full bg-brand-bright" />
             {t("kicker")}
@@ -33,9 +41,12 @@ export function Hero() {
         {/* Right: hero visual */}
         <div className="relative hidden lg:block">
           <div className="absolute -inset-6 rounded-3xl bg-brand/10 blur-3xl" />
-          <img
+          <Image
             src="/hero-banner.png"
             alt="EasyDigia — réseau d'agents IA interconnectés"
+            width={660}
+            height={440}
+            priority
             className="relative z-10 w-full rounded-2xl border border-white/10 shadow-[0_24px_80px_rgba(143,212,0,0.18)]"
           />
         </div>

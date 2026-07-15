@@ -204,21 +204,19 @@ export default function Realisations() {
 
               <div className="flex flex-1 flex-col p-6">
                 {/* Header */}
-                <div className="mb-4 flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[12px] bg-[#8FD400]/10 text-[22px]">
-                      {p.icon}
-                    </span>
-                    <div>
-                      <p className="font-heading text-[16px] font-bold text-[#F5F6FA]">
-                        {p.name}
-                      </p>
-                      <p className="text-[12px] text-[#9BA1B0]">{p.sector}</p>
-                    </div>
-                  </div>
-                  <span className="shrink-0 rounded-full border border-[#8FD400]/25 bg-[#8FD400]/[0.07] px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.06em] text-[#C6FF00]">
-                    {p.tag}
+                <div className="mb-4 flex items-start gap-3">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[12px] bg-[#8FD400]/10 text-[22px]">
+                    {p.icon}
                   </span>
+                  <div className="min-w-0">
+                    <span className="whitespace-nowrap rounded-full border border-[#8FD400]/25 bg-[#8FD400]/[0.07] px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.06em] text-[#C6FF00]">
+                      {p.tag}
+                    </span>
+                    <p className="mt-1 font-heading text-[16px] font-bold text-[#F5F6FA]">
+                      {p.name}
+                    </p>
+                    <p className="whitespace-nowrap text-[12px] text-[#9BA1B0]">{p.sector}</p>
+                  </div>
                 </div>
 
                 {/* Title + desc */}
