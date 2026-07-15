@@ -1,5 +1,6 @@
 import { generateWithAI, detectProvider, type Provider } from "@/lib/ai-providers";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { jsonrepair } from "jsonrepair";
 
 export interface GeneratedArticleResult {
   id: number;
@@ -114,10 +115,10 @@ export async function generateAndSaveArticle(params: {
   const selectedProvider = provider ?? detectProvider();
   const raw = await generateWithAI(buildArticlePrompt(topic), selectedProvider);
 
-  const jsonStr = raw.includes("{")
+  const extracted = raw.includes("{")
     ? raw.slice(raw.indexOf("{"), raw.lastIndexOf("}") + 1)
     : raw;
-  const article = JSON.parse(jsonStr);
+  const article = JSON.parse(jsonrepair(extracted));
 
   const baseSlug = article.slug || slugify(topic);
   const slug = `${baseSlug}-${Date.now().toString(36)}`;
