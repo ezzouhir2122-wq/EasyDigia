@@ -92,12 +92,12 @@ export function Header() {
         </Link>
 
         {/* Nav desktop */}
-        <nav className="mx-auto hidden items-center gap-7 lg:flex">
+        <nav className="mx-auto hidden items-center gap-8 lg:flex">
 
           {/* Accueil */}
           <Link
             href="/"
-            className="text-[14.5px] font-medium text-muted transition hover:text-ink"
+            className="relative text-[15px] font-semibold tracking-wide text-[#C8CDD8] transition-colors duration-200 hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-gradient-to-r after:from-[#8FD400] after:to-[#C6FF00] after:transition-all after:duration-300 hover:after:w-full"
           >
             {t("home")}
           </Link>
@@ -105,7 +105,7 @@ export function Header() {
           {/* À propos */}
           <Link
             href="/about"
-            className="text-[14.5px] font-medium text-muted transition hover:text-ink"
+            className="relative text-[15px] font-semibold tracking-wide text-[#C8CDD8] transition-colors duration-200 hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-gradient-to-r after:from-[#8FD400] after:to-[#C6FF00] after:transition-all after:duration-300 hover:after:w-full"
           >
             {t("about")}
           </Link>
@@ -119,15 +119,15 @@ export function Header() {
           >
             <button
               onClick={() => setDropdownOpen((o) => !o)}
-              className={`flex items-center gap-1.5 text-[14.5px] font-medium transition hover:text-ink ${inServicesGroup ? "text-ink" : "text-muted"}`}
+              className={`flex items-center gap-1.5 text-[15px] font-semibold tracking-wide transition-colors duration-200 ${inServicesGroup ? "text-white" : "text-[#C8CDD8] hover:text-white"}`}
               aria-haspopup="true"
               aria-expanded={dropdownOpen}
             >
               {t("services")}
               <svg
                 width="12" height="12" viewBox="0 0 12 12" fill="none"
-                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                className={`transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}
+                stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                className={`transition-transform duration-200 ${dropdownOpen ? "rotate-180 text-[#8FD400]" : ""}`}
               >
                 <polyline points="2,4 6,8 10,4" />
               </svg>
@@ -136,19 +136,17 @@ export function Header() {
             {/* Dropdown panel */}
             {dropdownOpen && (
               <div
-                className="absolute left-1/2 top-full mt-3 w-[220px] -translate-x-1/2 overflow-hidden rounded-[14px] border border-white/[0.08] bg-[#12141C] shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+                className="absolute left-1/2 top-full mt-3 w-[230px] -translate-x-1/2 overflow-hidden rounded-[14px] border border-white/[0.08] bg-[#12141C] shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
                 onMouseEnter={openDropdown}
                 onMouseLeave={scheduleClose}
               >
-                {/* Decorative top line */}
-                <div className="h-[2px] w-full bg-gradient-to-r from-brand to-brand-bright" />
-
+                <div className="h-[2px] w-full bg-gradient-to-r from-[#8FD400] to-[#C6FF00]" />
                 <ul className="p-2">
                   {SERVICES_DROPDOWN.map((item) => (
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="flex items-center gap-3 rounded-[8px] px-3 py-2.5 text-[13.5px] font-medium text-muted transition hover:bg-white/[0.05] hover:text-ink"
+                        className="flex items-center gap-3 rounded-[8px] px-3 py-2.5 text-[13.5px] font-semibold text-[#C8CDD8] transition hover:bg-white/[0.06] hover:text-white"
                       >
                         <span className="text-[15px]">{item.icon}</span>
                         {t(item.labelKey)}
@@ -165,7 +163,7 @@ export function Header() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-[14.5px] font-medium text-muted transition hover:text-ink"
+              className="relative text-[15px] font-semibold tracking-wide text-[#C8CDD8] transition-colors duration-200 hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-gradient-to-r after:from-[#8FD400] after:to-[#C6FF00] after:transition-all after:duration-300 hover:after:w-full"
             >
               {l.label}
             </Link>
