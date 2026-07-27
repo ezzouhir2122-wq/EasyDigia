@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans, IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -136,7 +136,13 @@ export default async function LocaleLayout({
           <CookieBanner />
         </NextIntlClientProvider>
       </body>
-      <GoogleAnalytics gaId="G-MVS5Q9S2DC" />
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-MVS5Q9S2DC"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-MVS5Q9S2DC');`}
+      </Script>
     </html>
   );
 }

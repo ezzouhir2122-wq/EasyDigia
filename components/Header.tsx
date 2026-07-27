@@ -61,14 +61,6 @@ export function Header() {
     (p) => pathname === p || pathname.startsWith(p + "/")
   );
 
-  // Main nav — 5 items on desktop
-  const mainLinks = [
-    { href: "/",       label: t("home") },
-    { href: "/blog",   label: t("blog") },
-    { href: "/faq",    label: t("faq") },
-    { href: "/contact",label: t("contact") },
-  ];
-
   // All links for mobile drawer
   const allMobileLinks = [
     { href: "/",             label: t("home") },
@@ -95,40 +87,26 @@ export function Header() {
         <nav className="mx-auto hidden items-center gap-8 lg:flex">
 
           {/* Accueil */}
-          <Link
-            href="/"
-            className="relative text-[15px] font-semibold tracking-wide text-[#C8CDD8] transition-colors duration-200 hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-gradient-to-r after:from-[#8FD400] after:to-[#C6FF00] after:transition-all after:duration-300 hover:after:w-full"
-          >
+          <Link href="/" className="nav-link text-[#8FD400] hover:text-[#C6FF00]">
             {t("home")}
           </Link>
 
           {/* À propos */}
-          <Link
-            href="/about"
-            className="relative text-[15px] font-semibold tracking-wide text-[#C8CDD8] transition-colors duration-200 hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-gradient-to-r after:from-[#8FD400] after:to-[#C6FF00] after:transition-all after:duration-300 hover:after:w-full"
-          >
+          <Link href="/about" className="nav-link text-[#8FD400] hover:text-[#C6FF00]">
             {t("about")}
           </Link>
 
           {/* Services dropdown */}
-          <div
-            ref={dropdownRef}
-            className="relative"
-            onMouseEnter={openDropdown}
-            onMouseLeave={scheduleClose}
-          >
+          <div ref={dropdownRef} className="relative" onMouseEnter={openDropdown} onMouseLeave={scheduleClose}>
             <button
               onClick={() => setDropdownOpen((o) => !o)}
-              className={`flex items-center gap-1.5 text-[15px] font-semibold tracking-wide transition-colors duration-200 ${inServicesGroup ? "text-white" : "text-[#C8CDD8] hover:text-white"}`}
+              className={`nav-link flex items-center gap-1.5 text-[#8FD400] hover:text-[#C6FF00] ${inServicesGroup ? "text-[#C6FF00]" : ""}`}
               aria-haspopup="true"
               aria-expanded={dropdownOpen}
             >
               {t("services")}
-              <svg
-                width="12" height="12" viewBox="0 0 12 12" fill="none"
-                stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                className={`transition-transform duration-200 ${dropdownOpen ? "rotate-180 text-[#8FD400]" : ""}`}
-              >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                className={`transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}>
                 <polyline points="2,4 6,8 10,4" />
               </svg>
             </button>
@@ -144,10 +122,7 @@ export function Header() {
                 <ul className="p-2">
                   {SERVICES_DROPDOWN.map((item) => (
                     <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        className="flex items-center gap-3 rounded-[8px] px-3 py-2.5 text-[13.5px] font-semibold text-[#C8CDD8] transition hover:bg-white/[0.06] hover:text-white"
-                      >
+                      <Link href={item.href} className="flex items-center gap-3 rounded-[8px] px-3 py-2.5 text-[13.5px] font-semibold text-[#C8CDD8] transition hover:bg-white/[0.06] hover:text-white">
                         <span className="text-[15px]">{item.icon}</span>
                         {t(item.labelKey)}
                       </Link>
@@ -158,16 +133,20 @@ export function Header() {
             )}
           </div>
 
-          {/* Blog, FAQ, Contact */}
-          {mainLinks.slice(1).map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="relative text-[15px] font-semibold tracking-wide text-[#C8CDD8] transition-colors duration-200 hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-gradient-to-r after:from-[#8FD400] after:to-[#C6FF00] after:transition-all after:duration-300 hover:after:w-full"
-            >
-              {l.label}
-            </Link>
-          ))}
+          {/* Blog */}
+          <Link href="/blog" className="nav-link text-[#8FD400] hover:text-[#C6FF00]">
+            {t("blog")}
+          </Link>
+
+          {/* FAQ */}
+          <Link href="/faq" className="nav-link text-[#8FD400] hover:text-[#C6FF00]">
+            {t("faq")}
+          </Link>
+
+          {/* Contact */}
+          <Link href="/contact" className="nav-link text-[#8FD400] hover:text-[#C6FF00]">
+            {t("contact")}
+          </Link>
         </nav>
 
         {/* Hamburger — mobile only */}

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getAllPseoSlugs } from "@/config/pseo-data";
 
 const BASE_URL = "https://easydigia.com";
 const LOCALES = ["fr", "en", "ar"];
@@ -25,5 +26,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       });
     }
   }
+  // Programmatic SEO pages (solutions)
+  for (const slug of getAllPseoSlugs()) {
+    entries.push({
+      url: `${BASE_URL}/fr/solutions/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.75,
+    });
+  }
+
   return entries;
 }
