@@ -38,6 +38,9 @@
   ],
   "exclude": [
     "node_modules",
-    "EasyDigia"
+    "EasyDigia",
+    "src",
+    "geo-seo-blog-engine-system",
+    "tests"
   ]
 }
