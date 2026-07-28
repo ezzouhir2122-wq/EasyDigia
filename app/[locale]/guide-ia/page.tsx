@@ -66,7 +66,7 @@ export default function GuideIAPage() {
           </div>
 
           {/* Right — form */}
-          <div className="rounded-[20px] border border-white/[0.08] bg-white/[0.03] p-8">
+          <div id="formulaire" className="rounded-[20px] border border-white/[0.08] bg-white/[0.03] p-8">
             <h2 className="mb-2 text-[20px] font-bold text-ink">
               Recevez votre guide gratuitement
             </h2>
@@ -136,11 +136,7 @@ export default function GuideIAPage() {
             Téléchargez le guide et recevez votre audit gratuit de 30 minutes offert par notre équipe.
           </p>
           <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+            href="#formulaire"
             className="inline-block rounded-[10px] bg-gradient-to-br from-brand to-[#C6FF00] px-8 py-3.5 text-[15px] font-bold text-[#0A0B10] shadow-[0_4px_24px_rgba(143,212,0,0.4)] transition hover:opacity-90"
           >
             Télécharger le guide →
