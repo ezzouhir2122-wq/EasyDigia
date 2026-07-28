@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllPseoSlugs } from "@/config/pseo-data";
 
-const BASE_URL = "https://easydigia.com";
+const BASE_URL = "https://www.easydigia.com";
 const LOCALES = ["fr", "en", "ar"];
 const ROUTES = [
   { path: "", priority: 1.0, changeFrequency: "weekly" as const },
