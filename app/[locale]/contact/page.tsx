@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Container } from "@/components/Container";
 import { ContactForm } from "@/components/ContactForm";
+import { GuideCTA } from "@/components/GuideCTA";
 
 export default function Contact() {
   const t = useTranslations("contact");
@@ -31,6 +32,7 @@ export default function Contact() {
       </div>
 
       <ContactForm />
+      <GuideCTA />
     </Container>
   );
 }

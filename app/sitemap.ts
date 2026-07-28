@@ -26,6 +26,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       });
     }
   }
+  // Landing page guide IA
+  entries.push({
+    url: `${BASE_URL}/fr/guide-ia`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.85,
+  });
+
   // Programmatic SEO pages (solutions)
   for (const slug of getAllPseoSlugs()) {
     entries.push({

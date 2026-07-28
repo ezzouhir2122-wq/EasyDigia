@@ -3,6 +3,7 @@ import { Hero } from "@/components/Hero";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Link } from "@/i18n/navigation";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
+import { GuideCTA } from "@/components/GuideCTA";
 
 export default function Home() {
   const t = useTranslations("home");
@@ -188,6 +189,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <GuideCTA />
     </>
   );
 }

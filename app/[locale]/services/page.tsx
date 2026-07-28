@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { Orbs } from "@/components/Orbs";
+import { GuideCTA } from "@/components/GuideCTA";
 
 export const metadata: Metadata = {
   title: "Nos services — Automatisation, IA & Digital | EasyDigia",
@@ -145,6 +146,8 @@ export default function Services() {
           {t("ctaButton")}
         </Link>
       </section>
+
+      <GuideCTA />
     </div>
   );
 }
