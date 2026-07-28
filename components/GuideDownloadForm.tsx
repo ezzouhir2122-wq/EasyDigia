@@ -22,14 +22,6 @@ export function GuideDownloadForm() {
       if (!data.ok) throw new Error("api error");
 
       setStatus("success");
-
-      // Trigger download automatically
-      const link = document.createElement("a");
-      link.href = "/guide-ia-easydigia.pdf";
-      link.download = "Guide-IA-EasyDigia-2025.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     } catch {
       setStatus("error");
     }
@@ -38,18 +30,14 @@ export function GuideDownloadForm() {
   if (status === "success") {
     return (
       <div className="rounded-[16px] border border-brand/30 bg-brand/10 p-8 text-center">
-        <div className="mb-3 text-[40px]">✅</div>
-        <h3 className="mb-2 text-[20px] font-bold text-ink">Votre guide est en cours de téléchargement !</h3>
-        <p className="mb-6 text-[14px] text-muted">
-          Si le téléchargement ne démarre pas automatiquement, cliquez ci-dessous.
+        <div className="mb-3 text-[40px]">📩</div>
+        <h3 className="mb-2 text-[20px] font-bold text-ink">Vérifiez votre boîte email !</h3>
+        <p className="mb-2 text-[14px] text-muted">
+          Le guide a été envoyé à <strong className="text-ink">{form.email}</strong> en pièce jointe.
         </p>
-        <a
-          href="/guide-ia-easydigia.pdf"
-          download="Guide-IA-EasyDigia-2025.pdf"
-          className="inline-block rounded-[10px] bg-gradient-to-br from-brand to-[#C6FF00] px-6 py-3 text-[14px] font-bold text-[#0A0B10] shadow-[0_4px_20px_rgba(143,212,0,0.4)] transition hover:opacity-90"
-        >
-          Télécharger le PDF →
-        </a>
+        <p className="text-[13px] text-muted">
+          Pensez à vérifier vos spams si vous ne le recevez pas dans les 2 minutes.
+        </p>
         <p className="mt-4 text-[12px] text-muted">
           Notre équipe vous contactera sous 24h pour votre audit gratuit.
         </p>
@@ -125,7 +113,7 @@ export function GuideDownloadForm() {
         disabled={status === "loading"}
         className="w-full rounded-[10px] bg-gradient-to-br from-brand to-[#C6FF00] py-3.5 text-[15px] font-bold text-[#0A0B10] shadow-[0_4px_20px_rgba(143,212,0,0.35)] transition hover:opacity-90 disabled:opacity-60"
       >
-        {status === "loading" ? "Envoi en cours…" : "Télécharger le guide gratuitement →"}
+        {status === "loading" ? "Envoi en cours…" : "Recevoir le guide par email →"}
       </button>
 
       <p className="text-center text-[11px] text-muted">
