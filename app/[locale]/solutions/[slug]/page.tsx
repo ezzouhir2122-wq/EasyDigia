@@ -10,15 +10,18 @@ import {
   PSEO_SERVICES,
   PSEO_SECTORS,
   PSEO_CITIES,
+  type PseoService,
+  type PseoSector,
+  type PseoCity,
 } from "@/config/pseo-data";
 
 type Props = { params: Promise<{ slug: string; locale: string }> };
 
 export async function generateStaticParams() {
   return [
-    ...getAllPseoSlugs(),
-    ...getAllPseoGeoSlugs(),
-  ].map((slug) => ({ slug }));
+    ...getAllPseoSlugs().map((slug) => ({ slug })),
+    ...getAllPseoGeoSlugs().map((slug) => ({ slug, locale: "fr" })),
+  ];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -63,15 +66,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 function GeoPage({
-  slug,
   service,
   sector,
   city,
 }: {
-  slug: string;
-  service: import("@/config/pseo-data").PseoService;
-  sector: import("@/config/pseo-data").PseoSector;
-  city: import("@/config/pseo-data").PseoCity;
+  service: PseoService;
+  sector: PseoSector;
+  city: PseoCity;
 }) {
   const nationalSlug = `${service.slug}-pour-${sector.slug}`;
   const otherCities = PSEO_CITIES.filter((c) => c.slug !== city.slug);
@@ -317,7 +318,7 @@ export default async function PseoPage({ params }: Props) {
   // Cas géo
   const geoPage = getPseoGeoPage(slug);
   if (geoPage) {
-    return <GeoPage slug={slug} {...geoPage} />;
+    return <GeoPage {...geoPage} />;
   }
 
   // Cas national (comportement d'origine)
