@@ -1,0 +1,11 @@
+{
+  "cronTime": "0 8 * * *",
+  "subjects": [
+    "Intelligence Artificielle en Comptabilité",
+    "Automatisation des Processus Métier",
+    "Marketing Digital et IA"
+  ],
+  "currentIndex": 0,
+  "wpStatus": "publish",
+  "articleCount": 1
+}
