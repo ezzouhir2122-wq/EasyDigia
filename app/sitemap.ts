@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllPseoSlugs } from "@/config/pseo-data";
+import { getAllPseoSlugs, getAllPseoGeoSlugs } from "@/config/pseo-data";
 
 const BASE_URL = "https://www.easydigia.com";
 const LOCALES = ["fr", "en", "ar"];
@@ -33,6 +33,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.75,
+    });
+  }
+  // Pages géo (nouvelles)
+  for (const slug of getAllPseoGeoSlugs()) {
+    entries.push({
+      url: `${BASE_URL}/fr/solutions/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.65,
     });
   }
 
