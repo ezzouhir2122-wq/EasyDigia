@@ -59,6 +59,10 @@ export default function AdminLeads() {
   const [replyMessage, setReplyMessage] = useState("");
   const [replySending, setReplySending] = useState(false);
   const [replyStatus, setReplyStatus] = useState<"idle" | "ok" | "error">("idle");
+  const [editOpen, setEditOpen] = useState(false);
+  const [editForm, setEditForm] = useState<Partial<Lead>>({});
+  const [editSaving, setEditSaving] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
 
   async function load() {
     setLoading(true);
@@ -111,6 +115,39 @@ export default function AdminLeads() {
     });
     setLeads((prev) => prev.map((l) => l.id === id ? { ...l, status } : l));
     if (selected?.id === id) setSelected((prev) => prev ? { ...prev, status } : null);
+  }
+
+  function openEdit(lead: Lead) {
+    setEditForm({ name: lead.name, email: lead.email, company: lead.company, service: lead.service, message: lead.message });
+    setEditOpen(true);
+    setDeleteConfirm(false);
+  }
+
+  async function saveEdit() {
+    if (!selected) return;
+    setEditSaving(true);
+    await fetch("/api/admin/leads", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: selected.id, ...editForm }),
+    });
+    const updated = { ...selected, ...editForm } as Lead;
+    setLeads((prev) => prev.map((l) => l.id === selected.id ? updated : l));
+    setSelected(updated);
+    setEditSaving(false);
+    setEditOpen(false);
+  }
+
+  async function deleteLead() {
+    if (!selected) return;
+    await fetch("/api/admin/leads", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: selected.id }),
+    });
+    setLeads((prev) => prev.filter((l) => l.id !== selected.id));
+    setSelected(null);
+    setDeleteConfirm(false);
   }
 
   const filtered = filter === "all" ? leads : leads.filter((l) => (l.status ?? "new") === filter);
@@ -221,13 +258,96 @@ export default function AdminLeads() {
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#8FD400]/15 text-[18px] font-bold text-[#8FD400]">
                   {selected.name[0].toUpperCase()}
                 </div>
-                <button
-                  onClick={() => setSelected(null)}
-                  className="text-[#9BA1B0] transition hover:text-[#F5F6FA]"
-                >
-                  ✕
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => { openEdit(selected); setReplyOpen(false); }}
+                    className="rounded-[7px] border border-white/10 px-2.5 py-1 text-[12px] text-[#9BA1B0] transition hover:border-[#8FD400]/40 hover:text-[#C6FF00]"
+                    title="Modifier"
+                  >
+                    ✏️ Modifier
+                  </button>
+                  <button
+                    onClick={() => { setDeleteConfirm(true); setReplyOpen(false); setEditOpen(false); }}
+                    className="rounded-[7px] border border-red-500/20 px-2.5 py-1 text-[12px] text-red-400 transition hover:border-red-500/50 hover:bg-red-500/10"
+                    title="Supprimer"
+                  >
+                    🗑
+                  </button>
+                  <button
+                    onClick={() => { setSelected(null); setEditOpen(false); setDeleteConfirm(false); }}
+                    className="text-[#9BA1B0] transition hover:text-[#F5F6FA]"
+                  >
+                    ✕
+                  </button>
+                </div>
               </div>
+
+              {/* Confirmation suppression */}
+              {deleteConfirm && (
+                <div className="mb-4 rounded-[10px] border border-red-500/30 bg-red-500/10 p-4">
+                  <p className="mb-3 text-[13px] text-red-300">Supprimer ce lead définitivement ?</p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={deleteLead}
+                      className="rounded-[7px] bg-red-500 px-4 py-1.5 text-[12px] font-bold text-white transition hover:bg-red-600"
+                    >
+                      Supprimer
+                    </button>
+                    <button
+                      onClick={() => setDeleteConfirm(false)}
+                      className="rounded-[7px] border border-white/10 px-4 py-1.5 text-[12px] text-[#9BA1B0] transition hover:text-[#F5F6FA]"
+                    >
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Formulaire d'édition */}
+              {editOpen && (
+                <div className="mb-4 rounded-[12px] border border-[#8FD400]/20 bg-[#0A0B10] p-4 space-y-2">
+                  <p className="mb-2 text-[11px] uppercase tracking-[0.08em] text-[#9BA1B0]">Modifier le lead</p>
+                  {[
+                    { key: "name", label: "Nom" },
+                    { key: "email", label: "Email" },
+                    { key: "company", label: "Société" },
+                    { key: "service", label: "Service" },
+                  ].map(({ key, label }) => (
+                    <div key={key}>
+                      <label className="mb-1 block text-[11px] text-[#9BA1B0]">{label}</label>
+                      <input
+                        value={(editForm as Record<string, string>)[key] ?? ""}
+                        onChange={(e) => setEditForm((f) => ({ ...f, [key]: e.target.value }))}
+                        className="w-full rounded-[8px] border border-white/10 bg-[#12141C] px-3 py-2 text-[13px] text-[#F5F6FA] outline-none focus:border-[#8FD400]/40"
+                      />
+                    </div>
+                  ))}
+                  <div>
+                    <label className="mb-1 block text-[11px] text-[#9BA1B0]">Message</label>
+                    <textarea
+                      rows={4}
+                      value={editForm.message ?? ""}
+                      onChange={(e) => setEditForm((f) => ({ ...f, message: e.target.value }))}
+                      className="w-full rounded-[8px] border border-white/10 bg-[#12141C] px-3 py-2 text-[13px] text-[#F5F6FA] outline-none focus:border-[#8FD400]/40"
+                    />
+                  </div>
+                  <div className="flex gap-2 pt-1">
+                    <button
+                      onClick={saveEdit}
+                      disabled={editSaving}
+                      className="flex-1 rounded-[8px] bg-gradient-to-br from-[#8FD400] to-[#C6FF00] py-2 text-[13px] font-bold text-[#0A0B10] transition hover:opacity-90 disabled:opacity-50"
+                    >
+                      {editSaving ? "Sauvegarde…" : "Enregistrer"}
+                    </button>
+                    <button
+                      onClick={() => setEditOpen(false)}
+                      className="rounded-[8px] border border-white/10 px-4 py-2 text-[12px] text-[#9BA1B0] transition hover:text-[#F5F6FA]"
+                    >
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              )}
 
               <h3 className="text-[17px] font-semibold">{selected.name}</h3>
               <a href={`mailto:${selected.email}`} className="mt-0.5 block text-[13px] text-[#8FD400] hover:underline">

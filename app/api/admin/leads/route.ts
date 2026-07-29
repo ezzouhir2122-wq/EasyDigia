@@ -26,9 +26,24 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ ok: false }, { status: 401 });
   }
 
-  const { id, status } = await req.json() as { id: string; status: string };
+  const body = await req.json() as { id: string; status?: string; name?: string; email?: string; company?: string; service?: string; message?: string };
+  const { id, ...fields } = body;
   const admin = getSupabaseAdmin();
-  const { error } = await admin.from("leads").update({ status }).eq("id", id);
+  const { error } = await admin.from("leads").update(fields).eq("id", id);
+  if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+  return NextResponse.json({ ok: true });
+}
+
+export async function DELETE(req: Request) {
+  const supabase = await createSupabaseServer();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user?.user_metadata?.role !== "admin") {
+    return NextResponse.json({ ok: false }, { status: 401 });
+  }
+
+  const { id } = await req.json() as { id: string };
+  const admin = getSupabaseAdmin();
+  const { error } = await admin.from("leads").delete().eq("id", id);
   if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });
 }
