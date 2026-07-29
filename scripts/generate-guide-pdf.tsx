@@ -5,9 +5,20 @@ import {
   Text,
   View,
   StyleSheet,
+  Font,
   renderToFile,
 } from "@react-pdf/renderer";
 import path from "path";
+
+// ─── Fonts ───────────────────────────────────────────────────────────────────
+Font.register({
+  family: "Inter",
+  fonts: [
+    { src: path.resolve(process.cwd(), "public/fonts/Arial-Regular.ttf"), fontWeight: 400 },
+    { src: path.resolve(process.cwd(), "public/fonts/Arial-Bold.ttf"),    fontWeight: 700 },
+    { src: path.resolve(process.cwd(), "public/fonts/Arial-Italic.ttf"),  fontStyle: "italic" },
+  ],
+});
 
 // ─── Palette ────────────────────────────────────────────────────────────────
 const C = {
@@ -25,7 +36,7 @@ const s = StyleSheet.create({
   page: {
     backgroundColor: C.dark,
     color: C.ink,
-    fontFamily: "Helvetica",
+    fontFamily: "Inter",
     paddingBottom: 58,
   },
 
@@ -48,12 +59,12 @@ const s = StyleSheet.create({
     paddingVertical: 4,
     fontSize: 9,
     color: C.brand,
-    fontFamily: "Helvetica-Bold",
+    fontWeight: 700,
     letterSpacing: 1,
   },
   h1: {
     fontSize: 30,
-    fontFamily: "Helvetica-Bold",
+    fontWeight: 700,
     color: C.ink,
     lineHeight: 1.2,
     marginBottom: 14,
@@ -80,7 +91,7 @@ const s = StyleSheet.create({
   section: { paddingHorizontal: 48, paddingTop: 28 },
   sectionLabel: {
     fontSize: 8.5,
-    fontFamily: "Helvetica-Bold",
+    fontWeight: 700,
     color: C.brand,
     letterSpacing: 1.5,
     textTransform: "uppercase",
@@ -88,14 +99,14 @@ const s = StyleSheet.create({
   },
   h2: {
     fontSize: 18,
-    fontFamily: "Helvetica-Bold",
+    fontWeight: 700,
     color: C.ink,
     marginBottom: 10,
     lineHeight: 1.25,
   },
   h3: {
     fontSize: 12,
-    fontFamily: "Helvetica-Bold",
+    fontWeight: 700,
     color: C.ink,
     marginBottom: 4,
   },
@@ -124,7 +135,7 @@ const s = StyleSheet.create({
   },
   statValue: {
     fontSize: 22,
-    fontFamily: "Helvetica-Bold",
+    fontWeight: 700,
     color: C.brand,
     marginBottom: 4,
   },
@@ -150,13 +161,11 @@ const s = StyleSheet.create({
     borderRadius: 8,
     overflow: "hidden",
   },
-  // Colored left accent strip
   serviceAccent: {
     width: 4,
     backgroundColor: C.brand,
     alignSelf: "stretch",
   },
-  // Numbered badge
   serviceBadge: {
     width: 28,
     height: 28,
@@ -171,13 +180,13 @@ const s = StyleSheet.create({
   },
   serviceBadgeText: {
     fontSize: 11,
-    fontFamily: "Helvetica-Bold",
+    fontWeight: 700,
     color: C.brand,
   },
   serviceContent: { flex: 1, paddingTop: 11, paddingBottom: 11, paddingRight: 14 },
   serviceTitle: {
     fontSize: 11,
-    fontFamily: "Helvetica-Bold",
+    fontWeight: 700,
     color: C.ink,
     marginBottom: 4,
   },
@@ -190,7 +199,7 @@ const s = StyleSheet.create({
     paddingVertical: 2,
     alignSelf: "flex-start",
   },
-  serviceTagText: { fontSize: 7.5, color: C.brand, fontFamily: "Helvetica-Bold" },
+  serviceTagText: { fontSize: 7.5, color: C.brand, fontWeight: 700 },
 
   // ── Sector cards (P3) — 4-column ──────────────────────────────────────────
   cardGrid: {
@@ -215,7 +224,7 @@ const s = StyleSheet.create({
   cardInner: { padding: 10 },
   cardTitle: {
     fontSize: 9.5,
-    fontFamily: "Helvetica-Bold",
+    fontWeight: 700,
     color: C.ink,
     marginBottom: 4,
   },
@@ -233,11 +242,11 @@ const s = StyleSheet.create({
   quoteText: {
     fontSize: 9.5,
     color: C.ink,
-    fontFamily: "Helvetica-Oblique",
+    fontStyle: "italic",
     lineHeight: 1.6,
     marginBottom: 6,
   },
-  quoteAuthor: { fontSize: 8.5, color: C.brand, fontFamily: "Helvetica-Bold" },
+  quoteAuthor: { fontSize: 8.5, color: C.brand, fontWeight: 700 },
 
   // ── Steps (P4) ─────────────────────────────────────────────────────────────
   stepRow: {
@@ -257,7 +266,7 @@ const s = StyleSheet.create({
     justifyContent: "center",
     flexShrink: 0,
   },
-  stepNumText: { fontSize: 12, fontFamily: "Helvetica-Bold", color: C.brand },
+  stepNumText: { fontSize: 12, fontWeight: 700, color: C.brand },
   stepContent: { flex: 1, paddingTop: 3 },
 
   // ── Tags ───────────────────────────────────────────────────────────────────
@@ -286,7 +295,7 @@ const s = StyleSheet.create({
   },
   ctaTitle: {
     fontSize: 16,
-    fontFamily: "Helvetica-Bold",
+    fontWeight: 700,
     color: C.ink,
     textAlign: "center",
     marginBottom: 8,
@@ -306,7 +315,7 @@ const s = StyleSheet.create({
     paddingVertical: 9,
     marginBottom: 10,
   },
-  ctaBtnText: { fontSize: 11, fontFamily: "Helvetica-Bold", color: C.dark },
+  ctaBtnText: { fontSize: 11, fontWeight: 700, color: C.dark },
   ctaContact: { fontSize: 8.5, color: C.muted, textAlign: "center" },
 
   // ── Page header (P2+) ─────────────────────────────────────────────────────
@@ -320,10 +329,10 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  pageHeaderBrand: { fontSize: 10, fontFamily: "Helvetica-Bold", color: C.brand },
+  pageHeaderBrand: { fontSize: 10, fontWeight: 700, color: C.brand },
   pageHeaderChapter: { fontSize: 8.5, color: C.muted },
 
-  // ── Footer — ancre absolue en bas ─────────────────────────────────────────
+  // ── Footer ─────────────────────────────────────────────────────────────────
   footer: {
     position: "absolute",
     bottom: 18,
@@ -336,7 +345,7 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  footerBrand: { fontSize: 9, fontFamily: "Helvetica-Bold", color: C.brand },
+  footerBrand: { fontSize: 9, fontWeight: 700, color: C.brand },
   footerUrl:   { fontSize: 8.5, color: C.muted },
   footerPage:  { fontSize: 8.5, color: C.muted },
 });
@@ -360,49 +369,49 @@ const Footer = () => (
   </View>
 );
 
-// ─── Donnees ─────────────────────────────────────────────────────────────────
+// ─── Données ─────────────────────────────────────────────────────────────────
 const SERVICES = [
   {
     num: "1",
     title: "Chatbot disponible 24h/24",
-    desc: "Vos clients posent une question a 23h ? Ils obtiennent une reponse immediate. Le chatbot qualifie les demandes, propose des rendez-vous et filtre les sollicitations avant meme que votre equipe arrive le matin.",
-    tag: "Premiers resultats en 7 jours",
+    desc: "Vos clients posent une question à 23h ? Ils obtiennent une réponse immédiate. Le chatbot qualifie les demandes, propose des rendez-vous et filtre les sollicitations avant même que votre équipe arrive le matin.",
+    tag: "Premiers résultats en 7 jours",
   },
   {
     num: "2",
-    title: "Automatisation des taches repetitives",
-    desc: "Relances clients, confirmations de RDV, facturation, rapports hebdomadaires... Toutes ces taches qui prennent du temps sans creer de valeur peuvent se declencher automatiquement.",
-    tag: "3 a 5 heures recuperees chaque semaine",
+    title: "Automatisation des tâches répétitives",
+    desc: "Relances clients, confirmations de RDV, facturation, rapports hebdomadaires... Toutes ces tâches qui prennent du temps sans créer de valeur peuvent se déclencher automatiquement.",
+    tag: "3 à 5 heures récupérées chaque semaine",
   },
   {
     num: "3",
     title: "Agent IA comme collaborateur",
-    desc: "Plutot qu'un simple outil, un agent IA agit comme un membre de l'equipe : il cherche, redige, traite et coordonne. Vous definissez la mission, il s'en occupe.",
-    tag: "Actif en continu, meme les week-ends",
+    desc: "Plutôt qu'un simple outil, un agent IA agit comme un membre de l'équipe : il cherche, rédige, traite et coordonne. Vous définissez la mission, il s'en occupe.",
+    tag: "Actif en continu, même les week-ends",
   },
   {
     num: "4",
     title: "CRM avec suivi intelligent",
-    desc: "Fini les prospects qui passent a travers les mailles. Le CRM identifie les opportunites chaudes, envoie les bons messages au bon moment et vous alerte avant qu'un client parte chez un concurrent.",
+    desc: "Fini les prospects qui passent à travers les mailles. Le CRM identifie les opportunités chaudes, envoie les bons messages au bon moment et vous alerte avant qu'un client parte chez un concurrent.",
     tag: "+35 % de conversions en moyenne",
   },
   {
     num: "5",
     title: "Tableau de bord et analyses",
-    desc: "Vos donnees parlent — encore faut-il les ecouter. Des tableaux de bord clairs vous donnent une vision nette de ce qui marche, ce qui stagne, et ce qu'il faut ajuster.",
-    tag: "Decisions fondees sur les faits",
+    desc: "Vos données parlent — encore faut-il les écouter. Des tableaux de bord clairs vous donnent une vision nette de ce qui marche, ce qui stagne, et ce qu'il faut ajuster.",
+    tag: "Décisions fondées sur les faits",
   },
 ];
 
 const SECTORS = [
-  { title: "Restaurants & Hotels",    desc: "Reservations automatiques, rappels anti no-show, fidelisation via messagerie" },
-  { title: "Agences immobilieres",    desc: "Qualification des prospects, prises de RDV visites, relances sur mesure" },
-  { title: "E-commerce & Boutiques",  desc: "Paniers abandonnes, recommandations produits, suivi de commandes" },
-  { title: "Centres de formation",    desc: "Inscriptions automatisees, questions frequentes, suivi des apprenants" },
-  { title: "Sante & Cliniques",       desc: "RDV a toute heure, rappels patients, suivi post-consultation" },
+  { title: "Restaurants & Hôtels",    desc: "Réservations automatiques, rappels anti no-show, fidélisation via messagerie" },
+  { title: "Agences immobilières",    desc: "Qualification des prospects, prises de RDV visites, relances sur mesure" },
+  { title: "E-commerce & Boutiques",  desc: "Paniers abandonnés, recommandations produits, suivi de commandes" },
+  { title: "Centres de formation",    desc: "Inscriptions automatisées, questions fréquentes, suivi des apprenants" },
+  { title: "Santé & Cliniques",       desc: "RDV à toute heure, rappels patients, suivi post-consultation" },
   { title: "Ressources humaines",     desc: "Tri des candidatures, onboarding, chatbot interne, rapports RH" },
-  { title: "Cabinets juridiques",     desc: "Qualification des dossiers, relances, prise de contact automatisee" },
-  { title: "Logistique & Transport",  desc: "Suivi en temps reel, alertes livraison, reporting automatique" },
+  { title: "Cabinets juridiques",     desc: "Qualification des dossiers, relances, prise de contact automatisée" },
+  { title: "Logistique & Transport",  desc: "Suivi en temps réel, alertes livraison, reporting automatique" },
 ];
 
 // ─── Document PDF ─────────────────────────────────────────────────────────────
@@ -410,8 +419,8 @@ const GuidePDF = () => (
   <Document
     title="Guide Pratique — Automatisation pour Entreprises — EasyDigia"
     author="EasyDigia"
-    subject="Comment gagner du temps et des clients grace a l'automatisation"
-    keywords="automatisation, chatbot, PME, Maroc, productivite"
+    subject="Comment gagner du temps et des clients grâce à l'automatisation"
+    keywords="automatisation, chatbot, PME, Maroc, productivité"
   >
 
     {/* ════════════════════════════════════════════════════════════════════════
@@ -430,13 +439,13 @@ const GuidePDF = () => (
 
         <Text style={s.coverSubtitle}>
           Ce guide s'adresse aux dirigeants de PME qui n'ont pas le temps de tester
-          toutes les solutions du marche. Nous avons fait le tri pour vous : cinq
-          approches concretes, des exemples reels, et un plan d'action pour demarrer
+          toutes les solutions du marché. Nous avons fait le tri pour vous : cinq
+          approches concrètes, des exemples réels, et un plan d'action pour démarrer
           cette semaine sans perturber votre organisation.
         </Text>
 
         <View style={s.coverMeta}>
-          {["5 approches detaillees", "8 secteurs couverts", "Cas clients reels"].map((item) => (
+          {["5 approches détaillées", "8 secteurs couverts", "Cas clients réels"].map((item) => (
             <View key={item} style={s.metaItem}>
               <View style={s.metaDot} />
               <Text style={s.metaText}>{item}</Text>
@@ -448,23 +457,23 @@ const GuidePDF = () => (
       <View style={s.section}>
         <Text style={s.sectionLabel}>Pourquoi maintenant</Text>
         <Text style={s.h2}>
-          Vos concurrents automatisent deja. La question n'est plus si, mais quoi.
+          Vos concurrents automatisent déjà. La question n'est plus si, mais quoi.
         </Text>
         <Text style={s.body}>
-          L'automatisation n'est plus reservee aux grandes entreprises. Aujourd'hui, une
-          agence immobiliere de cinq personnes peut qualifier ses prospects automatiquement.
-          Un restaurant peut confirmer des reservations a 2h du matin sans qu'un employe
-          ne soit reveille. Un cabinet peut relancer ses clients sans y penser.
-          Ce guide vous montre comment — simplement, concretement, sans jargon.
+          L'automatisation n'est plus réservée aux grandes entreprises. Aujourd'hui, une
+          agence immobilière de cinq personnes peut qualifier ses prospects automatiquement.
+          Un restaurant peut confirmer des réservations à 2h du matin sans qu'un employé
+          ne soit réveillé. Un cabinet peut relancer ses clients sans y penser.
+          Ce guide vous montre comment — simplement, concrètement, sans jargon.
         </Text>
       </View>
 
       <View style={s.statsRow}>
         {[
-          { value: "73 %",  label: "des clients attendent une reponse dans l'heure, quelle que soit l'heure" },
-          { value: "4 h",   label: "par semaine recuperees en moyenne des la premiere solution mise en place" },
-          { value: "x 3",   label: "plus de prospects convertis avec un suivi automatise vs un suivi manuel" },
-          { value: "30 j",  label: "pour voir les premiers resultats mesurables — garanti ou on ajuste" },
+          { value: "73 %",  label: "des clients attendent une réponse dans l'heure, quelle que soit l'heure" },
+          { value: "4 h",   label: "par semaine récupérées en moyenne dès la première solution mise en place" },
+          { value: "x 3",   label: "plus de prospects convertis avec un suivi automatisé vs un suivi manuel" },
+          { value: "30 j",  label: "pour voir les premiers résultats mesurables — garanti ou on ajuste" },
         ].map((stat) => (
           <View key={stat.value} style={s.statCard}>
             <Text style={s.statValue}>{stat.value}</Text>
@@ -477,9 +486,9 @@ const GuidePDF = () => (
 
       <View style={[s.section, { paddingTop: 16 }]}>
         <Text style={s.body}>
-          Dans les pages qui suivent, vous trouverez cinq solutions que nous deployons
-          regulierement pour des entreprises marocaines — avec pour chacune les benefices
-          concrets, le temps necessaire pour les mettre en place, et ce que vous pouvez
+          Dans les pages qui suivent, vous trouverez cinq solutions que nous déployons
+          régulièrement pour des entreprises marocaines — avec pour chacune les bénéfices
+          concrets, le temps nécessaire pour les mettre en place, et ce que vous pouvez
           attendre dans le premier mois.
         </Text>
       </View>
@@ -495,10 +504,10 @@ const GuidePDF = () => (
 
       <View style={s.section}>
         <Text style={s.sectionLabel}>Cinq solutions, un seul objectif</Text>
-        <Text style={s.h2}>Moins de taches repetitives, plus de temps pour ce qui compte</Text>
+        <Text style={s.h2}>Moins de tâches répétitives, plus de temps pour ce qui compte</Text>
         <Text style={s.body}>
-          Chaque solution est configuree en fonction de votre activite. Pas de modele
-          generique — on part de vos vrais problemes et on adapte.
+          Chaque solution est configurée en fonction de votre activité. Pas de modèle
+          générique — on part de vos vrais problèmes et on adapte.
         </Text>
       </View>
 
@@ -527,14 +536,14 @@ const GuidePDF = () => (
         PAGE 3 — PAR SECTEUR + TEMOIGNAGES
     ════════════════════════════════════════════════════════════════════════ */}
     <Page size="A4" style={s.page}>
-      <PageHeader chapter="Votre secteur, vos specificites" />
+      <PageHeader chapter="Votre secteur, vos spécificités" />
 
       <View style={s.section}>
-        <Text style={s.sectionLabel}>Adapte a votre metier</Text>
-        <Text style={s.h2}>Chaque secteur a ses propres problemes. Nous les connaissons.</Text>
+        <Text style={s.sectionLabel}>Adapté à votre métier</Text>
+        <Text style={s.h2}>Chaque secteur a ses propres problèmes. Nous les connaissons.</Text>
         <Text style={s.body}>
-          Nous avons accompagne des entreprises dans huit domaines differents.
-          Voici les problemes que chacun rencontre — et ce que nous mettons en place.
+          Nous avons accompagné des entreprises dans huit domaines différents.
+          Voici les problèmes que chacun rencontre — et ce que nous mettons en place.
         </Text>
       </View>
 
@@ -554,21 +563,21 @@ const GuidePDF = () => (
 
       <View style={[s.section, { paddingTop: 16 }]}>
         <Text style={s.sectionLabel}>Ce qu'ils en disent</Text>
-        <Text style={s.h2}>Des resultats concrets, racontes par ceux qui les vivent</Text>
+        <Text style={s.h2}>Des résultats concrets, racontés par ceux qui les vivent</Text>
 
         {[
           {
-            quote: "On recevait des reservations a 2h du matin — sans que personne ne soit reveille. Notre taux de no-show a baisse de 40 % en six semaines. Ce n'est pas de la magie, c'est juste un systeme qui tourne pendant qu'on dort.",
-            author: "Directeur, hotel boutique — Marrakech",
+            quote: "On recevait des réservations à 2h du matin — sans que personne ne soit réveillé. Notre taux de no-show a baissé de 40 % en six semaines. Ce n'est pas de la magie, c'est juste un système qui tourne pendant qu'on dort.",
+            author: "Directeur, hôtel boutique — Marrakech",
           },
           {
-            quote: "J'avais l'impression de passer mes journees a relancer des clients. Depuis qu'on a mis en place le suivi automatique, mon equipe fait ce pourquoi elle a ete recrutee. On a signe deux gros dossiers qu'on aurait rates avant.",
-            author: "Directeur commercial, agence immobiliere — Casablanca",
+            quote: "J'avais l'impression de passer mes journées à relancer des clients. Depuis qu'on a mis en place le suivi automatique, mon équipe fait ce pour quoi elle a été recrutée. On a signé deux gros dossiers qu'on aurait ratés avant.",
+            author: "Directeur commercial, agence immobilière — Casablanca",
           },
         ].map((q) => (
           <View key={q.author} style={s.quoteBox}>
             <Text style={s.quoteText}>"{q.quote}"</Text>
-            <Text style={s.quoteAuthor}>-- {q.author}</Text>
+            <Text style={s.quoteAuthor}>— {q.author}</Text>
           </View>
         ))}
       </View>
@@ -580,31 +589,31 @@ const GuidePDF = () => (
         PAGE 4 — COMMENT ON TRAVAILLE + CTA
     ════════════════════════════════════════════════════════════════════════ */}
     <Page size="A4" style={s.page}>
-      <PageHeader chapter="Comment on demarre ensemble" />
+      <PageHeader chapter="Comment on démarre ensemble" />
 
       <View style={s.section}>
-        <Text style={s.sectionLabel}>Notre methode en trois etapes</Text>
-        <Text style={s.h2}>Une mise en place rapide, sans perturber votre equipe</Text>
+        <Text style={s.sectionLabel}>Notre méthode en trois étapes</Text>
+        <Text style={s.h2}>Une mise en place rapide, sans perturber votre équipe</Text>
         <Text style={s.body}>
           On ne vous demande pas de tout changer du jour au lendemain. On commence
-          par un point precis qui vous fait perdre du temps, on le regle, et on avance.
+          par un point précis qui vous fait perdre du temps, on le règle, et on avance.
         </Text>
 
         {[
           {
             num: "1",
             title: "Un audit de 30 minutes — gratuit, sans engagement",
-            desc: "On echange sur votre activite, vos processus et vos frustrations du quotidien. Pas de presentation commerciale : on identifie ensemble le premier levier qui aura le plus d'impact pour vous specifiquement.",
+            desc: "On échange sur votre activité, vos processus et vos frustrations du quotidien. Pas de présentation commerciale : on identifie ensemble le premier levier qui aura le plus d'impact pour vous spécifiquement.",
           },
           {
             num: "2",
             title: "Mise en place en moins de 72 heures",
-            desc: "Notre equipe configure la solution, la connecte a vos outils existants et forme vos collaborateurs. Vous n'avez pas besoin de competences techniques — on s'occupe de tout.",
+            desc: "Notre équipe configure la solution, la connecte à vos outils existants et forme vos collaborateurs. Vous n'avez pas besoin de compétences techniques — on s'occupe de tout.",
           },
           {
             num: "3",
-            title: "Suivi et ajustements dans la duree",
-            desc: "Un tableau de bord vous permet de voir ce qui se passe en temps reel. On fait un point mensuel pour ajuster, optimiser et anticiper les prochaines etapes selon vos priorites.",
+            title: "Suivi et ajustements dans la durée",
+            desc: "Un tableau de bord vous permet de voir ce qui se passe en temps réel. On fait un point mensuel pour ajuster, optimiser et anticiper les prochaines étapes selon vos priorités.",
           },
         ].map((step) => (
           <View key={step.num} style={s.stepRow}>
@@ -622,9 +631,9 @@ const GuidePDF = () => (
       <View style={s.divider} />
 
       <View style={[s.section, { paddingTop: 14 }]}>
-        <Text style={s.sectionLabel}>Secteurs accompagnes</Text>
+        <Text style={s.sectionLabel}>Secteurs accompagnés</Text>
         <View style={s.tagRow}>
-          {["Restaurants", "Hotels", "Immobilier", "E-commerce", "Formation", "Sante", "RH", "Juridique", "Logistique", "Retail"].map((tag) => (
+          {["Restaurants", "Hôtels", "Immobilier", "E-commerce", "Formation", "Santé", "RH", "Juridique", "Logistique", "Retail"].map((tag) => (
             <Text key={tag} style={s.tag}>{tag}</Text>
           ))}
         </View>
@@ -633,12 +642,12 @@ const GuidePDF = () => (
       <View style={s.ctaBox}>
         <Text style={s.ctaTitle}>Prenons 30 minutes pour regarder votre cas</Text>
         <Text style={s.ctaBody}>
-          Pas de discours generique. On regarde votre activite, on identifie une piste
-          concrete, et vous repartez avec quelque chose d'actionnable — que vous travailliez
+          Pas de discours générique. On regarde votre activité, on identifie une piste
+          concrète, et vous repartez avec quelque chose d'actionnable — que vous travailliez
           avec nous ou non.
         </Text>
         <View style={s.ctaBtn}>
-          <Text style={s.ctaBtnText}>Reserver mon audit gratuit — www.easydigia.com</Text>
+          <Text style={s.ctaBtnText}>Réserver mon audit gratuit — www.easydigia.com</Text>
         </View>
         <Text style={s.ctaContact}>
           contact@easydigia.com  |  +212 781 995 665
@@ -656,7 +665,7 @@ const outputPath = path.resolve(process.cwd(), "public", "guide-ia-easydigia.pdf
 
 renderToFile(<GuidePDF />, outputPath)
   .then(() => {
-    console.log(`PDF genere : ${outputPath}`);
+    console.log(`PDF généré : ${outputPath}`);
   })
   .catch((err: Error) => {
     console.error("Erreur :", err);
