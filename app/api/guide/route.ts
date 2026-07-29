@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { savePdfLeadToAirtable } from "@/lib/airtable";
 import { Resend } from "resend";
 import fs from "fs";
 import path from "path";
@@ -40,6 +41,13 @@ export async function POST(req: Request) {
     });
   } catch (e) {
     console.error("supabase error", e);
+  }
+
+  // Save to Airtable PDF table (non-blocking)
+  try {
+    await savePdfLeadToAirtable({ name, email, company, phone });
+  } catch (e) {
+    console.error("airtable error", e);
   }
 
   const resendKey = process.env.RESEND_API_KEY;

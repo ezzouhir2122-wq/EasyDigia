@@ -46,31 +46,35 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-8 grid max-w-xl gap-4">
-      <label className="grid gap-1">
-        {t("name")}
-        <input name="name" required className={field} />
-      </label>
-      <label className="grid gap-1">
-        {t("email")}
-        <input name="email" type="email" required className={field} />
-      </label>
-      <label className="grid gap-1">
-        {t("company")}
-        <input name="company" className={field} />
-      </label>
-      <label className="grid gap-1">
-        {t("service")}
-        <input name="service" className={field} />
-      </label>
-      <label className="grid gap-1">
-        {t("message")}
-        <textarea name="message" required rows={5} className={field} />
+    <form onSubmit={onSubmit} className="grid gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="grid gap-1.5 text-[14px] text-muted">
+          {t("name")} <span className="text-brand">*</span>
+          <input name="name" required className={field} />
+        </label>
+        <label className="grid gap-1.5 text-[14px] text-muted">
+          {t("email")} <span className="text-brand">*</span>
+          <input name="email" type="email" required className={field} />
+        </label>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="grid gap-1.5 text-[14px] text-muted">
+          {t("company")}
+          <input name="company" className={field} />
+        </label>
+        <label className="grid gap-1.5 text-[14px] text-muted">
+          {t("service")}
+          <input name="service" className={field} />
+        </label>
+      </div>
+      <label className="grid gap-1.5 text-[14px] text-muted">
+        {t("message")} <span className="text-brand">*</span>
+        <textarea name="message" required rows={4} className={field} />
       </label>
       <button
         type="submit"
         disabled={status === "sending"}
-        className="rounded-lg bg-gradient-to-br from-brand to-brand-deep px-6 py-3 font-semibold text-white shadow-[0_4px_20px_rgba(143,212,0,0.35)] transition hover:opacity-90 disabled:opacity-60"
+        className="rounded-lg bg-gradient-to-br from-brand to-brand-deep px-6 py-3.5 font-semibold text-white shadow-[0_4px_20px_rgba(143,212,0,0.35)] transition hover:opacity-90 disabled:opacity-60"
       >
         {status === "sending" ? "Envoi en cours…" : t("submit")}
       </button>

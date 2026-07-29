@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { leadSchema } from "@/lib/leadSchema";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { saveLeadToAirtable } from "@/lib/airtable";
 import { Resend } from "resend";
 
 export async function POST(req: Request) {
@@ -25,6 +26,13 @@ export async function POST(req: Request) {
     if (dbError) console.error("lead insert failed", dbError);
   } catch (e) {
     console.error("supabase error", e);
+  }
+
+  // Save to Airtable (non-blocking)
+  try {
+    await saveLeadToAirtable(parsed.data);
+  } catch (e) {
+    console.error("airtable error", e);
   }
 
   // Send email via Resend
