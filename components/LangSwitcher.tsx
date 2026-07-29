@@ -3,10 +3,36 @@ import { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 
+function Flag({ code }: { code: string }) {
+  if (code === "fr") return (
+    <svg width="20" height="14" viewBox="0 0 20 14" aria-hidden className="rounded-sm overflow-hidden">
+      <rect width="7" height="14" fill="#002395" />
+      <rect x="7" width="6" height="14" fill="#fff" />
+      <rect x="13" width="7" height="14" fill="#ED2939" />
+    </svg>
+  );
+  if (code === "en") return (
+    <svg width="20" height="14" viewBox="0 0 60 40" aria-hidden className="rounded-sm overflow-hidden">
+      <rect width="60" height="40" fill="#012169" />
+      <path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" strokeWidth="8" />
+      <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" strokeWidth="5" />
+      <path d="M30,0 V40 M0,20 H60" stroke="#fff" strokeWidth="13" />
+      <path d="M30,0 V40 M0,20 H60" stroke="#C8102E" strokeWidth="8" />
+    </svg>
+  );
+  if (code === "ar") return (
+    <svg width="20" height="14" viewBox="0 0 60 40" aria-hidden className="rounded-sm overflow-hidden">
+      <rect width="60" height="40" fill="#C1272D" />
+      <path d="M30,10 L32.4,17.5 H40.1 L34,22 L36.4,29.5 L30,25 L23.6,29.5 L26,22 L19.9,17.5 H27.6 Z" fill="none" stroke="#006233" strokeWidth="1.5" />
+    </svg>
+  );
+  return null;
+}
+
 const LOCALES = [
-  { code: "fr", short: "FR", name: "Français", flag: "🇫🇷" },
-  { code: "en", short: "EN", name: "English", flag: "🇬🇧" },
-  { code: "ar", short: "ع", name: "العربية", flag: "🇲🇦" },
+  { code: "fr", short: "FR", name: "Français" },
+  { code: "en", short: "EN", name: "English" },
+  { code: "ar", short: "ع", name: "العربية" },
 ] as const;
 
 export function LangSwitcher() {
@@ -49,7 +75,7 @@ export function LangSwitcher() {
         aria-label="Changer de langue"
         className="flex items-center gap-1.5 rounded-lg border border-white/12 bg-white/[0.04] px-3 py-2 text-[13px] font-medium text-ink transition hover:bg-white/[0.08]"
       >
-        <span aria-hidden>{current.flag}</span>
+        <Flag code={current.code} />
         <span>{current.short}</span>
         <svg
           width="12"
@@ -81,7 +107,7 @@ export function LangSwitcher() {
                 }`}
               >
                 <span className="flex items-center gap-2">
-                  <span aria-hidden>{l.flag}</span>
+                  <Flag code={l.code} />
                   <span>{l.name}</span>
                 </span>
                 <span className="font-mono text-[11px] text-muted">{l.short}</span>
