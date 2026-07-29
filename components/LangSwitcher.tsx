@@ -4,9 +4,9 @@ import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 
 const LOCALES = [
-  { code: "fr", short: "FR", name: "Français" },
-  { code: "en", short: "EN", name: "English" },
-  { code: "ar", short: "ع", name: "العربية" },
+  { code: "fr", short: "FR", name: "Français", flag: "🇫🇷" },
+  { code: "en", short: "EN", name: "English", flag: "🇬🇧" },
+  { code: "ar", short: "ع", name: "العربية", flag: "🇸🇦" },
 ] as const;
 
 export function LangSwitcher() {
@@ -49,7 +49,7 @@ export function LangSwitcher() {
         aria-label="Changer de langue"
         className="flex items-center gap-1.5 rounded-lg border border-white/12 bg-white/[0.04] px-3 py-2 text-[13px] font-medium text-ink transition hover:bg-white/[0.08]"
       >
-        <span aria-hidden>🌐</span>
+        <span aria-hidden>{current.flag}</span>
         <span>{current.short}</span>
         <svg
           width="12"
