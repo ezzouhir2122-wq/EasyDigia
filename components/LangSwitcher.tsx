@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 const LOCALES = [
   { code: "fr", short: "FR", name: "Français", flag: "🇫🇷" },
   { code: "en", short: "EN", name: "English", flag: "🇬🇧" },
-  { code: "ar", short: "ع", name: "العربية", flag: "🇸🇦" },
+  { code: "ar", short: "ع", name: "العربية", flag: "🇲🇦" },
 ] as const;
 
 export function LangSwitcher() {
@@ -80,7 +80,10 @@ export function LangSwitcher() {
                   active ? "bg-brand/10 font-semibold text-brand-bright" : "text-ink hover:bg-white/[0.06]"
                 }`}
               >
-                <span>{l.name}</span>
+                <span className="flex items-center gap-2">
+                  <span aria-hidden>{l.flag}</span>
+                  <span>{l.name}</span>
+                </span>
                 <span className="font-mono text-[11px] text-muted">{l.short}</span>
               </button>
             );
