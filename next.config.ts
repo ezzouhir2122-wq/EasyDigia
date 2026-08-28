@@ -13,6 +13,8 @@ const LOCALE_FREE_ROUTES = [
   "contact",
   "temoignages",
   "guide-ia",
+  "admin",
+  "admin-login",
 ];
 
 const nextConfig: NextConfig = {
