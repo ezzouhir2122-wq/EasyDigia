@@ -81,6 +81,20 @@ const PROJECTS: Project[] = [
     url: "https://easy-location-immo.vercel.app",
   },
   {
+    name: "SudBusiness",
+    sector: "BTP & Travaux Publics",
+    icon: "🏗️",
+    tag: "Plateforme complète",
+    title: "Gestion de chantier BTP — devis, travaux & marchés publics",
+    desc: "Plateforme tout-en-un pour les entreprises BTP : suivi des chantiers en temps réel, gestion des devis et factures, avancement des travaux et préparation des soumissions aux marchés publics.",
+    stats: [
+      { label: "Modules", value: "6+" },
+      { label: "Marchés publics", value: "Intégré" },
+      { label: "Suivi", value: "Temps réel" },
+    ],
+    url: "https://www.sudbusiness.com",
+  },
+  {
     name: "Gestion Syndic",
     sector: "Immobilier",
     icon: "🏢",
