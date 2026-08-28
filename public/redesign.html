@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyDigia — Intelligence Artificielle & Automatisation au Maroc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#0B0A09;
+  --fg:#F5F2EB;
+  --blue:#0B2C6B;
+  --gold:#BFA06A;
+  --muted:rgba(245,242,235,0.42);
+  --border:rgba(245,242,235,0.08);
+  --surface:#111009;
+  --font-d:'Cormorant Garamond',Georgia,serif;
+  --font-b:'DM Sans',system-ui,sans-serif;
+  --t-d:clamp(3.5rem,7.5vw,8rem);
+  --t-h2:clamp(2.25rem,4.5vw,4.5rem);
+  --t-h3:clamp(1.125rem,1.8vw,1.5rem);
+  --t-body:1rem;
+  --t-sm:0.875rem;
+  --t-xs:0.6875rem;
+  --space-xl:clamp(7rem,14vh,13rem);
+  --space-lg:clamp(4rem,8vh,8rem);
+  --space-md:clamp(2rem,4vh,4rem);
+  --pad:clamp(1.5rem,5.5vw,6.5rem);
+  --ease-expo:cubic-bezier(0.16,1,0.3,1);
+  --ease-io:cubic-bezier(0.85,0,0.15,1);
+}
+
+html{background:var(--bg);color:var(--fg);font-family:var(--font-b);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{overflow-x:hidden}
+
+/* ── CURSOR ── */
+.cursor{
+  position:fixed;width:8px;height:8px;border-radius:50%;
+  background:var(--fg);pointer-events:none;z-index:9999;
+  mix-blend-mode:difference;transform:translate(-50%,-50%);
+  transition:width .35s var(--ease-expo),height .35s var(--ease-expo),opacity .3s ease;
+}
+.cursor.expanded{width:44px;height:44px}
+.cursor.hidden{opacity:0}
+
+/* ── LOADER ── */
+#loader{
+  position:fixed;inset:0;background:var(--bg);z-index:10000;
+  display:flex;align-items:center;justify-content:center;
+}
+.loader-mark{
+  font-family:var(--font-d);font-size:1rem;letter-spacing:.35em;
+  text-transform:uppercase;color:var(--fg);opacity:0;
+  transform:scale(.92);
+}
+.loader-bar{
+  position:absolute;bottom:0;left:0;height:1px;
+  background:var(--gold);width:0%;opacity:.6;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:1.75rem var(--pad);
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .5s ease,border-color .5s ease;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(11,10,9,.92);
+  backdrop-filter:blur(24px);
+  border-color:var(--border);
+}
+.nav-logo{
+  font-family:var(--font-b);font-size:var(--t-xs);
+  letter-spacing:.28em;text-transform:uppercase;font-weight:500;
+  color:var(--fg);text-decoration:none;
+}
+.nav-links{display:flex;align-items:center;gap:2.5rem;list-style:none}
+.nav-links a{
+  font-size:var(--t-sm);color:var(--muted);text-decoration:none;
+  letter-spacing:.04em;transition:color .3s ease;
+}
+.nav-links a:hover{color:var(--fg)}
+.nav-cta{
+  padding:.55rem 1.4rem;border:1px solid var(--border);
+  font-size:var(--t-xs);color:var(--fg)!important;
+  letter-spacing:.1em;text-transform:uppercase;
+  transition:background .3s ease,border-color .3s ease!important;
+}
+.nav-cta:hover{background:var(--fg);color:var(--bg)!important;border-color:var(--fg)!important}
+
+/* ── HERO ── */
+#hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:flex-end;
+  padding:0 var(--pad) clamp(4rem,8vh,7rem);
+  overflow:hidden;
+}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;max-width:960px}
+.hero-eyebrow{
+  font-size:var(--t-xs);letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:2rem;display:flex;align-items:center;gap:1rem;
+  opacity:0;transform:translateY(10px);
+}
+.hero-eyebrow::before{content:'';width:1.75rem;height:1px;background:var(--gold)}
+.hero-headline{
+  font-family:var(--font-d);font-size:var(--t-d);
+  font-weight:300;line-height:1.04;margin-bottom:2.25rem;
+  letter-spacing:-.01em;
+}
+.hero-headline .line{display:block;overflow:hidden}
+.hero-headline .char{display:inline-block}
+.hero-headline em{font-style:italic;font-weight:300}
+.hero-sub{
+  max-width:500px;color:var(--muted);
+  font-size:clamp(.9375rem,1.4vw,1.0625rem);
+  line-height:1.75;margin-bottom:3rem;
+  opacity:0;transform:translateY(16px);
+}
+.hero-actions{display:flex;align-items:center;gap:2.25rem;opacity:0;transform:translateY(16px)}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:.625rem;
+  padding:.875rem 2rem;background:var(--fg);color:var(--bg);
+  text-decoration:none;font-size:var(--t-xs);letter-spacing:.12em;
+  font-weight:500;text-transform:uppercase;
+  transition:opacity .3s ease;
+}
+.btn-primary:hover{opacity:.88}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:var(--t-sm);color:var(--muted);text-decoration:none;
+  letter-spacing:.03em;transition:color .3s ease,gap .3s var(--ease-expo);
+}
+.btn-ghost:hover{color:var(--fg);gap:.875rem}
+.scroll-hint{
+  position:absolute;bottom:2.5rem;right:var(--pad);
+  font-size:var(--t-xs);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);writing-mode:vertical-rl;
+  opacity:0;transform:translateY(10px);
+}
+
+/* ── VISION ── */
+#vision{
+  padding:var(--space-xl) var(--pad);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;min-height:65vh;
+}
+.vision-inner{max-width:860px}
+.vision-label{
+  font-size:var(--t-xs);letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:1rem;
+  margin-bottom:3rem;
+}
+.vision-label::before{content:'';width:1.75rem;height:1px;background:var(--gold)}
+.vision-text{
+  font-family:var(--font-d);font-size:clamp(2.25rem,4.5vw,4.75rem);
+  font-weight:300;line-height:1.18;
+}
+.vision-text em{font-style:italic;color:var(--muted)}
+.vision-text strong{font-weight:400}
+.vision-aside{
+  margin-top:3.5rem;padding-top:3.5rem;border-top:1px solid var(--border);
+  display:flex;gap:6rem;
+}
+.vision-stat .stat-n{
+  font-family:var(--font-d);font-size:3.5rem;font-weight:300;
+  line-height:1;margin-bottom:.5rem;
+}
+.vision-stat .stat-n span{font-size:2rem;color:var(--gold)}
+.vision-stat .stat-label{font-size:var(--t-sm);color:var(--muted)}
+
+/* ── EXPERTISE ── */
+#expertise{
+  border-top:1px solid var(--border);
+  padding:var(--space-xl) 0;
+}
+.expertise-header{
+  padding:0 var(--pad);
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:clamp(3rem,6vw,6rem);
+}
+.expertise-title{
+  font-family:var(--font-d);font-size:var(--t-h2);
+  font-weight:300;line-height:1.1;max-width:480px;
+}
+.expertise-sub{
+  font-size:var(--t-sm);color:var(--muted);
+  max-width:300px;text-align:right;line-height:1.6;
+}
+.expertise-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--border);border-left:1px solid var(--border);
+}
+.expertise-card{
+  border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:3rem clamp(1.5rem,3vw,3rem);position:relative;
+  overflow:hidden;cursor:default;
+  transition:background .4s ease;
+}
+.expertise-card:hover{background:var(--surface)}
+.card-n{
+  font-family:var(--font-d);font-size:6rem;font-weight:300;
+  color:var(--fg);opacity:.04;
+  position:absolute;top:-.5rem;right:1rem;line-height:1;
+  pointer-events:none;transition:opacity .4s ease;
+}
+.expertise-card:hover .card-n{opacity:.08}
+.card-icon{
+  width:2.25rem;height:2.25rem;margin-bottom:2rem;
+  stroke:var(--gold);fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;
+}
+.card-title{
+  font-family:var(--font-d);font-size:1.5625rem;
+  font-weight:400;margin-bottom:.75rem;line-height:1.2;
+}
+.card-desc{font-size:var(--t-sm);color:var(--muted);line-height:1.65}
+
+/* ── SOLUTIONS ── */
+#solutions{border-top:1px solid var(--border)}
+.solutions-wrap{padding:var(--space-xl) var(--pad)}
+.solutions-header{margin-bottom:clamp(3rem,6vw,5rem)}
+.solutions-label{
+  font-size:var(--t-xs);letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;
+}
+.solutions-label::before{content:'';width:1.75rem;height:1px;background:var(--gold)}
+.solutions-title{
+  font-family:var(--font-d);font-size:var(--t-h2);
+  font-weight:300;line-height:1.1;max-width:540px;
+}
+.solutions-body{
+  display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:start;
+}
+.solutions-tabs{display:flex;flex-direction:column}
+.sol-tab{
+  padding:1.5rem 0;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  cursor:pointer;transition:padding-left .35s var(--ease-expo);
+}
+.sol-tab:hover,.sol-tab.active{padding-left:.75rem}
+.sol-tab-name{
+  font-family:var(--font-d);font-size:clamp(1.25rem,2.2vw,1.875rem);
+  font-weight:300;color:var(--muted);
+  transition:color .3s ease;
+}
+.sol-tab.active .sol-tab-name{color:var(--fg)}
+.sol-tab-arrow{
+  color:var(--gold);opacity:0;transition:opacity .3s ease;font-size:.875rem;
+}
+.sol-tab.active .sol-tab-arrow{opacity:1}
+.solutions-panels{position:relative;padding-top:.5rem}
+.sol-panel{
+  display:none;animation:panelIn .5s var(--ease-expo) both;
+}
+.sol-panel.active{display:block}
+@keyframes panelIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.panel-tag{
+  font-size:var(--t-xs);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.5rem;
+}
+.panel-headline{
+  font-family:var(--font-d);font-size:clamp(1.75rem,3vw,2.625rem);
+  font-weight:300;line-height:1.15;margin-bottom:1.25rem;
+}
+.panel-desc{
+  font-size:var(--t-sm);color:var(--muted);line-height:1.75;
+  max-width:440px;margin-bottom:2rem;
+}
+.panel-list{display:flex;flex-direction:column;gap:.625rem}
+.panel-list li{
+  font-size:var(--t-sm);color:var(--muted);list-style:none;
+  display:flex;align-items:baseline;gap:.75rem;
+}
+.panel-list li::before{
+  content:'';width:4px;height:4px;border-radius:50%;
+  background:var(--gold);flex-shrink:0;margin-top:.35rem;
+}
+
+/* ── PROCESS ── */
+#process{border-top:1px solid var(--border);padding:var(--space-xl) var(--pad)}
+.process-grid{
+  display:grid;grid-template-columns:1fr 1.2fr;
+  gap:clamp(4rem,8vw,9rem);align-items:start;
+}
+.process-left{position:sticky;top:25vh}
+.process-label{
+  font-size:var(--t-xs);letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:1rem;margin-bottom:2rem;
+}
+.process-label::before{content:'';width:1.75rem;height:1px;background:var(--gold)}
+.process-title{
+  font-family:var(--font-d);font-size:var(--t-h2);
+  font-weight:300;line-height:1.1;margin-bottom:1.5rem;
+}
+.process-intro{font-size:var(--t-sm);color:var(--muted);line-height:1.75;max-width:340px}
+.process-steps{display:flex;flex-direction:column}
+.step{
+  display:grid;grid-template-columns:64px 1fr;gap:2.5rem;
+  padding:2.5rem 0;border-bottom:1px solid var(--border);align-items:start;
+}
+.step:first-child{border-top:1px solid var(--border)}
+.step-n{
+  font-family:var(--font-d);font-size:2.75rem;
+  font-weight:300;color:var(--gold);opacity:.35;
+  line-height:1;padding-top:.25rem;
+}
+.step-title{
+  font-family:var(--font-d);font-size:1.375rem;
+  font-weight:400;margin-bottom:.625rem;
+}
+.step-desc{font-size:var(--t-sm);color:var(--muted);line-height:1.65}
+
+/* ── WHY ── */
+#why{
+  border-top:1px solid var(--border);
+  background:var(--surface);
+  padding:var(--space-xl) var(--pad);
+}
+.why-header{margin-bottom:clamp(3rem,6vw,5.5rem)}
+.why-label{
+  font-size:var(--t-xs);letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:1rem;margin-bottom:2rem;
+}
+.why-label::before{content:'';width:1.75rem;height:1px;background:var(--gold)}
+.why-title{
+  font-family:var(--font-d);font-size:var(--t-h2);
+  font-weight:300;line-height:1.1;max-width:560px;
+}
+.why-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:0;border-top:1px solid var(--border);border-left:1px solid var(--border);
+}
+.why-item{
+  border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:2.5rem clamp(1.5rem,2.5vw,2.5rem);
+}
+.why-icon{
+  width:1.5rem;height:1.5rem;stroke:var(--gold);fill:none;
+  stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;
+  margin-bottom:1.25rem;
+}
+.why-title-sm{
+  font-family:var(--font-d);font-size:1.25rem;
+  font-weight:400;margin-bottom:.625rem;
+}
+.why-desc{font-size:var(--t-sm);color:var(--muted);line-height:1.6}
+
+/* ── PROJECTS ── */
+#projects{border-top:1px solid var(--border);padding:var(--space-xl) var(--pad)}
+.projects-header{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:clamp(3rem,6vw,5.5rem);
+}
+.projects-title{
+  font-family:var(--font-d);font-size:var(--t-h2);
+  font-weight:300;line-height:1.08;
+}
+.projects-link{
+  font-size:var(--t-sm);color:var(--muted);text-decoration:none;
+  display:flex;align-items:center;gap:.5rem;letter-spacing:.04em;
+  transition:color .3s ease,gap .3s var(--ease-expo);
+}
+.projects-link:hover{color:var(--fg);gap:.875rem}
+.projects-list{display:flex;flex-direction:column}
+.proj{
+  display:grid;grid-template-columns:72px 1fr 340px;
+  gap:3rem;padding:3rem 0;border-bottom:1px solid var(--border);
+  align-items:center;cursor:pointer;transition:background .3s ease;
+}
+.proj:first-child{border-top:1px solid var(--border)}
+.proj:hover{background:rgba(255,255,255,.018)}
+.proj-n{
+  font-family:var(--font-d);font-size:1.125rem;font-weight:300;
+  color:var(--gold);opacity:.4;
+}
+.proj-info{}
+.proj-tag{
+  font-size:var(--t-xs);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem;
+}
+.proj-name{
+  font-family:var(--font-d);font-size:clamp(1.375rem,2.5vw,2.125rem);
+  font-weight:300;line-height:1.15;margin-bottom:.5rem;
+}
+.proj-desc{font-size:var(--t-sm);color:var(--muted)}
+.proj-img{
+  width:340px;height:210px;object-fit:cover;
+  filter:grayscale(25%) brightness(.78);
+  transition:filter .5s ease,transform .6s var(--ease-expo);
+  overflow:hidden;
+}
+.proj:hover .proj-img{filter:grayscale(0%) brightness(.95);transform:scale(1.03)}
+
+/* ── TESTIMONIALS ── */
+#testimonials{
+  border-top:1px solid var(--border);
+  padding:var(--space-xl) var(--pad);
+  text-align:center;
+}
+.testi-label{
+  font-size:var(--t-xs);letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:4rem;display:inline-flex;align-items:center;gap:1rem;
+}
+.testi-label::before,.testi-label::after{content:'';width:1.75rem;height:1px;background:var(--gold)}
+.testi-quote{
+  font-family:var(--font-d);font-size:clamp(1.875rem,3.75vw,3.5rem);
+  font-weight:300;font-style:italic;line-height:1.22;
+  max-width:800px;margin:0 auto 2.5rem;
+}
+.testi-author{
+  font-size:var(--t-sm);color:var(--muted);letter-spacing:.08em;
+}
+.testi-author strong{color:var(--fg);font-weight:400}
+
+/* ── FINAL CTA ── */
+#cta{
+  border-top:1px solid var(--border);
+  padding:var(--space-xl) var(--pad);
+  min-height:85vh;display:flex;flex-direction:column;
+  justify-content:center;align-items:flex-start;
+  position:relative;overflow:hidden;
+}
+.cta-label{
+  font-size:var(--t-xs);letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:1rem;margin-bottom:3rem;
+}
+.cta-label::before{content:'';width:1.75rem;height:1px;background:var(--gold)}
+.cta-headline{
+  font-family:var(--font-d);font-size:clamp(3rem,6.5vw,7rem);
+  font-weight:300;line-height:1.04;max-width:900px;margin-bottom:4rem;
+}
+.cta-headline em{font-style:italic}
+.cta-actions{display:flex;align-items:center;gap:2rem}
+.btn-mag{
+  position:relative;display:inline-flex;align-items:center;gap:.75rem;
+  padding:1.125rem 2.5rem;background:var(--fg);color:var(--bg);
+  text-decoration:none;font-size:var(--t-xs);letter-spacing:.12em;
+  font-weight:500;text-transform:uppercase;overflow:hidden;
+  transition:transform .4s var(--ease-expo);will-change:transform;
+}
+.btn-mag-outline{
+  position:relative;display:inline-flex;align-items:center;gap:.75rem;
+  padding:1.125rem 2.5rem;border:1px solid var(--border);
+  color:var(--fg);text-decoration:none;font-size:var(--t-xs);
+  letter-spacing:.12em;text-transform:uppercase;
+  transition:border-color .3s ease,transform .4s var(--ease-expo);
+  will-change:transform;
+}
+.btn-mag-outline:hover{border-color:var(--fg)}
+.cta-bg-text{
+  position:absolute;bottom:-5rem;right:-2rem;
+  font-family:var(--font-d);font-size:clamp(8rem,20vw,22rem);
+  font-weight:300;color:var(--fg);opacity:.025;
+  line-height:1;pointer-events:none;white-space:nowrap;
+  letter-spacing:-.04em;
+}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:2.5rem var(--pad);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1.5rem;
+}
+.footer-logo{
+  font-family:var(--font-b);font-size:var(--t-xs);
+  letter-spacing:.28em;text-transform:uppercase;font-weight:500;color:var(--fg);
+}
+.footer-links{display:flex;gap:2.5rem;list-style:none;flex-wrap:wrap}
+.footer-links a{
+  font-size:var(--t-sm);color:var(--muted);text-decoration:none;
+  transition:color .3s ease;
+}
+.footer-links a:hover{color:var(--fg)}
+.footer-copy{font-size:var(--t-xs);color:var(--muted);letter-spacing:.04em}
+
+/* ── UTIL ── */
+.reveal-clip{overflow:hidden}
+[data-reveal]{opacity:0;transform:translateY(28px)}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+@media(max-width:1024px){
+  .expertise-grid{grid-template-columns:repeat(2,1fr)}
+  .process-grid{grid-template-columns:1fr}
+  .process-left{position:static}
+  .proj{grid-template-columns:56px 1fr;gap:2rem}
+  .proj-img{display:none}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .solutions-body{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .expertise-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .nav-links li:not(:last-child){display:none}
+  .expertise-header,.projects-header{flex-direction:column;align-items:flex-start;gap:1.5rem}
+  .expertise-sub{text-align:left}
+  .vision-aside{flex-direction:column;gap:2.5rem}
+  .cta-actions{flex-direction:column;align-items:flex-start}
+  .process-grid{gap:3rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+
+<!-- Loader -->
+<div id="loader">
+  <div class="loader-mark">EasyDigia</div>
+  <div class="loader-bar" id="loader-bar"></div>
+</div>
+
+<!-- Nav -->
+<nav id="nav">
+  <a href="#" class="nav-logo">EasyDigia</a>
+  <ul class="nav-links">
+    <li><a href="#expertise">Expertises</a></li>
+    <li><a href="#solutions">Solutions</a></li>
+    <li><a href="#process">Processus</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#cta" class="nav-cta">Planifier un appel</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Intelligence artificielle &amp; Automatisation</p>
+    <h1 class="hero-headline">
+      <span class="line">Automatisez votre</span>
+      <span class="line"><em>entreprise.</em></span>
+      <span class="line">Accélérez votre</span>
+      <span class="line">croissance.</span>
+    </h1>
+    <p class="hero-sub">EasyDigia conçoit des solutions d'intelligence artificielle, d'automatisation et des applications qui transforment durablement votre façon de travailler.</p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">Planifier un appel <span>→</span></a>
+      <a href="#solutions" class="btn-ghost">Découvrir nos solutions <span class="arrow">→</span></a>
+    </div>
+  </div>
+  <p class="scroll-hint">Défiler</p>
+</section>
+
+<!-- Vision -->
+<section id="vision">
+  <div class="vision-inner">
+    <p class="vision-label">Notre vision</p>
+    <p class="vision-text">
+      L'IA n'est pas un gadget.<br>
+      <em>C'est un avantage concurrentiel</em><br>
+      que vos concurrents n'ont<br>
+      pas encore saisi.
+    </p>
+    <div class="vision-aside">
+      <div class="vision-stat">
+        <div class="stat-n">40<span>%</span></div>
+        <div class="stat-label">de productivité gagnée en moyenne<br>après automatisation</div>
+      </div>
+      <div class="vision-stat">
+        <div class="stat-n">6<span>×</span></div>
+        <div class="stat-label">plus rapide pour traiter<br>les demandes clients</div>
+      </div>
+      <div class="vision-stat">
+        <div class="stat-n">3<span>m</span></div>
+        <div class="stat-label">pour mesurer un premier<br>retour sur investissement</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Expertise -->
+<section id="expertise">
+  <div class="expertise-header">
+    <h2 class="expertise-title">Ce que nous construisons pour vous</h2>
+    <p class="expertise-sub">Six domaines d'intervention, une seule obsession : votre performance.</p>
+  </div>
+  <div class="expertise-grid">
+
+    <div class="expertise-card" data-number="1">
+      <div class="card-n">1</div>
+      <svg class="card-icon" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      <h3 class="card-title">IA Générative</h3>
+      <p class="card-desc">Chatbots, assistants métier, génération de contenu et analyse documentaire. Des systèmes qui pensent avec vous, pas à votre place.</p>
+    </div>
+
+    <div class="expertise-card" data-number="2">
+      <div class="card-n">2</div>
+      <svg class="card-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M17.5 14v7M14 17.5h7"/></svg>
+      <h3 class="card-title">Automatisation</h3>
+      <p class="card-desc">Make, n8n, Zapier, API propriétaires. Vos processus répétitifs s'exécutent seuls pendant que votre équipe se concentre sur l'essentiel.</p>
+    </div>
+
+    <div class="expertise-card" data-number="3">
+      <div class="card-n">3</div>
+      <svg class="card-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <h3 class="card-title">Développement SaaS</h3>
+      <p class="card-desc">Applications métier sur mesure, tableaux de bord, portails clients. Conçus pour évoluer avec votre activité, pas contre elle.</p>
+    </div>
+
+    <div class="expertise-card" data-number="4">
+      <div class="card-n">4</div>
+      <svg class="card-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+      <h3 class="card-title">Agents IA</h3>
+      <p class="card-desc">Des agents autonomes qui recherchent, décident et agissent. Qualifications de leads, reporting, veille — en continu, sans intervention humaine.</p>
+    </div>
+
+    <div class="expertise-card" data-number="5">
+      <div class="card-n">5</div>
+      <svg class="card-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <h3 class="card-title">Sites Web Premium</h3>
+      <p class="card-desc">Identité digitale haut de gamme, performances techniques irréprochables, SEO de précision. La vitrine que votre entreprise mérite.</p>
+    </div>
+
+    <div class="expertise-card" data-number="6">
+      <div class="card-n">6</div>
+      <svg class="card-icon" viewBox="0 0 24 24"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>
+      <h3 class="card-title">Applications Métier</h3>
+      <p class="card-desc">CRM, ERP, outils internes. Des interfaces qui épousent vos workflows réels plutôt que de vous forcer à adopter les leurs.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Solutions -->
+<section id="solutions">
+  <div class="solutions-wrap">
+    <div class="solutions-header">
+      <p class="solutions-label">Nos solutions</p>
+      <h2 class="solutions-title">Un secteur. Des enjeux précis. Une réponse sur mesure.</h2>
+    </div>
+    <div class="solutions-body">
+      <div class="solutions-tabs">
+        <div class="sol-tab active" data-sol="0">
+          <span class="sol-tab-name">Hôtellerie</span>
+          <span class="sol-tab-arrow">→</span>
+        </div>
+        <div class="sol-tab" data-sol="1">
+          <span class="sol-tab-name">Restauration</span>
+          <span class="sol-tab-arrow">→</span>
+        </div>
+        <div class="sol-tab" data-sol="2">
+          <span class="sol-tab-name">Immobilier</span>
+          <span class="sol-tab-arrow">→</span>
+        </div>
+        <div class="sol-tab" data-sol="3">
+          <span class="sol-tab-name">Santé</span>
+          <span class="sol-tab-arrow">→</span>
+        </div>
+        <div class="sol-tab" data-sol="4">
+          <span class="sol-tab-name">Comptabilité</span>
+          <span class="sol-tab-arrow">→</span>
+        </div>
+        <div class="sol-tab" data-sol="5">
+          <span class="sol-tab-name">Formation</span>
+          <span class="sol-tab-arrow">→</span>
+        </div>
+      </div>
+      <div class="solutions-panels">
+
+        <div class="sol-panel active">
+          <p class="panel-tag">Hôtellerie &amp; Hospitality</p>
+          <h3 class="panel-headline">Chaque client mérite une attention qui ne se délègue pas.</h3>
+          <p class="panel-desc">Chatbot de conciergerie disponible 24h/24, gestion automatisée des réservations, relances post-séjour personnalisées. Vos équipes restent humaines là où ça compte.</p>
+          <ul class="panel-list">
+            <li>Chatbot WhatsApp multilingue (FR, EN, AR)</li>
+            <li>Automatisation des confirmations et rappels</li>
+            <li>Collecte d'avis Google automatique</li>
+            <li>Tableau de bord taux d'occupation en temps réel</li>
+          </ul>
+        </div>
+
+        <div class="sol-panel">
+          <p class="panel-tag">Restauration</p>
+          <h3 class="panel-headline">Une table pleine ne s'improvise pas. Elle s'anticipe.</h3>
+          <p class="panel-desc">Prise de réservation automatisée, gestion des no-shows, campagnes SMS ciblées. Vos clients reviennent parce que vous les avez pensés avant qu'ils ne partent.</p>
+          <ul class="panel-list">
+            <li>Chatbot de réservation WhatsApp</li>
+            <li>Relance automatique des clients inactifs</li>
+            <li>Intégration caisse et CRM</li>
+            <li>Alertes stock et reporting journalier</li>
+          </ul>
+        </div>
+
+        <div class="sol-panel">
+          <p class="panel-tag">Immobilier</p>
+          <h3 class="panel-headline">Le meilleur lead, c'est celui qui arrive qualifié.</h3>
+          <p class="panel-desc">Qualification automatique des prospects, fiches biens générées par IA, suivi des visites et relances intelligentes. Moins de temps perdu. Plus d'offres signées.</p>
+          <ul class="panel-list">
+            <li>Agent IA de qualification de leads</li>
+            <li>Génération de descriptions de biens (FR/AR/EN)</li>
+            <li>SEO local par quartier et ville</li>
+            <li>Pipeline de vente automatisé</li>
+          </ul>
+        </div>
+
+        <div class="sol-panel">
+          <p class="panel-tag">Santé &amp; Cliniques</p>
+          <h3 class="panel-headline">La santé de vos patients commence par leur expérience.</h3>
+          <p class="panel-desc">Prise de rendez-vous automatisée, rappels SMS/WhatsApp, dossier patient intelligent. Réduisez les absences, libérez votre personnel d'accueil.</p>
+          <ul class="panel-list">
+            <li>Chatbot de prise de RDV 24h/24</li>
+            <li>Rappels automatiques avec confirmation</li>
+            <li>Gestion des listes d'attente</li>
+            <li>Reporting mensuel patient</li>
+          </ul>
+        </div>
+
+        <div class="sol-panel">
+          <p class="panel-tag">Expertise Comptable</p>
+          <h3 class="panel-headline">Votre cabinet mérite des outils à la hauteur de votre expertise.</h3>
+          <p class="panel-desc">Collecte automatisée de pièces comptables, portail client sécurisé, génération de rapports. Travaillez moins sur l'administratif, plus sur le conseil.</p>
+          <ul class="panel-list">
+            <li>Portail client de transmission de documents</li>
+            <li>OCR et classification automatique</li>
+            <li>Alertes et échéances automatisées</li>
+            <li>Tableau de bord cabinet</li>
+          </ul>
+        </div>
+
+        <div class="sol-panel">
+          <p class="panel-tag">Formation &amp; E-Learning</p>
+          <h3 class="panel-headline">L'apprentissage ne devrait jamais attendre.</h3>
+          <p class="panel-desc">Plateforme e-learning sur mesure, chatbot pédagogique, suivi des apprenants et relances personnalisées. Scalez votre impact sans scaler vos coûts.</p>
+          <ul class="panel-list">
+            <li>LMS personnalisé à votre identité</li>
+            <li>Assistant IA pédagogique</li>
+            <li>Suivi d'engagement et relances automatiques</li>
+            <li>Certification et badges numériques</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section id="process">
+  <div class="process-grid">
+    <div class="process-left">
+      <p class="process-label">Notre méthode</p>
+      <h2 class="process-title">De l'idée au système qui tourne.</h2>
+      <p class="process-intro">Chaque engagement commence par comprendre votre réalité opérationnelle, pas par vendre une technologie.</p>
+    </div>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div>
+          <h3 class="step-title">Audit &amp; Diagnostic</h3>
+          <p class="step-desc">Nous cartographions vos processus actuels, identifions les points de friction et quantifions le potentiel d'automatisation. Aucune hypothèse — uniquement ce qui existe.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div>
+          <h3 class="step-title">Stratégie</h3>
+          <p class="step-desc">Un plan de transformation priorisé par impact. Nous choisissons ensemble quoi automatiser en premier, avec quel ROI attendu et dans quel délai.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div>
+          <h3 class="step-title">Développement</h3>
+          <p class="step-desc">Sprints agiles de deux semaines. Vous voyez la progression, vous validez chaque livrable. Pas de surprise à la livraison finale.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <div>
+          <h3 class="step-title">Déploiement</h3>
+          <p class="step-desc">Mise en production progressive, tests en conditions réelles, formation de vos équipes. Le système s'intègre à votre environnement sans disruption.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">05</div>
+        <div>
+          <h3 class="step-title">Accompagnement</h3>
+          <p class="step-desc">Support continu, monitoring des performances, évolutions. Votre système s'améliore avec votre entreprise — nous restons partenaires, pas prestataires.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why -->
+<section id="why">
+  <div class="why-header">
+    <p class="why-label">Pourquoi EasyDigia</p>
+    <h2 class="why-title">Qualité internationale. Ancrage marocain.</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-item">
+      <svg class="why-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <h3 class="why-title-sm">Qualité enterprise</h3>
+      <p class="why-desc">Architecture robuste, sécurité par conception, documentation exhaustive. Des systèmes conçus pour durer.</p>
+    </div>
+    <div class="why-item">
+      <svg class="why-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <h3 class="why-title-sm">Livraison rapide</h3>
+      <p class="why-desc">Premier résultat en moins de trois semaines. Nous privilégions l'impact immédiat sur la complexité théorique.</p>
+    </div>
+    <div class="why-item">
+      <svg class="why-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <h3 class="why-title-sm">Expertise locale</h3>
+      <p class="why-desc">Nous comprenons le tissu économique marocain, ses contraintes réglementaires et ses opportunités spécifiques.</p>
+    </div>
+    <div class="why-item">
+      <svg class="why-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <h3 class="why-title-sm">ROI mesurable</h3>
+      <p class="why-desc">Chaque engagement commence par définir les indicateurs de succès. Nous vous livrons des systèmes, pas des promesses.</p>
+    </div>
+    <div class="why-item">
+      <svg class="why-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <h3 class="why-title-sm">Sur mesure</h3>
+      <p class="why-desc">Aucun template, aucune solution générique. Chaque système est conçu pour votre réalité opérationnelle.</p>
+    </div>
+    <div class="why-item">
+      <svg class="why-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <h3 class="why-title-sm">Standards internationaux</h3>
+      <p class="why-desc">Nos pratiques s'alignent sur celles des agences européennes et américaines de premier plan. La différence : nous sommes ici.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="projects-header">
+    <h2 class="projects-title">Projets récents</h2>
+    <a href="#" class="projects-link">Voir tous les projets →</a>
+  </div>
+  <div class="projects-list">
+
+    <div class="proj">
+      <div class="proj-n">01</div>
+      <div class="proj-info">
+        <p class="proj-tag">Hôtellerie · Marrakech</p>
+        <h3 class="proj-name">Conciergerie IA<br>Riad Lumière</h3>
+        <p class="proj-desc">Chatbot WhatsApp trilingue, automatisation des réservations et collecte d'avis. Taux de réponse : 94% en moins de 2 minutes.</p>
+      </div>
+      <img class="proj-img" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=680&q=80" alt="Hôtel Marrakech projet EasyDigia">
+    </div>
+
+    <div class="proj">
+      <div class="proj-n">02</div>
+      <div class="proj-info">
+        <p class="proj-tag">Immobilier · Casablanca</p>
+        <h3 class="proj-name">Pipeline de leads<br>Agence Prestige</h3>
+        <p class="proj-desc">Agent IA de qualification, génération de fiches biens et suivi automatisé. 3× plus de visites qualifiées en 60 jours.</p>
+      </div>
+      <img class="proj-img" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=680&q=80" alt="Immobilier Casablanca projet EasyDigia">
+    </div>
+
+    <div class="proj">
+      <div class="proj-n">03</div>
+      <div class="proj-info">
+        <p class="proj-tag">E-commerce · Rabat</p>
+        <h3 class="proj-name">Automatisation SAV<br>Boutique Darija</h3>
+        <p class="proj-desc">Récupération de paniers abandonnés via WhatsApp, SAV automatisé, relances personnalisées. +23% de conversions en 30 jours.</p>
+      </div>
+      <img class="proj-img" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=680&q=80" alt="E-commerce Rabat projet EasyDigia">
+    </div>
+
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials">
+  <p class="testi-label">Ce que disent nos clients</p>
+  <blockquote class="testi-quote">
+    "EasyDigia n'a pas installé un chatbot. Ils ont repensé notre relation client de fond en comble."
+  </blockquote>
+  <p class="testi-author"><strong>Karim Benali</strong> — Directeur général, Riad Lumière, Marrakech</p>
+</section>
+
+<!-- Final CTA -->
+<section id="cta">
+  <p class="cta-label">Commençons</p>
+  <h2 class="cta-headline">
+    Construisons votre prochain<br>
+    <em>avantage concurrentiel.</em>
+  </h2>
+  <div class="cta-actions">
+    <a href="https://wa.me/212600000000" class="btn-mag" id="btn-wa">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+    <a href="mailto:contact@easydigia.com" class="btn-mag-outline" id="btn-email">Envoyer un email</a>
+  </div>
+  <div class="cta-bg-text" aria-hidden="true">IA</div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <span class="footer-logo">EasyDigia</span>
+  <ul class="footer-links">
+    <li><a href="#">Expertises</a></li>
+    <li><a href="#">Solutions</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <span class="footer-copy">© 2026 EasyDigia. Maroc.</span>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── CURSOR ─────────────────────────────────── */
+const cursor = document.getElementById('cursor');
+let mx = 0, my = 0, cx = 0, cy = 0;
+
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+document.addEventListener('mouseleave', () => cursor.classList.add('hidden'));
+document.addEventListener('mouseenter', () => cursor.classList.remove('hidden'));
+
+document.querySelectorAll('a,button,.expertise-card,.sol-tab,.proj').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+});
+
+(function trackCursor() {
+  cx += (mx - cx) * .14;
+  cy += (my - cy) * .14;
+  cursor.style.left = cx + 'px';
+  cursor.style.top = cy + 'px';
+  requestAnimationFrame(trackCursor);
+})();
+
+/* ── LENIS ───────────────────────────────────── */
+const lenis = new Lenis({ duration: 1.35, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
+/* ── THREE.JS HERO PARTICLES ─────────────────── */
+(function initThree() {
+  const canvas = document.getElementById('hero-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(innerWidth, innerHeight);
+
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, .1, 1000);
+  cam.position.z = 6;
+
+  const N = 220;
+  const pos = new Float32Array(N * 3);
+  const col = new Float32Array(N * 3);
+
+  for (let i = 0; i < N; i++) {
+    pos[i*3]   = (Math.random() - .5) * 22;
+    pos[i*3+1] = (Math.random() - .5) * 14;
+    pos[i*3+2] = (Math.random() - .5) * 12;
+    const gold = Math.random() > .82;
+    col[i*3]   = gold ? .749 : .961;
+    col[i*3+1] = gold ? .627 : .949;
+    col[i*3+2] = gold ? .416 : .922;
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  const mat = new THREE.PointsMaterial({ size: .038, vertexColors: true, transparent: true, opacity: .55 });
+  const pts = new THREE.Points(geo, mat);
+  scene.add(pts);
+
+  let tx = 0, ty = 0;
+  document.addEventListener('mousemove', e => {
+    tx = (e.clientX / innerWidth - .5) * .4;
+    ty = -(e.clientY / innerHeight - .5) * .25;
+  });
+
+  const clock = new THREE.Clock();
+  (function render() {
+    const t = clock.getElapsedTime();
+    pts.rotation.y += (tx - pts.rotation.y) * .03 + .003;
+    pts.rotation.x += (ty - pts.rotation.x) * .03 + .001;
+    renderer.render(scene, cam);
+    requestAnimationFrame(render);
+  })();
+
+  window.addEventListener('resize', () => {
+    cam.aspect = innerWidth / innerHeight;
+    cam.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+  });
+})();
+
+/* ── LOADER ──────────────────────────────────── */
+const loaderTl = gsap.timeline({
+  onComplete: () => {
+    document.getElementById('loader').style.display = 'none';
+    initPageAnimations();
+  }
+});
+
+loaderTl
+  .to('#loader-bar', { width: '100%', duration: .9, ease: 'power2.inOut' })
+  .to('.loader-mark', { opacity: 1, scale: 1, duration: .6, ease: 'power3.out' }, '-=.4')
+  .to('#loader', { opacity: 0, duration: .5, ease: 'power2.inOut' }, '+=.3');
+
+/* ── PAGE ANIMATIONS ─────────────────────────── */
+function initPageAnimations() {
+
+  // Hero
+  const heroSplit = new SplitType('.hero-headline', { types: 'lines,chars' });
+  document.querySelectorAll('.hero-headline .line').forEach(l => {
+    const wrap = document.createElement('div');
+    wrap.className = 'reveal-clip';
+    l.parentNode.insertBefore(wrap, l);
+    wrap.appendChild(l);
+  });
+
+  gsap.timeline()
+    .to('.hero-eyebrow', { opacity: 1, y: 0, duration: .7, ease: 'power3.out' }, .1)
+    .from(heroSplit.chars, { opacity: 0, y: 50, duration: .9, stagger: .018, ease: 'power4.out' }, .25)
+    .to('.hero-sub', { opacity: 1, y: 0, duration: .7, ease: 'power3.out' }, .5)
+    .to('.hero-actions', { opacity: 1, y: 0, duration: .7, ease: 'power3.out' }, .65)
+    .to('.scroll-hint', { opacity: 1, y: 0, duration: .7, ease: 'power3.out' }, .8);
+
+  // Nav scroll
+  lenis.on('scroll', ({ scroll }) => {
+    document.getElementById('nav').classList.toggle('scrolled', scroll > 80);
+  });
+
+  // Vision
+  const visionSplit = new SplitType('.vision-text', { types: 'lines' });
+  gsap.from(visionSplit.lines, {
+    scrollTrigger: { trigger: '#vision', start: 'top 72%' },
+    opacity: 0, y: 36, duration: 1, stagger: .14, ease: 'power3.out'
+  });
+  gsap.from('.vision-stat', {
+    scrollTrigger: { trigger: '.vision-aside', start: 'top 80%' },
+    opacity: 0, y: 24, duration: .8, stagger: .12, ease: 'power3.out'
+  });
+
+  // Expertise cards
+  gsap.from('.expertise-card', {
+    scrollTrigger: { trigger: '#expertise', start: 'top 68%' },
+    opacity: 0, y: 40, duration: .85, stagger: .08, ease: 'power3.out'
+  });
+
+  // Solutions
+  gsap.from('.sol-tab', {
+    scrollTrigger: { trigger: '#solutions', start: 'top 70%' },
+    opacity: 0, x: -24, duration: .8, stagger: .09, ease: 'power3.out'
+  });
+  gsap.from('.sol-panel.active', {
+    scrollTrigger: { trigger: '#solutions', start: 'top 70%' },
+    opacity: 0, y: 24, duration: .8, ease: 'power3.out'
+  });
+
+  // Process
+  gsap.from('.process-title,.process-intro', {
+    scrollTrigger: { trigger: '#process', start: 'top 72%' },
+    opacity: 0, y: 30, duration: .9, stagger: .12, ease: 'power3.out'
+  });
+  gsap.from('.step', {
+    scrollTrigger: { trigger: '.process-steps', start: 'top 75%' },
+    opacity: 0, y: 28, duration: .8, stagger: .12, ease: 'power3.out'
+  });
+
+  // Why
+  gsap.from('.why-item', {
+    scrollTrigger: { trigger: '#why', start: 'top 70%' },
+    opacity: 0, y: 30, duration: .8, stagger: .08, ease: 'power3.out'
+  });
+
+  // Projects
+  gsap.from('.proj', {
+    scrollTrigger: { trigger: '#projects', start: 'top 70%' },
+    opacity: 0, y: 36, duration: .9, stagger: .15, ease: 'power3.out'
+  });
+
+  // Testimonial
+  gsap.from('.testi-quote,.testi-author', {
+    scrollTrigger: { trigger: '#testimonials', start: 'top 72%' },
+    opacity: 0, y: 30, duration: 1, stagger: .2, ease: 'power3.out'
+  });
+
+  // CTA
+  const ctaSplit = new SplitType('.cta-headline', { types: 'lines' });
+  gsap.from(ctaSplit.lines, {
+    scrollTrigger: { trigger: '#cta', start: 'top 72%' },
+    opacity: 0, y: 40, duration: 1, stagger: .18, ease: 'power3.out'
+  });
+  gsap.from('.cta-actions', {
+    scrollTrigger: { trigger: '#cta', start: 'top 65%' },
+    opacity: 0, y: 24, duration: .8, delay: .3, ease: 'power3.out'
+  });
+
+  // Parallax hero scroll
+  gsap.to('#hero-canvas', {
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true },
+    y: 80, opacity: .3
+  });
+}
+
+/* ── SOLUTIONS TABS ──────────────────────────── */
+const solTabs = document.querySelectorAll('.sol-tab');
+const solPanels = document.querySelectorAll('.sol-panel');
+
+solTabs.forEach((tab, i) => {
+  tab.addEventListener('click', () => {
+    solTabs.forEach(t => t.classList.remove('active'));
+    solPanels.forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    solPanels[i].classList.add('active');
+  });
+});
+
+/* ── MAGNETIC BUTTONS ────────────────────────── */
+document.querySelectorAll('.btn-mag,.btn-mag-outline').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const r = btn.getBoundingClientRect();
+    const dx = (e.clientX - r.left - r.width / 2) * .28;
+    const dy = (e.clientY - r.top - r.height / 2) * .28;
+    gsap.to(btn, { x: dx, y: dy, duration: .35, ease: 'power2.out' });
+  });
+  btn.addEventListener('mouseleave', () => {
+    gsap.to(btn, { x: 0, y: 0, duration: .65, ease: 'elastic.out(1,.45)' });
+  });
+});
+</script>
+</body>
+</html>
