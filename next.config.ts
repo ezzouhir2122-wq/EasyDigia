@@ -13,8 +13,6 @@ const LOCALE_FREE_ROUTES = [
   "contact",
   "temoignages",
   "guide-ia",
-  "admin",
-  "admin-login",
 ];
 
 const nextConfig: NextConfig = {
@@ -40,6 +38,18 @@ const nextConfig: NextConfig = {
         source: "/blog/:slug*",
         destination: "/fr/blog/:slug*",
         permanent: true,
+      },
+      // /admin → /fr/admin/leads (page directe)
+      {
+        source: "/admin",
+        destination: "/fr/admin/leads",
+        permanent: false,
+      },
+      // /admin-login → /fr/admin/login
+      {
+        source: "/admin-login",
+        destination: "/fr/admin/login",
+        permanent: false,
       },
       // Top-level pages without locale
       ...LOCALE_FREE_ROUTES.map((route) => ({
