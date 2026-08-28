@@ -32,6 +32,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.easydigia.com"),
   title: "EasyDigia — Automatisation & IA",
   description:
     "EasyDigia conçoit des automatisations et des agents IA sur mesure pour votre entreprise.",
@@ -41,13 +42,13 @@ export const metadata: Metadata = {
     title: "EasyDigia — Automatisation & IA",
     description:
       "EasyDigia conçoit des automatisations et des agents IA sur mesure pour votre entreprise.",
-    images: [{ url: "https://easydigia.com/og-image.png", width: 1200, height: 630, alt: "EasyDigia" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "EasyDigia" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "EasyDigia — Automatisation & IA",
     description: "EasyDigia conçoit des automatisations et des agents IA sur mesure pour votre entreprise.",
-    images: ["https://easydigia.com/og-image.png"],
+    images: ["/og-image.png"],
   },
 };
 
@@ -56,10 +57,10 @@ const organizationSchema = {
   "@graph": [
     {
       "@type": ["Organization", "LocalBusiness"],
-      "@id": "https://easydigia.com/#organization",
+      "@id": "https://www.easydigia.com/#organization",
       name: "EasyDigia",
-      url: "https://easydigia.com",
-      logo: "https://easydigia.com/logo-easydigia-new.jpeg",
+      url: "https://www.easydigia.com",
+      logo: "https://www.easydigia.com/logo-easydigia-new.jpeg",
       foundingDate: "2022",
       description:
         "EasyDigia conçoit des automatisations et des agents IA sur mesure pour les PME marocaines. Plus de 50 projets livrés en 3 ans dans les secteurs de l'immobilier, du retail et de l'industrie.",
@@ -88,10 +89,10 @@ const organizationSchema = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://easydigia.com/#website",
-      url: "https://easydigia.com",
+      "@id": "https://www.easydigia.com/#website",
+      url: "https://www.easydigia.com",
       name: "EasyDigia",
-      publisher: { "@id": "https://easydigia.com/#organization" },
+      publisher: { "@id": "https://www.easydigia.com/#organization" },
       inLanguage: ["fr", "ar", "en"],
     },
   ],

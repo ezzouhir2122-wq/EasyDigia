@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Témoignages clients — Résultats réels | EasyDigia",
     description: "50+ projets livrés. Découvrez les résultats concrets de nos clients.",
-    images: [{ url: "https://easydigia.com/og-image.png", width: 1200, height: 630 }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
 };
 

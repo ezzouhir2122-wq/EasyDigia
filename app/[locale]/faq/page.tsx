@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "FAQ — Automatisation, IA & Digital | EasyDigia",
     description: "Toutes les réponses sur nos services d'automatisation et d'IA pour entreprises marocaines.",
-    images: [{ url: "https://easydigia.com/og-image.png", width: 1200, height: 630 }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
 };
 

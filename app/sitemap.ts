@@ -23,6 +23,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: new Date(),
         changeFrequency: route.changeFrequency,
         priority: route.priority,
+        alternates: {
+          languages: Object.fromEntries(
+            LOCALES.map((l) => [l, `${BASE_URL}/${l}${route.path}`])
+          ),
+        },
       });
     }
   }

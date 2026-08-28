@@ -17,6 +17,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "YouBot", allow: "/" },
       { userAgent: "Omgilibot", allow: "/" },
     ],
-    sitemap: "https://easydigia.com/sitemap.xml",
+    sitemap: "https://www.easydigia.com/sitemap.xml",
   };
 }

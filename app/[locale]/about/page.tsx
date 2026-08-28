@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "À propos d'EasyDigia — Notre histoire & nos valeurs",
     description: "50+ projets livrés, 3+ ans d'expérience en automatisation et IA pour les entreprises marocaines.",
-    images: [{ url: "https://easydigia.com/og-image.png", width: 1200, height: 630 }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
 };
 

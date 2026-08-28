@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Nos services — Automatisation, IA & Digital | EasyDigia",
     description: "Sites web, chatbots IA, automatisation de processus, agents IA et formations sur mesure.",
-    images: [{ url: "https://easydigia.com/og-image.png", width: 1200, height: 630 }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
 };
 
@@ -44,7 +44,7 @@ export default function Services() {
     "@type": "ItemList",
     name: "Services EasyDigia",
     description: "Automatisation, agents IA et solutions digitales sur mesure pour PME",
-    provider: { "@id": "https://easydigia.com/#organization" },
+    provider: { "@id": "https://www.easydigia.com/#organization" },
     itemListElement: items.map((svc, i) => ({
       "@type": "ListItem",
       position: i + 1,
@@ -52,7 +52,7 @@ export default function Services() {
         "@type": "Service",
         name: svc.title,
         description: svc.desc,
-        provider: { "@id": "https://easydigia.com/#organization" },
+        provider: { "@id": "https://www.easydigia.com/#organization" },
         areaServed: { "@type": "Country", name: "Morocco" },
       },
     })),
