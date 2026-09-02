@@ -118,16 +118,16 @@ export default async function BlogArticle({
       {/* Cover image */}
       {article.image_url && (
         <section className="relative z-[5] mx-auto max-w-[780px] px-[6vw] pb-8">
-          <div className="relative h-[320px] w-full overflow-hidden rounded-[16px] md:h-[420px]">
+          <div className="relative w-full overflow-hidden rounded-[16px]" style={{ aspectRatio: "16/9" }}>
             <Image
               src={article.image_url as string}
               alt={loc.title}
               fill
-              className="object-cover"
+              className="object-cover object-center"
               priority
               sizes="(max-width: 768px) 100vw, 780px"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B10]/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B10]/40 to-transparent" />
           </div>
         </section>
       )}
