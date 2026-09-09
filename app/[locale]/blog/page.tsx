@@ -37,14 +37,18 @@ export default async function Blog() {
     getLocale(),
   ]);
 
-  const supabase = getSupabaseAdmin();
-  const { data: articles } = await supabase
-    .from("blog_articles")
-    .select("id, slug, category, read_min, published_at, image_url, content")
-    .eq("published", true)
-    .order("published_at", { ascending: false });
-
-  const rows = (articles ?? []) as ArticleRow[];
+  let rows: ArticleRow[] = [];
+  try {
+    const supabase = getSupabaseAdmin();
+    const { data: articles } = await supabase
+      .from("blog_articles")
+      .select("id, slug, category, read_min, published_at, image_url, content")
+      .eq("published", true)
+      .order("published_at", { ascending: false });
+    rows = (articles ?? []) as ArticleRow[];
+  } catch {
+    // Supabase env vars missing or connection failed — show empty state
+  }
 
   return (
     <div className="relative overflow-hidden">
