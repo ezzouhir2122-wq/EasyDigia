@@ -72,6 +72,7 @@ export function Header() {
     { href: "/blog",         label: t("blog") },
     { href: "/faq",          label: t("faq") },
     { href: "/contact",      label: t("contact") },
+    { href: "/admin",        label: t("admin") },
   ];
 
   return (
@@ -146,6 +147,14 @@ export function Header() {
           {/* Contact */}
           <Link href="/contact" className="nav-link text-[#8FD400] hover:text-[#C6FF00]">
             {t("contact")}
+          </Link>
+
+          {/* Admin */}
+          <Link
+            href="/admin"
+            className="rounded-lg border border-[#8FD400]/40 px-3.5 py-1.5 text-[14px] font-semibold text-[#8FD400] transition hover:bg-[#8FD400]/10 hover:text-[#C6FF00]"
+          >
+            {t("admin")}
           </Link>
         </nav>
 

@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { AdminNav } from "@/components/admin/AdminNav";
+import type { QuoteData } from "@/lib/quote-pdf";
 
 type Lead = {
   id: string;
@@ -12,7 +15,28 @@ type Lead = {
   locale: string;
   status?: string;
   created_at: string;
+  quote_sent_at?: string | null;
+  quote_requested?: boolean;
 };
+
+function makeQuote(lead: Lead): QuoteData {
+  return {
+    number: `DEVIS-${new Date().getFullYear()}-${lead.id.slice(0, 6).toUpperCase()}`,
+    date: new Date().toLocaleDateString("fr-FR"),
+    validDays: 15,
+    clientName: lead.name,
+    clientEmail: lead.email,
+    company: lead.company ?? "",
+    subject: lead.message,
+    items: [
+      { title: "Création de contenus publicitaires", description: "Création de contenus adaptés aux produits et aux formats des réseaux sociaux.", amount: 3000 },
+      { title: "Mise en place de l'automatisation", description: "Configuration de la programmation et de la publication automatique, avec tests.", amount: 1000 },
+      { title: "Suivi et optimisation initiale", description: "Suivi pendant le premier mois et ajustements de base selon les performances.", amount: 500 },
+    ],
+    paymentTerms: "50 % à la validation du devis et 50 % à la livraison de la première version.",
+    notes: "Le client fournit les informations produits, les visuels disponibles et les accès nécessaires. Les dépenses publicitaires et abonnements logiciels ne sont pas inclus.",
+  };
+}
 
 const STATUSES = [
   { value: "new",       label: "Nouveau",   color: "bg-blue-500/20 text-blue-400" },
@@ -50,6 +74,8 @@ function exportCSV(leads: Lead[]) {
 }
 
 export default function AdminLeads() {
+  const params = useParams();
+  const locale = (params?.locale as string) ?? "fr";
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Lead | null>(null);
@@ -59,6 +85,10 @@ export default function AdminLeads() {
   const [replyMessage, setReplyMessage] = useState("");
   const [replySending, setReplySending] = useState(false);
   const [replyStatus, setReplyStatus] = useState<"idle" | "ok" | "error">("idle");
+  const [quoteSending, setQuoteSending] = useState(false);
+  const [quoteStatus, setQuoteStatus] = useState<"idle" | "ok" | "error">("idle");
+  const [quoteOpen, setQuoteOpen] = useState(false);
+  const [quoteDraft, setQuoteDraft] = useState<QuoteData | null>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [editForm, setEditForm] = useState<Partial<Lead>>({});
   const [editSaving, setEditSaving] = useState(false);
@@ -107,6 +137,29 @@ export default function AdminLeads() {
     }
   }
 
+  async function sendQuote() {
+    if (!selected || !quoteDraft) return;
+    if (!window.confirm(`Envoyer le devis PDF à ${selected.email} ?`)) return;
+    setQuoteSending(true);
+    setQuoteStatus("idle");
+    const res = await fetch("/api/admin/leads/quote", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ to: selected.email, name: selected.name, company: selected.company, quote: quoteDraft }),
+    });
+    const json = await res.json();
+    setQuoteSending(false);
+    if (json.ok) {
+      setQuoteStatus("ok");
+      updateStatus(selected.id, "contacted");
+      const sentAt = new Date().toISOString();
+      setLeads((prev) => prev.map((l) => l.id === selected.id ? { ...l, quote_sent_at: sentAt } : l));
+      setSelected((prev) => prev ? { ...prev, quote_sent_at: sentAt } : null);
+    } else {
+      setQuoteStatus("error");
+    }
+  }
+
   async function updateStatus(id: string, status: string) {
     await fetch("/api/admin/leads", {
       method: "PATCH",
@@ -115,6 +168,18 @@ export default function AdminLeads() {
     });
     setLeads((prev) => prev.map((l) => l.id === id ? { ...l, status } : l));
     if (selected?.id === id) setSelected((prev) => prev ? { ...prev, status } : null);
+  }
+
+  async function toggleQuoteRequested() {
+    if (!selected) return;
+    const quote_requested = !selected.quote_requested;
+    await fetch("/api/admin/leads", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: selected.id, quote_requested }),
+    });
+    setLeads((prev) => prev.map((l) => l.id === selected.id ? { ...l, quote_requested } : l));
+    setSelected((prev) => prev ? { ...prev, quote_requested } : null);
   }
 
   function openEdit(lead: Lead) {
@@ -151,12 +216,15 @@ export default function AdminLeads() {
   }
 
   const filtered = filter === "all" ? leads : leads.filter((l) => (l.status ?? "new") === filter);
+  const quoteTotal = quoteDraft?.items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0) ?? 0;
 
   const counts: Record<string, number> = { all: leads.length };
   for (const s of STATUSES) counts[s.value] = leads.filter((l) => (l.status ?? "new") === s.value).length;
 
   return (
-    <div className="min-h-screen bg-[#0A0B10] p-6 text-[#F5F6FA]">
+    <div className="min-h-screen bg-[#0A0B10] text-[#F5F6FA]">
+      <AdminNav locale={locale} active="leads" />
+      <div className="p-6">
       <div className="mx-auto max-w-[1100px]">
 
         {/* Header */}
@@ -221,6 +289,7 @@ export default function AdminLeads() {
                       <th className="px-4 py-3.5 max-md:hidden">Société</th>
                       <th className="px-4 py-3.5 max-sm:hidden">Date</th>
                       <th className="px-4 py-3.5">Statut</th>
+                      <th className="px-4 py-3.5">Devis</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -242,6 +311,9 @@ export default function AdminLeads() {
                           <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${statusStyle(lead.status)}`}>
                             {statusLabel(lead.status)}
                           </span>
+                        </td>
+                        <td className="px-4 py-3.5 text-[15px]" title={lead.quote_sent_at ? "Devis envoyé" : lead.quote_requested ? "Devis demandé" : "Aucun devis demandé"}>
+                          {lead.quote_sent_at ? "✅" : lead.quote_requested ? "📄" : "—"}
                         </td>
                       </tr>
                     ))}
@@ -381,6 +453,59 @@ export default function AdminLeads() {
                 {selected.message}
               </div>
 
+              <div className="mt-5 rounded-[12px] border border-[#8FD400]/20 bg-[#8FD400]/[0.05] p-4">
+                <p className="text-[11px] uppercase tracking-[0.08em] text-[#9BA1B0]">Devis</p>
+                <p className="mt-1 text-[13px] text-[#F5F6FA]">Vérifiez le montant, puis validez l&apos;envoi du PDF au client.</p>
+                <button onClick={toggleQuoteRequested} className="mt-2 text-[12px] text-[#8FD400] hover:underline">
+                  {selected.quote_requested ? "✓ Devis demandé" : "Marquer comme devis demandé"}
+                </button>
+                {selected.email.toLowerCase() !== "aamrani01@gmail.com" && (
+                  <p className="mt-2 text-[12px] text-amber-300">Le modèle personnalisé disponible concerne actuellement Electro Bencharki.</p>
+                )}
+                {quoteStatus === "ok" && <p className="mt-2 text-[12px] text-[#8FD400]">✅ Devis envoyé avec succès.</p>}
+                {quoteStatus === "error" && <p className="mt-2 text-[12px] text-red-400">❌ Envoi impossible. Vérifiez la configuration email.</p>}
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <a
+                    href="#quote-editor"
+                    onClick={() => { setQuoteDraft(makeQuote(selected)); setQuoteOpen(true); }}
+                    className="flex items-center justify-center rounded-[8px] border border-[#8FD400]/40 py-2.5 text-[13px] font-semibold text-[#C6FF00] transition hover:bg-[#8FD400]/10"
+                  >
+                    👁 Voir / modifier
+                  </a>
+                  <button
+                    onClick={sendQuote}
+                    disabled={quoteSending || !quoteDraft}
+                    className="rounded-[8px] bg-gradient-to-br from-[#8FD400] to-[#C6FF00] py-2.5 text-[13px] font-bold text-[#0A0B10] transition hover:opacity-90 disabled:opacity-50"
+                  >
+                    {quoteSending ? "Envoi…" : "📎 Envoyer"}
+                  </button>
+                </div>
+              </div>
+
+              {quoteOpen && quoteDraft && (
+                <div id="quote-editor" className="mt-4 rounded-[12px] border border-white/10 bg-[#0A0B10] p-4">
+                  <div className="mb-3 flex items-center justify-between">
+                    <p className="text-[11px] uppercase tracking-[0.08em] text-[#9BA1B0]">Prévisualisation et modification</p>
+                    <button onClick={() => setQuoteOpen(false)} className="text-[12px] text-[#9BA1B0] hover:text-white">Fermer</button>
+                  </div>
+                  <label className="mb-2 block text-[11px] text-[#9BA1B0]">Objet</label>
+                  <textarea rows={2} value={quoteDraft.subject} onChange={(e) => setQuoteDraft({ ...quoteDraft, subject: e.target.value })} className="mb-3 w-full rounded-[8px] border border-white/10 bg-[#12141C] px-3 py-2 text-[13px] text-[#F5F6FA]" />
+                  {quoteDraft.items.map((item, index) => (
+                    <div key={index} className="mb-3 rounded-[8px] border border-white/10 p-3">
+                      <div className="grid grid-cols-[1fr_90px] gap-2">
+                        <input value={item.title} onChange={(e) => { const items = [...quoteDraft.items]; items[index] = { ...item, title: e.target.value }; setQuoteDraft({ ...quoteDraft, items }); }} className="rounded-[8px] border border-white/10 bg-[#12141C] px-3 py-2 text-[12px] text-white" />
+                        <input type="number" value={item.amount} onChange={(e) => { const items = [...quoteDraft.items]; items[index] = { ...item, amount: Number(e.target.value) }; setQuoteDraft({ ...quoteDraft, items }); }} className="rounded-[8px] border border-white/10 bg-[#12141C] px-3 py-2 text-[12px] text-white" />
+                      </div>
+                      <textarea rows={2} value={item.description} onChange={(e) => { const items = [...quoteDraft.items]; items[index] = { ...item, description: e.target.value }; setQuoteDraft({ ...quoteDraft, items }); }} className="mt-2 w-full rounded-[8px] border border-white/10 bg-[#12141C] px-3 py-2 text-[12px] text-[#9BA1B0]" />
+                    </div>
+                  ))}
+                  <div className="mb-3 flex items-center justify-between border-t border-white/10 pt-3 text-[13px] font-semibold"><span>Total proposé</span><span className="text-[#C6FF00]">{new Intl.NumberFormat("fr-FR").format(quoteTotal)} MAD</span></div>
+                  <label className="mb-2 block text-[11px] text-[#9BA1B0]">Conditions</label>
+                  <textarea rows={3} value={`${quoteDraft.paymentTerms}\n${quoteDraft.notes}`} onChange={(e) => { const [paymentTerms, ...notes] = e.target.value.split("\n"); setQuoteDraft({ ...quoteDraft, paymentTerms, notes: notes.join("\n") }); }} className="w-full rounded-[8px] border border-white/10 bg-[#12141C] px-3 py-2 text-[12px] text-[#9BA1B0]" />
+                  <p className="mt-2 text-[11px] text-[#9BA1B0]">Modifiez les champs ci-dessus, puis cliquez sur « Envoyer » pour transmettre le PDF mis à jour.</p>
+                </div>
+              )}
+
               {/* Changer le statut */}
               <div className="mt-5">
                 <p className="mb-2 text-[11px] uppercase tracking-[0.08em] text-[#9BA1B0]">Statut</p>
@@ -454,6 +579,7 @@ export default function AdminLeads() {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import { Logo } from "@/components/Logo";
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get("next") ?? "/fr/admin/blog";
+  const next = searchParams.get("next") ?? "/fr/admin";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

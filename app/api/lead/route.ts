@@ -17,12 +17,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "validation" }, { status: 400 });
   }
 
-  const { name, email, company, service, message } = parsed.data;
+  const { name, email, company, service, message, quoteRequested } = parsed.data;
 
   // Save to Supabase (non-blocking — email always goes out even if DB fails)
   try {
     const supabase = getSupabaseAdmin();
-    const { error: dbError } = await supabase.from("leads").insert(parsed.data);
+    const { error: dbError } = await supabase.from("leads").insert({
+      name, email, company, service, message, locale: parsed.data.locale,
+      quote_requested: quoteRequested,
+    });
     if (dbError) console.error("lead insert failed", dbError);
   } catch (e) {
     console.error("supabase error", e);

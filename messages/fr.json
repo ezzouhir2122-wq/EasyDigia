@@ -9,6 +9,7 @@
     "faq": "FAQ",
     "temoignages": "Témoignages",
     "contact": "Contact",
+    "admin": "Admin",
     "cta": "Audit gratuit",
     "signin": "Mon compte"
   },
@@ -94,6 +95,7 @@
     "service": "Service souhaité",
     "message": "Votre message",
     "submit": "Envoyer",
+    "quoteRequest": "Je souhaite recevoir une estimation ou un devis",
     "success": "Merci ! Nous vous répondrons rapidement.",
     "error": "Une erreur est survenue. Réessayez.",
     "required": "Ce champ est requis."

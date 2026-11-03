@@ -17,6 +17,64 @@ import {
 
 type Props = { params: Promise<{ slug: string; locale: string }> };
 
+const SITE_URL = "https://www.easydigia.com";
+
+function solutionSchema({
+  service,
+  sector,
+  city,
+  slug,
+}: {
+  service: PseoService;
+  sector: PseoSector;
+  city?: PseoCity;
+  slug: string;
+}) {
+  const location = city ? ` à ${city.label}` : " au Maroc";
+  const pageUrl = `${SITE_URL}/fr/solutions/${slug}`;
+  const faqItems = sector.faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  }));
+
+  if (city) {
+    faqItems.push({
+      "@type": "Question",
+      name: `Intervenez-vous à ${city.label} ?`,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: `Oui, EasyDigia intervient à ${city.label} et dans toute la région ${city.region}, à distance ou en présentiel.`,
+      },
+    });
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        name: `${service.label} pour ${sector.labelFull}${location}`,
+        description: service.description,
+        provider: { "@id": `${SITE_URL}/#organization` },
+        areaServed: city
+          ? { "@type": "City", name: city.label }
+          : { "@type": "Country", name: "Morocco" },
+        url: pageUrl,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE_URL}/fr` },
+          { "@type": "ListItem", position: 2, name: "Solutions", item: `${SITE_URL}/fr/services` },
+          { "@type": "ListItem", position: 3, name: `${service.label} pour ${sector.labelFull}`, item: pageUrl },
+        ],
+      },
+      { "@type": "FAQPage", mainEntity: faqItems },
+    ],
+  };
+}
+
 export async function generateStaticParams() {
   return [
     ...getAllPseoSlugs().map((slug) => ({ slug })),
@@ -80,6 +138,10 @@ function GeoPage({
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-base text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(solutionSchema({ service, sector, city, slug: `${service.slug}-pour-${sector.slug}-a-${city.slug}` })) }}
+      />
       <Orbs />
 
       {/* Breadcrumb */}
@@ -329,6 +391,10 @@ export default async function PseoPage({ params }: Props) {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-base text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(solutionSchema({ service, sector, slug: `${service.slug}-pour-${sector.slug}` })) }}
+      />
       <Orbs />
 
       {/* Breadcrumb */}

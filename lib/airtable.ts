@@ -5,6 +5,7 @@ type AirtableLead = {
   service?: string;
   message?: string;
   locale?: string;
+  quoteRequested?: boolean;
 };
 
 type AirtablePdfLead = {
@@ -43,6 +44,7 @@ export async function saveLeadToAirtable(lead: AirtableLead) {
             Service: lead.service ?? "",
             Message: lead.message ?? "",
             Locale: lead.locale ?? "fr",
+            "Devis demandé": lead.quoteRequested ? "Oui" : "Non",
             Date: new Date().toISOString(),
           },
         },

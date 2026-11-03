@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createSupabaseBrowser } from "@/lib/supabase-browser";
+import { useParams } from "next/navigation";
+import { AdminNav } from "@/components/admin/AdminNav";
 
 type Article = {
   id: string;
@@ -27,6 +28,8 @@ const PROVIDERS = [
 ];
 
 export default function AdminBlog() {
+  const params = useParams();
+  const locale = (params?.locale as string) ?? "fr";
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -87,29 +90,18 @@ export default function AdminBlog() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0B10] p-6 text-[#F5F6FA]">
-      <div className="mx-auto max-w-[900px]">
+    <div className="min-h-screen bg-[#0A0B10] text-[#F5F6FA]">
+      <AdminNav locale={locale} active="blog" />
+      <div className="mx-auto max-w-[900px] p-6">
         {/* Header */}
-        <div className="mb-8 flex items-start justify-between gap-4">
-          <div>
-            <div className="mb-2 font-mono text-[11px] uppercase tracking-[0.1em] text-[#8FD400]">
-              EasyDigia — Admin
-            </div>
-            <h1 className="text-[28px] font-bold tracking-tight">Gestion du Blog IA</h1>
-            <p className="mt-1 text-[14px] text-[#9BA1B0]">
-              Générez des articles en FR/EN/AR avec Grok, Gemini ou Claude
-            </p>
+        <div className="mb-8">
+          <div className="mb-2 font-mono text-[11px] uppercase tracking-[0.1em] text-[#8FD400]">
+            EasyDigia — Admin
           </div>
-          <button
-            onClick={async () => {
-              const supabase = createSupabaseBrowser();
-              await supabase.auth.signOut();
-              window.location.href = "/fr/admin/login";
-            }}
-            className="shrink-0 rounded-[9px] border border-white/10 px-4 py-2 text-[13px] text-[#9BA1B0] transition hover:border-red-500/40 hover:text-red-400"
-          >
-            Déconnexion
-          </button>
+          <h1 className="text-[28px] font-bold tracking-tight">Gestion du Blog IA</h1>
+          <p className="mt-1 text-[14px] text-[#9BA1B0]">
+            Générez des articles en FR/EN/AR avec Grok, Gemini ou Claude
+          </p>
         </div>
 
         {/* Generate form */}

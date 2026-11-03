@@ -3,6 +3,18 @@ import { Container } from "@/components/Container";
 import { ContactForm } from "@/components/ContactForm";
 import { GuideCTA } from "@/components/GuideCTA";
 
+export const metadata = {
+  title: "Demander un audit gratuit IA & automatisation | EasyDigia",
+  description:
+    "Décrivez votre projet d’automatisation, de chatbot ou d’agent IA. EasyDigia vous répond sous 24h depuis Marrakech, partout au Maroc.",
+  alternates: { canonical: "https://www.easydigia.com/fr/contact" },
+  openGraph: {
+    title: "Demander un audit gratuit | EasyDigia",
+    description: "Identifions ensemble les tâches que votre entreprise peut automatiser.",
+    url: "https://www.easydigia.com/fr/contact",
+  },
+};
+
 export default function Contact() {
   const t = useTranslations("contact");
   return (

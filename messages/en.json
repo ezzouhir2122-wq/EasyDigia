@@ -9,6 +9,7 @@
     "faq": "FAQ",
     "temoignages": "Testimonials",
     "contact": "Contact",
+    "admin": "Admin",
     "cta": "Free audit",
     "signin": "My account"
   },
@@ -94,6 +95,7 @@
     "service": "Service of interest",
     "message": "Your message",
     "submit": "Send",
+    "quoteRequest": "I would like to receive an estimate or quote",
     "success": "Thank you! We'll get back to you shortly.",
     "error": "Something went wrong. Please try again.",
     "required": "This field is required."

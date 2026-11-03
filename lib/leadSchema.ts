@@ -6,6 +6,7 @@ export const leadSchema = z.object({
   company: z.string().optional(),
   service: z.string().optional(),
   message: z.string().min(1),
+  quoteRequested: z.boolean().default(false),
   locale: z.enum(["fr", "en", "ar"]),
 });
 

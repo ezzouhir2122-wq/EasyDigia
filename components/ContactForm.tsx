@@ -17,6 +17,7 @@ export function ContactForm() {
       company: String(form.get("company") || ""),
       service: String(form.get("service") || ""),
       message: String(form.get("message") || ""),
+      quoteRequested: form.get("quoteRequested") === "on",
       locale,
     };
     try {
@@ -70,6 +71,10 @@ export function ContactForm() {
       <label className="grid gap-1.5 text-[14px] text-muted">
         {t("message")} <span className="text-brand">*</span>
         <textarea name="message" required rows={4} className={field} />
+      </label>
+      <label className="flex items-start gap-3 rounded-[10px] border border-brand/20 bg-brand/[0.05] p-3 text-[13px] text-muted">
+        <input name="quoteRequested" type="checkbox" className="mt-0.5 h-4 w-4 accent-[#8FD400]" />
+        <span>{t("quoteRequest")}</span>
       </label>
       <button
         type="submit"
