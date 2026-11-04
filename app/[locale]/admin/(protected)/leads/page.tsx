@@ -17,6 +17,10 @@ type Lead = {
   created_at: string;
   quote_sent_at?: string | null;
   quote_requested?: boolean;
+  city?: string;
+  phone?: string;
+  email_sent_at?: string | null;
+  replied?: boolean;
 };
 
 function makeQuote(lead: Lead): QuoteData {
@@ -53,14 +57,18 @@ function statusLabel(s?: string) {
 }
 
 function exportCSV(leads: Lead[]) {
-  const cols = ["Date", "Nom", "Email", "Société", "Service", "Statut", "Message"];
+  const cols = ["Date", "Nom", "Email", "Société", "Ville", "Téléphone", "Service", "Statut", "Email envoyé", "Réponse", "Message"];
   const rows = leads.map((l) => [
     new Date(l.created_at).toLocaleDateString("fr-FR"),
     l.name,
     l.email,
     l.company ?? "",
+    l.city ?? "",
+    l.phone ?? "",
     l.service ?? "",
     statusLabel(l.status),
+    l.email_sent_at ? new Date(l.email_sent_at).toLocaleDateString("fr-FR") : "",
+    l.replied ? "Oui" : "Non",
     `"${(l.message ?? "").replace(/"/g, '""')}"`,
   ]);
   const csv = [cols, ...rows].map((r) => r.join(";")).join("\n");
@@ -131,10 +139,34 @@ export default function AdminLeads() {
     if (json.ok) {
       setReplyStatus("ok");
       updateStatus(selected.id, "contacted");
+      markEmailSent(selected.id);
       setTimeout(() => { setReplyOpen(false); setReplyStatus("idle"); }, 2000);
     } else {
       setReplyStatus("error");
     }
+  }
+
+  async function markEmailSent(id: string) {
+    const email_sent_at = new Date().toISOString();
+    await fetch("/api/admin/leads", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, email_sent_at }),
+    });
+    setLeads((prev) => prev.map((l) => l.id === id ? { ...l, email_sent_at } : l));
+    if (selected?.id === id) setSelected((prev) => prev ? { ...prev, email_sent_at } : null);
+  }
+
+  async function toggleReplied() {
+    if (!selected) return;
+    const replied = !selected.replied;
+    await fetch("/api/admin/leads", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: selected.id, replied }),
+    });
+    setLeads((prev) => prev.map((l) => l.id === selected.id ? { ...l, replied } : l));
+    setSelected((prev) => prev ? { ...prev, replied } : null);
   }
 
   async function sendQuote() {
@@ -183,7 +215,7 @@ export default function AdminLeads() {
   }
 
   function openEdit(lead: Lead) {
-    setEditForm({ name: lead.name, email: lead.email, company: lead.company, service: lead.service, message: lead.message });
+    setEditForm({ name: lead.name, email: lead.email, company: lead.company, city: lead.city, phone: lead.phone, service: lead.service, message: lead.message });
     setEditOpen(true);
     setDeleteConfirm(false);
   }
@@ -285,11 +317,15 @@ export default function AdminLeads() {
                   <thead>
                     <tr className="border-b border-white/[0.07] text-left text-[11px] uppercase tracking-[0.08em] text-[#9BA1B0]">
                       <th className="px-5 py-3.5">Nom</th>
-                      <th className="px-4 py-3.5">Email</th>
-                      <th className="px-4 py-3.5 max-md:hidden">Société</th>
+                      <th className="px-4 py-3.5 max-md:hidden">Email</th>
+                      <th className="px-4 py-3.5 max-lg:hidden">Société</th>
+                      <th className="px-4 py-3.5 max-lg:hidden">Ville</th>
+                      <th className="px-4 py-3.5 max-xl:hidden">Téléphone</th>
                       <th className="px-4 py-3.5 max-sm:hidden">Date</th>
                       <th className="px-4 py-3.5">Statut</th>
-                      <th className="px-4 py-3.5">Devis</th>
+                      <th className="px-4 py-3.5 text-center max-md:hidden" title="Email envoyé">✉</th>
+                      <th className="px-4 py-3.5 text-center" title="Réponse reçue">↩</th>
+                      <th className="px-4 py-3.5 text-center">Devis</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -302,8 +338,12 @@ export default function AdminLeads() {
                         }`}
                       >
                         <td className="px-5 py-3.5 font-medium text-[#F5F6FA]">{lead.name}</td>
-                        <td className="px-4 py-3.5 text-[#9BA1B0]">{lead.email}</td>
-                        <td className="px-4 py-3.5 text-[#9BA1B0] max-md:hidden">{lead.company ?? "—"}</td>
+                        <td className="px-4 py-3.5 text-[#9BA1B0] max-md:hidden">{lead.email || "—"}</td>
+                        <td className="px-4 py-3.5 text-[#9BA1B0] max-lg:hidden">{lead.company ?? "—"}</td>
+                        <td className="px-4 py-3.5 text-[#9BA1B0] max-lg:hidden">{lead.city ?? "—"}</td>
+                        <td className="px-4 py-3.5 text-[#9BA1B0] max-xl:hidden">
+                          {lead.phone ? <a href={`tel:${lead.phone}`} onClick={(e) => e.stopPropagation()} className="hover:text-[#C6FF00]">{lead.phone}</a> : "—"}
+                        </td>
                         <td className="px-4 py-3.5 text-[#9BA1B0]/70 max-sm:hidden">
                           {new Date(lead.created_at).toLocaleDateString("fr-FR")}
                         </td>
@@ -312,7 +352,13 @@ export default function AdminLeads() {
                             {statusLabel(lead.status)}
                           </span>
                         </td>
-                        <td className="px-4 py-3.5 text-[15px]" title={lead.quote_sent_at ? "Devis envoyé" : lead.quote_requested ? "Devis demandé" : "Aucun devis demandé"}>
+                        <td className="px-4 py-3.5 text-center text-[15px] max-md:hidden" title={lead.email_sent_at ? `Email envoyé le ${new Date(lead.email_sent_at).toLocaleDateString("fr-FR")}` : "Aucun email envoyé"}>
+                          {lead.email_sent_at ? "✅" : "—"}
+                        </td>
+                        <td className="px-4 py-3.5 text-center text-[15px]" title={lead.replied ? "A répondu" : "Pas de réponse"}>
+                          {lead.replied ? "💬" : "—"}
+                        </td>
+                        <td className="px-4 py-3.5 text-center text-[15px]" title={lead.quote_sent_at ? "Devis envoyé" : lead.quote_requested ? "Devis demandé" : "Aucun devis demandé"}>
                           {lead.quote_sent_at ? "✅" : lead.quote_requested ? "📄" : "—"}
                         </td>
                       </tr>
@@ -383,6 +429,8 @@ export default function AdminLeads() {
                     { key: "name", label: "Nom" },
                     { key: "email", label: "Email" },
                     { key: "company", label: "Société" },
+                    { key: "city", label: "Ville" },
+                    { key: "phone", label: "Téléphone" },
                     { key: "service", label: "Service" },
                   ].map(({ key, label }) => (
                     <div key={key}>
@@ -439,6 +487,37 @@ export default function AdminLeads() {
                     <dd className="font-medium">{selected.service}</dd>
                   </div>
                 )}
+                {selected.city && (
+                  <div className="flex justify-between">
+                    <dt className="text-[#9BA1B0]">Ville</dt>
+                    <dd className="font-medium">{selected.city}</dd>
+                  </div>
+                )}
+                {selected.phone && (
+                  <div className="flex justify-between">
+                    <dt className="text-[#9BA1B0]">Téléphone</dt>
+                    <dd className="font-medium"><a href={`tel:${selected.phone}`} className="text-[#8FD400] hover:underline">{selected.phone}</a></dd>
+                  </div>
+                )}
+                <div className="flex justify-between">
+                  <dt className="text-[#9BA1B0]">Email envoyé</dt>
+                  <dd className="font-medium">{selected.email_sent_at ? `✅ ${new Date(selected.email_sent_at).toLocaleDateString("fr-FR")}` : "—"}</dd>
+                </div>
+                <div className="flex items-center justify-between">
+                  <dt className="text-[#9BA1B0]">Réponse reçue</dt>
+                  <dd>
+                    <button
+                      onClick={toggleReplied}
+                      className={`rounded-full px-2.5 py-1 text-[11px] font-semibold transition ${
+                        selected.replied
+                          ? "bg-[#8FD400]/20 text-[#C6FF00] ring-1 ring-[#8FD400]/40"
+                          : "border border-white/10 text-[#9BA1B0] hover:border-white/20"
+                      }`}
+                    >
+                      {selected.replied ? "💬 Oui" : "Marquer comme répondu"}
+                    </button>
+                  </dd>
+                </div>
                 <div className="flex justify-between">
                   <dt className="text-[#9BA1B0]">Date</dt>
                   <dd>{new Date(selected.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</dd>
