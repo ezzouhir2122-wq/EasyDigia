@@ -109,6 +109,7 @@ export default function AdminLeads() {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Lead | null>(null);
   const [filter, setFilter] = useState("all");
+  const [sectorFilter, setSectorFilter] = useState("all");
   const [replyOpen, setReplyOpen] = useState(false);
   const [replySubject, setReplySubject] = useState("");
   const [replyMessage, setReplyMessage] = useState("");
@@ -268,11 +269,18 @@ export default function AdminLeads() {
     setDeleteConfirm(false);
   }
 
-  const filtered = filter === "all" ? leads : leads.filter((l) => (l.status ?? "new") === filter);
+  const filtered = leads.filter((l) =>
+    (filter === "all" || (l.status ?? "new") === filter) &&
+    (sectorFilter === "all" || (l.sector ?? "") === sectorFilter)
+  );
   const quoteTotal = quoteDraft?.items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0) ?? 0;
 
   const counts: Record<string, number> = { all: leads.length };
   for (const s of STATUSES) counts[s.value] = leads.filter((l) => (l.status ?? "new") === s.value).length;
+
+  const sectorList = Array.from(new Set(leads.map((l) => l.sector).filter(Boolean) as string[])).sort((a, b) => a.localeCompare(b, "fr"));
+  const sectorCounts: Record<string, number> = {};
+  for (const l of leads) if (l.sector) sectorCounts[l.sector] = (sectorCounts[l.sector] ?? 0) + 1;
 
   return (
     <div className="min-h-screen bg-[#0A0B10] text-[#F5F6FA]">
@@ -323,6 +331,34 @@ export default function AdminLeads() {
             </button>
           ))}
         </div>
+
+        {/* Filtres par activité / niche */}
+        {sectorList.length > 0 && (
+          <div className="mb-5 flex flex-wrap items-center gap-2">
+            <span className="mr-1 text-[11px] uppercase tracking-[0.08em] text-[#9BA1B0]">Activité</span>
+            <button
+              onClick={() => setSectorFilter("all")}
+              className={`rounded-full px-3 py-1 text-[12px] font-medium transition ${
+                sectorFilter === "all"
+                  ? "bg-white/10 text-[#F5F6FA] ring-1 ring-white/20"
+                  : "border border-white/10 text-[#9BA1B0] hover:border-white/20"
+              }`}
+            >
+              Toutes ({leads.length})
+            </button>
+            {sectorList.map((sec) => (
+              <button
+                key={sec}
+                onClick={() => setSectorFilter(sec)}
+                className={`rounded-full px-3 py-1 text-[12px] font-semibold transition ${
+                  sectorFilter === sec ? `${sectorColor(sec)} ring-1 ring-white/20` : "border border-white/10 text-[#9BA1B0] hover:border-white/20"
+                }`}
+              >
+                {sec} ({sectorCounts[sec] ?? 0})
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="flex gap-5 max-lg:flex-col">
 
