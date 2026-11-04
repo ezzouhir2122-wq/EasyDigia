@@ -19,9 +19,29 @@ type Lead = {
   quote_requested?: boolean;
   city?: string;
   phone?: string;
+  sector?: string;
   email_sent_at?: string | null;
   replied?: boolean;
 };
+
+const SECTOR_COLORS: { match: string; color: string }[] = [
+  { match: "optic",        color: "bg-sky-500/15 text-sky-300" },
+  { match: "parapharm",    color: "bg-emerald-500/15 text-emerald-300" },
+  { match: "pharm",        color: "bg-emerald-500/15 text-emerald-300" },
+  { match: "hôtel",        color: "bg-violet-500/15 text-violet-300" },
+  { match: "hotel",        color: "bg-violet-500/15 text-violet-300" },
+  { match: "riad",         color: "bg-violet-500/15 text-violet-300" },
+  { match: "commerce",     color: "bg-amber-500/15 text-amber-300" },
+  { match: "e-commerce",   color: "bg-amber-500/15 text-amber-300" },
+  { match: "immobil",      color: "bg-rose-500/15 text-rose-300" },
+  { match: "sant",         color: "bg-teal-500/15 text-teal-300" },
+  { match: "restau",       color: "bg-orange-500/15 text-orange-300" },
+];
+function sectorColor(s?: string) {
+  if (!s) return "bg-white/5 text-[#9BA1B0]";
+  const low = s.toLowerCase();
+  return SECTOR_COLORS.find((x) => low.includes(x.match))?.color ?? "bg-white/8 text-[#C6D0E0]";
+}
 
 function makeQuote(lead: Lead): QuoteData {
   return {
@@ -57,12 +77,13 @@ function statusLabel(s?: string) {
 }
 
 function exportCSV(leads: Lead[]) {
-  const cols = ["Date", "Nom", "Email", "Société", "Ville", "Téléphone", "Service", "Statut", "Email envoyé", "Réponse", "Message"];
+  const cols = ["Date", "Nom", "Email", "Société", "Activité / Niche", "Ville", "Téléphone", "Service", "Statut", "Email envoyé", "Réponse", "Message"];
   const rows = leads.map((l) => [
     new Date(l.created_at).toLocaleDateString("fr-FR"),
     l.name,
     l.email,
     l.company ?? "",
+    l.sector ?? "",
     l.city ?? "",
     l.phone ?? "",
     l.service ?? "",
@@ -215,7 +236,7 @@ export default function AdminLeads() {
   }
 
   function openEdit(lead: Lead) {
-    setEditForm({ name: lead.name, email: lead.email, company: lead.company, city: lead.city, phone: lead.phone, service: lead.service, message: lead.message });
+    setEditForm({ name: lead.name, email: lead.email, company: lead.company, sector: lead.sector, city: lead.city, phone: lead.phone, service: lead.service, message: lead.message });
     setEditOpen(true);
     setDeleteConfirm(false);
   }
@@ -319,6 +340,7 @@ export default function AdminLeads() {
                       <th className="px-5 py-3.5">Nom</th>
                       <th className="px-4 py-3.5 max-md:hidden">Email</th>
                       <th className="px-4 py-3.5 max-lg:hidden">Société</th>
+                      <th className="px-4 py-3.5 max-sm:hidden">Activité</th>
                       <th className="px-4 py-3.5 max-lg:hidden">Ville</th>
                       <th className="px-4 py-3.5 max-xl:hidden">Téléphone</th>
                       <th className="px-4 py-3.5 max-sm:hidden">Date</th>
@@ -340,6 +362,11 @@ export default function AdminLeads() {
                         <td className="px-5 py-3.5 font-medium text-[#F5F6FA]">{lead.name}</td>
                         <td className="px-4 py-3.5 text-[#9BA1B0] max-md:hidden">{lead.email || "—"}</td>
                         <td className="px-4 py-3.5 text-[#9BA1B0] max-lg:hidden">{lead.company ?? "—"}</td>
+                        <td className="px-4 py-3.5 max-sm:hidden">
+                          {lead.sector
+                            ? <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${sectorColor(lead.sector)}`}>{lead.sector}</span>
+                            : <span className="text-[#9BA1B0]">—</span>}
+                        </td>
                         <td className="px-4 py-3.5 text-[#9BA1B0] max-lg:hidden">{lead.city ?? "—"}</td>
                         <td className="px-4 py-3.5 text-[#9BA1B0] max-xl:hidden">
                           {lead.phone ? <a href={`tel:${lead.phone}`} onClick={(e) => e.stopPropagation()} className="hover:text-[#C6FF00]">{lead.phone}</a> : "—"}
@@ -429,6 +456,7 @@ export default function AdminLeads() {
                     { key: "name", label: "Nom" },
                     { key: "email", label: "Email" },
                     { key: "company", label: "Société" },
+                    { key: "sector", label: "Activité / Niche" },
                     { key: "city", label: "Ville" },
                     { key: "phone", label: "Téléphone" },
                     { key: "service", label: "Service" },
@@ -485,6 +513,12 @@ export default function AdminLeads() {
                   <div className="flex justify-between">
                     <dt className="text-[#9BA1B0]">Service</dt>
                     <dd className="font-medium">{selected.service}</dd>
+                  </div>
+                )}
+                {selected.sector && (
+                  <div className="flex items-center justify-between">
+                    <dt className="text-[#9BA1B0]">Activité / Niche</dt>
+                    <dd><span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${sectorColor(selected.sector)}`}>{selected.sector}</span></dd>
                   </div>
                 )}
                 {selected.city && (

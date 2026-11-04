@@ -26,7 +26,7 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ ok: false }, { status: 401 });
   }
 
-  const body = await req.json() as { id: string; status?: string; name?: string; email?: string; company?: string; service?: string; message?: string; city?: string; phone?: string; email_sent_at?: string | null; replied?: boolean; quote_requested?: boolean };
+  const body = await req.json() as { id: string; status?: string; name?: string; email?: string; company?: string; service?: string; message?: string; city?: string; phone?: string; sector?: string; email_sent_at?: string | null; replied?: boolean; quote_requested?: boolean };
   const { id, ...fields } = body;
   const admin = getSupabaseAdmin();
   const { error } = await admin.from("leads").update(fields).eq("id", id);
