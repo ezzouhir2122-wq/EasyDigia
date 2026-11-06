@@ -10,6 +10,8 @@ import {
   PSEO_SERVICES,
   PSEO_SECTORS,
   PSEO_CITIES,
+  SERVICE_LONG,
+  SECTOR_USECASES,
   type PseoService,
   type PseoSector,
   type PseoCity,
@@ -427,11 +429,16 @@ export default async function PseoPage({ params }: Props) {
             {service.tagline}
           </p>
 
-          <p className="mb-8 text-[16px] leading-relaxed text-muted">
+          <p className="mb-5 text-[16px] leading-relaxed text-muted">
             {service.description} Conçu spécifiquement pour les{" "}
             <strong className="text-[#C8CDD8]">{sector.label}</strong> au Maroc,
             avec des résultats mesurables dès les 30 premiers jours.
           </p>
+          {SERVICE_LONG[service.slug] && (
+            <p className="mb-8 text-[16px] leading-relaxed text-muted">
+              {SERVICE_LONG[service.slug]}
+            </p>
+          )}
 
           <div className="flex flex-wrap gap-3">
             <Link
@@ -536,6 +543,68 @@ export default async function PseoPage({ params }: Props) {
               <p className="text-[14px] leading-relaxed text-muted">{item.a}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Cas d'usage concrets pour ce secteur */}
+      {SECTOR_USECASES[sector.slug] && (
+        <section className="relative z-10 border-y border-white/[0.06] bg-white/[0.02] py-20">
+          <div className="mx-auto max-w-[1100px] px-[6vw]">
+            <h2 className="mb-2 text-center text-[13px] font-semibold uppercase tracking-[0.1em] text-brand">
+              Cas d&apos;usage
+            </h2>
+            <h3 className="mb-12 text-center text-[28px] font-bold tracking-tight text-ink lg:text-[34px]">
+              {service.label} pour {sector.labelFull} : exemples concrets
+            </h3>
+            <div className="grid gap-6 md:grid-cols-3">
+              {SECTOR_USECASES[sector.slug].map((uc) => (
+                <div
+                  key={uc.title}
+                  className="rounded-[16px] border border-white/[0.07] bg-white/[0.03] p-6"
+                >
+                  <h4 className="mb-2 font-semibold text-ink">{uc.title}</h4>
+                  <p className="text-[14px] leading-relaxed text-muted">{uc.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Pourquoi EasyDigia — preuve */}
+      <section className="relative z-10 mx-auto max-w-[1100px] px-[6vw] py-20">
+        <div className="rounded-[20px] border border-white/[0.07] bg-white/[0.02] p-8 md:p-10">
+          <h2 className="mb-2 text-[13px] font-semibold uppercase tracking-[0.1em] text-brand">
+            Pourquoi EasyDigia
+          </h2>
+          <h3 className="mb-6 text-[24px] font-bold tracking-tight text-ink">
+            Un partenaire local qui livre
+          </h3>
+          <div className="grid gap-6 sm:grid-cols-3">
+            <div>
+              <div className="text-[34px] font-extrabold text-brand">+50</div>
+              <div className="text-[14px] text-muted">projets livrés en 3 ans</div>
+            </div>
+            <div>
+              <div className="text-[34px] font-extrabold text-brand">3</div>
+              <div className="text-[14px] text-muted">langues gérées (FR, AR, EN)</div>
+            </div>
+            <div>
+              <div className="text-[34px] font-extrabold text-brand">24h</div>
+              <div className="text-[14px] text-muted">délai de réponse</div>
+            </div>
+          </div>
+          <p className="mt-6 text-[15px] leading-relaxed text-muted">
+            Basés au Maroc, nous accompagnons les {sector.label} de l&apos;audit au déploiement,
+            puis assurons le suivi. Découvrez des exemples de projets réalisés pour des entreprises
+            comme la vôtre.
+          </p>
+          <Link
+            href="/realisations"
+            className="mt-6 inline-flex items-center gap-2 rounded-[10px] border border-brand/30 px-5 py-2.5 text-[14px] font-semibold text-brand transition hover:bg-brand/10"
+          >
+            Voir nos réalisations →
+          </Link>
         </div>
       </section>
 
