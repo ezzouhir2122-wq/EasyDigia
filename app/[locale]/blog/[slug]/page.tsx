@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Orbs } from "@/components/Orbs";
@@ -33,6 +34,61 @@ type ArticleRow = {
   image_url?: string;
   content: Record<string, { title: string; excerpt: string; tag: string; body: string }>;
 };
+
+const BASE_URL = "https://www.easydigia.com";
+const LOCALES = ["fr", "en", "ar"];
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const locale = await getLocale();
+
+  const supabase = getSupabaseAdmin();
+  const { data: article } = await supabase
+    .from("blog_articles")
+    .select("slug, image_url, published_at, content")
+    .eq("slug", slug)
+    .eq("published", true)
+    .single();
+
+  if (!article) return {};
+
+  const content = article.content as ArticleRow["content"];
+  const loc = content[locale] ?? content["fr"];
+  if (!loc) return {};
+
+  const url = `${BASE_URL}/${locale}/blog/${slug}`;
+  const image = (article.image_url as string) || `${BASE_URL}/og-image.png`;
+
+  return {
+    title: `${loc.title} | EasyDigia`,
+    description: loc.excerpt,
+    alternates: {
+      canonical: url,
+      languages: Object.fromEntries(
+        LOCALES.map((l) => [l, `${BASE_URL}/${l}/blog/${slug}`])
+      ),
+    },
+    openGraph: {
+      type: "article",
+      title: loc.title,
+      description: loc.excerpt,
+      url,
+      siteName: "EasyDigia",
+      publishedTime: article.published_at as string,
+      images: [{ url: image, width: 1200, height: 630, alt: loc.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: loc.title,
+      description: loc.excerpt,
+      images: [image],
+    },
+  };
+}
 
 export default async function BlogArticle({
   params,
@@ -77,8 +133,36 @@ export default async function BlogArticle({
   const others = allRelated.filter((a) => a.category !== article.category);
   const related = [...sameCategory, ...others].slice(0, 3);
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: loc.title,
+    description: loc.excerpt,
+    image: (article.image_url as string) || "https://www.easydigia.com/og-image.png",
+    datePublished: article.published_at as string,
+    dateModified: article.published_at as string,
+    inLanguage: locale,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.easydigia.com/${locale}/blog/${slug}`,
+    },
+    author: { "@type": "Organization", name: "EasyDigia", url: "https://www.easydigia.com" },
+    publisher: {
+      "@type": "Organization",
+      name: "EasyDigia",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.easydigia.com/logo-easydigia-new.jpeg",
+      },
+    },
+  };
+
   return (
     <div className="relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <ReadingProgress />
       <Orbs />
 

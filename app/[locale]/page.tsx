@@ -1,9 +1,49 @@
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { Hero } from "@/components/Hero";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Link } from "@/i18n/navigation";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { GuideCTA } from "@/components/GuideCTA";
+
+const BASE_URL = "https://www.easydigia.com";
+const LOCALES = ["fr", "en", "ar"];
+
+const HOME_META: Record<string, { title: string; description: string }> = {
+  fr: {
+    title: "Agence IA & Automatisation au Maroc | EasyDigia",
+    description:
+      "EasyDigia conçoit des agents IA, chatbots et automatisations sur mesure pour les PME au Maroc. +50 projets livrés. Gagnez du temps et plus de clients — devis en 24h.",
+  },
+  en: {
+    title: "AI Agency & Business Automation in Morocco | EasyDigia",
+    description:
+      "EasyDigia builds custom AI agents, chatbots and automations for SMEs in Morocco. 50+ projects delivered. Save time and win more clients — quote in 24h.",
+  },
+  ar: {
+    title: "وكالة ذكاء اصطناعي وأتمتة في المغرب | EasyDigia",
+    description:
+      "EasyDigia تصمم وكلاء ذكاء اصطناعي وروبوتات محادثة وأتمتة مخصصة للشركات الصغيرة والمتوسطة في المغرب. أكثر من 50 مشروعًا. عرض سعر خلال 24 ساعة.",
+  },
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const meta = HOME_META[locale] ?? HOME_META.fr;
+  return {
+    title: meta.title,
+    description: meta.description,
+    alternates: {
+      canonical: `${BASE_URL}/${locale}`,
+      languages: Object.fromEntries(LOCALES.map((l) => [l, `${BASE_URL}/${l}`])),
+    },
+    openGraph: { title: meta.title, description: meta.description, url: `${BASE_URL}/${locale}` },
+  };
+}
 
 export default function Home() {
   const t = useTranslations("home");

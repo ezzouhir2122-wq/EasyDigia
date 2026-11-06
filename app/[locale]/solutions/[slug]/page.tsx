@@ -101,6 +101,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         images: [{ url: "https://www.easydigia.com/og-image.png", width: 1200, height: 630 }],
       },
       alternates: { canonical: `https://www.easydigia.com/fr/solutions/${slug}` },
+      // Pages géo quasi-dupliquées (service×secteur×ville) : non indexées pour
+      // éviter le thin/doorway content. Elles restent crawlables (follow).
+      robots: { index: false, follow: true },
     };
   }
 
