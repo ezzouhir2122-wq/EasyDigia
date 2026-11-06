@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { BLOG_THEMES, topicGenerationPrompt } from "@/config/blog-topics";
+import { BLOG_THEMES, BLOG_TOPIC_QUEUE, topicGenerationPrompt } from "@/config/blog-topics";
 import { generateAndSaveArticle } from "@/lib/blog-generator";
 import { sendArticleReadyEmail, sendArticleErrorEmail } from "@/lib/blog-notifier";
 import { generateWithAI, detectProvider } from "@/lib/ai-providers";
@@ -49,12 +49,21 @@ export async function GET(req: Request): Promise<NextResponse> {
 
   try {
     const { theme_index, run_count } = await getSchedulerState();
-    const nextIndex = theme_index % BLOG_THEMES.length;
-    currentTheme = BLOG_THEMES[nextIndex];
 
     const provider = detectProvider();
-    const topicRaw = await generateWithAI(topicGenerationPrompt(currentTheme), provider);
-    const topic = topicRaw.trim();
+
+    // On consomme d'abord la file stratégique de sujets (intention client),
+    // puis on retombe sur la rotation de thèmes génériques une fois épuisée.
+    let topic: string;
+    if (theme_index < BLOG_TOPIC_QUEUE.length) {
+      topic = BLOG_TOPIC_QUEUE[theme_index];
+      currentTheme = topic;
+    } else {
+      const nextIndex = theme_index % BLOG_THEMES.length;
+      currentTheme = BLOG_THEMES[nextIndex];
+      const topicRaw = await generateWithAI(topicGenerationPrompt(currentTheme), provider);
+      topic = topicRaw.trim();
+    }
 
     const article = await generateAndSaveArticle({ topic, category: "ai", provider });
 
