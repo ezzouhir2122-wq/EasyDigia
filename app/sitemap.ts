@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { getAllPseoSlugs, getAllPseoGeoSlugs } from "@/config/pseo-data";
+import { getAllPseoSlugs } from "@/config/pseo-data";
+import { getSupabaseAdmin } from "@/lib/supabase";
 
 const BASE_URL = "https://www.easydigia.com";
 const LOCALES = ["fr", "en", "ar"];
@@ -14,7 +15,7 @@ const ROUTES = [
   { path: "/contact", priority: 0.7, changeFrequency: "yearly" as const },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
   for (const locale of LOCALES) {
     for (const route of ROUTES) {
@@ -48,14 +49,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     });
   }
-  // Pages géo (nouvelles)
-  for (const slug of getAllPseoGeoSlugs()) {
-    entries.push({
-      url: `${BASE_URL}/fr/solutions/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.65,
-    });
+  // NOTE : les pages géo (service×secteur×ville) sont volontairement EXCLUES du
+  // sitemap et marquées noindex (voir solutions/[slug]/page.tsx) car quasi-dupliquées.
+  // Les réintégrer uniquement après enrichissement en contenu local unique.
+
+  // Blog articles (published) — pulled from Supabase, multilingual with hreflang
+  try {
+    const supabase = getSupabaseAdmin();
+    const { data: articles } = await supabase
+      .from("blog_articles")
+      .select("slug, published_at")
+      .eq("published", true);
+
+    for (const article of articles ?? []) {
+      entries.push({
+        url: `${BASE_URL}/fr/blog/${article.slug}`,
+        lastModified: article.published_at
+          ? new Date(article.published_at as string)
+          : new Date(),
+        changeFrequency: "monthly",
+        priority: 0.7,
+        alternates: {
+          languages: Object.fromEntries(
+            LOCALES.map((l) => [l, `${BASE_URL}/${l}/blog/${article.slug}`])
+          ),
+        },
+      });
+    }
+  } catch {
+    // If the DB is unreachable at build/request time, skip blog URLs
+    // rather than failing the entire sitemap.
   }
 
   return entries;

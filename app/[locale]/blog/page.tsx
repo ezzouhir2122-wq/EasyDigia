@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Orbs } from "@/components/Orbs";
@@ -6,6 +7,44 @@ import { LeadMagnetModal } from "@/components/LeadMagnetModal";
 import Image from "next/image";
 
 export const dynamic = "force-dynamic";
+
+const BASE_URL = "https://www.easydigia.com";
+const LOCALES = ["fr", "en", "ar"];
+const META: Record<string, { title: string; description: string }> = {
+  fr: {
+    title: "Blog — IA, Automatisation & Productivité | EasyDigia",
+    description:
+      "Guides, cas d'usage et conseils pratiques sur l'IA, les agents IA et l'automatisation pour les PME au Maroc. Apprenez à gagner du temps et à développer votre activité.",
+  },
+  en: {
+    title: "Blog — AI, Automation & Productivity | EasyDigia",
+    description:
+      "Guides, use cases and practical tips on AI, AI agents and automation for SMEs in Morocco. Learn how to save time and grow your business.",
+  },
+  ar: {
+    title: "المدونة — الذكاء الاصطناعي والأتمتة والإنتاجية | EasyDigia",
+    description:
+      "أدلة ودراسات حالة ونصائح عملية حول الذكاء الاصطناعي ووكلائه والأتمتة للشركات الصغيرة والمتوسطة في المغرب. تعلّم كيف توفّر الوقت وتنمّي نشاطك.",
+  },
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const meta = META[locale] ?? META.fr;
+  return {
+    title: meta.title,
+    description: meta.description,
+    alternates: {
+      canonical: `${BASE_URL}/${locale}/blog`,
+      languages: Object.fromEntries(LOCALES.map((l) => [l, `${BASE_URL}/${l}/blog`])),
+    },
+    openGraph: { title: meta.title, description: meta.description, url: `${BASE_URL}/${locale}/blog` },
+  };
+}
 
 const CATEGORY_ICONS: Record<string, string> = {
   ai: "🤖",

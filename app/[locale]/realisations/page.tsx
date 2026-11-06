@@ -1,5 +1,44 @@
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+
+const BASE_URL = "https://www.easydigia.com";
+const LOCALES = ["fr", "en", "ar"];
+const META: Record<string, { title: string; description: string }> = {
+  fr: {
+    title: "Réalisations — Projets IA & Automatisation | EasyDigia",
+    description:
+      "Découvrez nos projets d'agents IA, chatbots et automatisations livrés à des PME marocaines : immobilier, retail, industrie. Des résultats concrets et mesurables.",
+  },
+  en: {
+    title: "Case Studies — AI & Automation Projects | EasyDigia",
+    description:
+      "Explore our delivered AI agents, chatbots and automation projects for Moroccan SMEs: real estate, retail, industry. Concrete, measurable results.",
+  },
+  ar: {
+    title: "أعمالنا — مشاريع ذكاء اصطناعي وأتمتة | EasyDigia",
+    description:
+      "اكتشف مشاريعنا من وكلاء الذكاء الاصطناعي وروبوتات المحادثة والأتمتة لشركات مغربية: العقارات، التجزئة، الصناعة. نتائج ملموسة وقابلة للقياس.",
+  },
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const meta = META[locale] ?? META.fr;
+  return {
+    title: meta.title,
+    description: meta.description,
+    alternates: {
+      canonical: `${BASE_URL}/${locale}/realisations`,
+      languages: Object.fromEntries(LOCALES.map((l) => [l, `${BASE_URL}/${l}/realisations`])),
+    },
+    openGraph: { title: meta.title, description: meta.description, url: `${BASE_URL}/${locale}/realisations` },
+  };
+}
 
 type Project = {
   name: string;

@@ -1,5 +1,44 @@
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+
+const BASE_URL = "https://www.easydigia.com";
+const LOCALES = ["fr", "en", "ar"];
+const META: Record<string, { title: string; description: string }> = {
+  fr: {
+    title: "Tarifs — Agents IA & Automatisation | EasyDigia",
+    description:
+      "Des offres claires pour automatiser votre entreprise au Maroc : chatbots, agents IA et automatisations sur mesure. Découvrez nos tarifs et demandez un devis en 24h.",
+  },
+  en: {
+    title: "Pricing — AI Agents & Automation | EasyDigia",
+    description:
+      "Clear packages to automate your business in Morocco: chatbots, AI agents and custom automations. See our pricing and get a quote in 24h.",
+  },
+  ar: {
+    title: "الأسعار — وكلاء ذكاء اصطناعي وأتمتة | EasyDigia",
+    description:
+      "عروض واضحة لأتمتة شركتك في المغرب: روبوتات محادثة ووكلاء ذكاء اصطناعي وأتمتة مخصصة. اطلب عرض سعر خلال 24 ساعة.",
+  },
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const meta = META[locale] ?? META.fr;
+  return {
+    title: meta.title,
+    description: meta.description,
+    alternates: {
+      canonical: `${BASE_URL}/${locale}/tarifs`,
+      languages: Object.fromEntries(LOCALES.map((l) => [l, `${BASE_URL}/${l}/tarifs`])),
+    },
+    openGraph: { title: meta.title, description: meta.description, url: `${BASE_URL}/${locale}/tarifs` },
+  };
+}
 
 export default function Tarifs() {
   const t = useTranslations("tarifs");
