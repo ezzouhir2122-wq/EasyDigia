@@ -347,3 +347,65 @@ export function getPseoGeoPage(
   if (!city) return null;
   return { service: national.service, sector: national.sector, city };
 }
+
+/**
+ * Contenu d'enrichissement pour les pages nationales (service × secteur).
+ * Textes éditoriaux/advisory — aucune donnée chiffrée inventée.
+ * SERVICE_LONG : paragraphe d'approfondissement unique par service.
+ * SECTOR_USECASES : cas d'usage concrets, spécifiques au secteur.
+ */
+export const SERVICE_LONG: Record<string, string> = {
+  "chatbot-ia":
+    "Contrairement à un chatbot à scénarios figés, notre chatbot IA comprend le langage naturel, le contexte de chaque conversation et vos propres données métier. Il qualifie les demandes, transmet les cas complexes à un humain au bon moment et apprend de chaque échange. Déployé sur WhatsApp Business, votre site ou Instagram, il devient votre premier point de contact — disponible même quand votre équipe ne l'est pas.",
+  automatisation:
+    "L'automatisation ne consiste pas à remplacer vos équipes, mais à leur retirer les tâches répétitives à faible valeur : ressaisies, relances, exports, rapprochements. Nous cartographions d'abord vos processus réels, puis nous connectons vos outils existants (email, tableur, CRM, facturation) pour que l'information circule seule, sans copier-coller ni oubli.",
+  "agent-ia":
+    "Un agent IA va plus loin qu'un chatbot : il reçoit un objectif, décide des étapes et utilise vos outils pour l'atteindre — recherche, rédaction, traitement de données, coordination entre applications. Chaque agent est défini avec des limites d'action claires et un tableau de bord de supervision, pour garder le contrôle tout en déléguant les tâches complexes.",
+  "crm-intelligent":
+    "Un CRM n'a de valeur que s'il est réellement utilisé. Nous construisons un CRM pensé pour votre manière de travailler, enrichi par l'IA : scoring automatique des leads, relances déclenchées au bon moment, et vues claires sur votre pipeline. L'objectif : que plus aucune opportunité ne se perde faute de suivi.",
+  "analyse-donnees":
+    "Vos données sont déjà là — dans votre CRM, votre ERP, vos tableurs. Nous les connectons en un seul endroit et les transformons en tableaux de bord lisibles et en alertes automatiques, pour que vos décisions s'appuient sur des faits plutôt que sur des impressions, et que vous anticipiez au lieu de subir.",
+};
+
+export const SECTOR_USECASES: Record<string, { title: string; desc: string }[]> = {
+  restaurants: [
+    { title: "Réservations et commandes", desc: "Prise de réservations et de commandes à emporter via WhatsApp, avec confirmation et rappel automatiques." },
+    { title: "Réponses au menu & allergènes", desc: "Réponses instantanées aux questions sur la carte, les allergènes, les horaires et la localisation." },
+    { title: "Avis & fidélité", desc: "Collecte d'avis après le repas et offres ciblées envoyées aux clients réguliers." },
+  ],
+  immobilier: [
+    { title: "Qualification de leads", desc: "Collecte du budget, de la zone et du type de bien pour ne transmettre aux agents que les prospects sérieux." },
+    { title: "Planification des visites", desc: "Réservation des visites selon les disponibilités réelles des agents, sans échanges d'emails." },
+    { title: "Alertes nouveaux biens", desc: "Envoi automatique des nouvelles annonces correspondant aux critères de chaque prospect." },
+  ],
+  ecommerce: [
+    { title: "Paniers abandonnés", desc: "Relance automatique des paniers abandonnés par WhatsApp ou email, avec une offre adaptée." },
+    { title: "Suivi de commande", desc: "Réponses en libre-service sur l'état des commandes et des livraisons, sans surcharger le SAV." },
+    { title: "Recommandations", desc: "Suggestions de produits complémentaires basées sur l'historique d'achat." },
+  ],
+  education: [
+    { title: "Aide à l'inscription", desc: "Accompagnement des candidats étape par étape dans leur dossier, 24h/24, et collecte des documents." },
+    { title: "FAQ admissions", desc: "Réponses automatiques sur les programmes, frais et conditions d'admission." },
+    { title: "Rappels & suivi", desc: "Alertes pour les cours, examens et échéances de paiement, et suivi de la progression des apprenants." },
+  ],
+  sante: [
+    { title: "Prise de rendez-vous", desc: "Réservation, modification et annulation de rendez-vous sans mobiliser le secrétariat." },
+    { title: "Rappels anti no-show", desc: "Rappels automatiques avant la consultation pour réduire les rendez-vous manqués." },
+    { title: "Pré-admission", desc: "Collecte en amont des informations patient et des documents nécessaires à la consultation." },
+  ],
+  rh: [
+    { title: "Tri des candidatures", desc: "Analyse des CV par rapport à la fiche de poste et mise en avant des profils les plus pertinents." },
+    { title: "Onboarding", desc: "Déclenchement automatique du parcours d'intégration : documents, accès, formations." },
+    { title: "Chatbot RH interne", desc: "Réponses aux questions récurrentes des employés sur les congés, la paie et les avantages." },
+  ],
+  juridique: [
+    { title: "Qualification de dossier", desc: "Collecte des informations essentielles avant la première consultation pour la préparer efficacement." },
+    { title: "Relances documentaires", desc: "Rappels automatiques pour les pièces manquantes, les échéances et les signatures." },
+    { title: "Prise de rendez-vous", desc: "Réservation en ligne des consultations selon les disponibilités du cabinet." },
+  ],
+  logistique: [
+    { title: "Suivi des livraisons", desc: "Vue centralisée des livraisons, véhicules et chauffeurs, mise à jour en continu." },
+    { title: "Notifications clients", desc: "Alertes automatiques à chaque étape : expédition, en route, livré ou retard détecté." },
+    { title: "Reporting", desc: "Rapports hebdomadaires automatiques sur les taux de livraison et la performance par zone." },
+  ],
+};
