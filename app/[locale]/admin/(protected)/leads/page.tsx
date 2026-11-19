@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { AdminNav } from "@/components/admin/AdminNav";
 import type { QuoteData } from "@/lib/quote-pdf";
+import { waLink } from "@/lib/whatsapp";
 
 type Lead = {
   id: string;
   name: string;
-  email: string;
+  email: string | null;
   company?: string;
   service?: string;
   message: string;
@@ -49,7 +50,7 @@ function makeQuote(lead: Lead): QuoteData {
     date: new Date().toLocaleDateString("fr-FR"),
     validDays: 15,
     clientName: lead.name,
-    clientEmail: lead.email,
+    clientEmail: lead.email ?? "",
     company: lead.company ?? "",
     subject: lead.message,
     items: [
@@ -222,6 +223,15 @@ export default function AdminLeads() {
     });
     setLeads((prev) => prev.map((l) => l.id === id ? { ...l, status } : l));
     if (selected?.id === id) setSelected((prev) => prev ? { ...prev, status } : null);
+  }
+
+  // Opens WhatsApp with the prefilled message; a "new" lead becomes "contacted".
+  function openWhatsApp(lead: Lead, e?: React.MouseEvent) {
+    e?.stopPropagation();
+    const url = waLink(lead);
+    if (!url) return;
+    window.open(url, "_blank", "noopener");
+    if (!lead.status || lead.status === "new") updateStatus(lead.id, "contacted");
   }
 
   async function toggleQuoteRequested() {
@@ -406,6 +416,11 @@ export default function AdminLeads() {
                         <td className="px-4 py-3.5 text-[#9BA1B0] max-lg:hidden">{lead.city ?? "—"}</td>
                         <td className="px-4 py-3.5 text-[#9BA1B0] max-xl:hidden">
                           {lead.phone ? <a href={`tel:${lead.phone}`} onClick={(e) => e.stopPropagation()} className="hover:text-[#C6FF00]">{lead.phone}</a> : "—"}
+                          {waLink(lead) && (
+                            <button onClick={(e) => openWhatsApp(lead, e)} title="Envoyer le message WhatsApp" aria-label={`WhatsApp ${lead.name}`} className="ml-2 rounded-full bg-[#25D366]/15 px-2 py-0.5 text-[11px] font-semibold text-[#25D366] hover:bg-[#25D366]/25">
+                              WhatsApp
+                            </button>
+                          )}
                         </td>
                         <td className="px-4 py-3.5 text-[#9BA1B0]/70 max-sm:hidden">
                           {new Date(lead.created_at).toLocaleDateString("fr-FR")}
@@ -569,6 +584,20 @@ export default function AdminLeads() {
                     <dd className="font-medium"><a href={`tel:${selected.phone}`} className="text-[#8FD400] hover:underline">{selected.phone}</a></dd>
                   </div>
                 )}
+                {selected.phone && (
+                  <div className="flex items-center justify-between">
+                    <dt className="text-[#9BA1B0]">WhatsApp</dt>
+                    <dd>
+                      {waLink(selected) ? (
+                        <button onClick={() => openWhatsApp(selected)} className="rounded-full bg-[#25D366]/15 px-2.5 py-1 text-[11px] font-semibold text-[#25D366] ring-1 ring-[#25D366]/40 hover:bg-[#25D366]/25">
+                          Envoyer le message
+                        </button>
+                      ) : (
+                        <span className="text-[12px] text-[#9BA1B0]">Numéro fixe, pas de WhatsApp</span>
+                      )}
+                    </dd>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <dt className="text-[#9BA1B0]">Email envoyé</dt>
                   <dd className="font-medium">{selected.email_sent_at ? `✅ ${new Date(selected.email_sent_at).toLocaleDateString("fr-FR")}` : "—"}</dd>
@@ -608,7 +637,7 @@ export default function AdminLeads() {
                 <button onClick={toggleQuoteRequested} className="mt-2 text-[12px] text-[#8FD400] hover:underline">
                   {selected.quote_requested ? "✓ Devis demandé" : "Marquer comme devis demandé"}
                 </button>
-                {selected.email.toLowerCase() !== "aamrani01@gmail.com" && (
+                {selected.email?.toLowerCase() !== "aamrani01@gmail.com" && (
                   <p className="mt-2 text-[12px] text-amber-300">Le modèle personnalisé disponible concerne actuellement Electro Bencharki.</p>
                 )}
                 {quoteStatus === "ok" && <p className="mt-2 text-[12px] text-[#8FD400]">✅ Devis envoyé avec succès.</p>}
