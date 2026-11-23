@@ -8,6 +8,7 @@
     "realisations": "Case Studies",
     "faq": "FAQ",
     "temoignages": "Testimonials",
+    "formations": "Training",
     "contact": "Contact",
     "admin": "Admin",
     "cta": "Free audit",
@@ -303,5 +304,24 @@
     "city": "Marrakech, Morocco",
     "copy": "© 2026 EasyDigia. All rights reserved.",
     "made": "Marrakech, Morocco"
+  },
+  "formations": {
+    "kicker": "AI Training",
+    "title": "Learn AI, hands-on",
+    "sub": "Short, practical training to put AI to work for your business. No coding.",
+    "cta": "Book my seat",
+    "ctaSub": "Limited seats — we get back to you within 24 h.",
+    "items": [
+      {
+        "title": "Build your first AI agent",
+        "desc": "In one day: context, mission, tools, rules… and you leave with an agent ready to work (competitor watch, client follow-ups, CV screening).",
+        "video": "/videos/formation-agent-ia.mp4"
+      },
+      {
+        "title": "Claude training",
+        "desc": "Master Claude day to day and save hours on repetitive tasks.",
+        "video": "/videos/formation-claude.mp4"
+      }
+    ]
   }
 }
