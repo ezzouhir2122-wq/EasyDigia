@@ -2,7 +2,6 @@
   "framework": "nextjs",
   "crons": [
     { "path": "/api/blog/cron", "schedule": "0 8 * * 1" },
-    { "path": "/api/blog/cron", "schedule": "0 8 * * 3" },
-    { "path": "/api/blog/cron", "schedule": "0 8 * * 5" }
+    { "path": "/api/blog/cron", "schedule": "0 8 * * 4" }
   ]
 }

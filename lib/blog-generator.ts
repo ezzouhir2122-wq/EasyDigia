@@ -82,25 +82,34 @@ Réponds UNIQUEMENT avec un objet JSON valide (aucun markdown, aucune explicatio
 
 EXIGENCES POUR LE BODY (chaque langue) :
 - MINIMUM 900 mots de texte visible (hors balises HTML)
-- 7 à 9 sections H2 avec titres accrocheurs orientés bénéfice
-- Chaque section : 4 à 5 paragraphes de 3-4 phrases minimum
-- Utiliser <strong> pour les chiffres et concepts clés
-- Au moins 2 listes <ul><li> dans l'article (bénéfices, étapes, exemples)
+- 7 à 9 sections H2 ; formule-les si possible comme des questions réelles, avec une réponse directe en début de section (answer-first)
+- Dès le 1er paragraphe : réponse synthétique directe à l'intention de recherche
+- Juste après l'intro : un encadré "Points clés" en <ul> (3 à 5 puces)
+- Chaque section : 3 à 5 paragraphes concrets
+- Utiliser <strong> pour les concepts clés
+- Au moins 2 listes <ul><li>
+- Expérience terrain EasyDigia : au moins 2 exemples concrets / mini-cas (secteurs réels : immobilier, restauration, e-commerce, santé, logistique)
+- Maillage interne : 2 à 4 liens parmi <a href="/fr/services">, <a href="/fr/tarifs">, <a href="/fr/contact">, <a href="/fr/realisations"> et une page solution (ex. <a href="/fr/solutions/chatbot-ia-pour-restaurants">)
 - Section "Conclusion et prochaines étapes" avec appel à action EasyDigia naturel
-- Chiffres concrets et exemples réels (économies de temps, ROI, pourcentages)
 - NE PAS utiliser h1, div, script, style, header, footer
 
+RÈGLES DE CRÉDIBILITÉ (IMPÉRATIF — E-E-A-T) :
+- N'invente JAMAIS de statistiques. N'avance un chiffre QUE si tu l'attribues à une source crédible + l'année (ex. "selon McKinsey, 2024"). Sinon, exprime l'idée qualitativement, sans chiffre.
+- Les chiffres propres à EasyDigia (ex. +50 projets livrés, 3 ans) sont autorisés car first-party.
+- INTERDITS : introductions creuses ("Dans un monde en constante évolution…"), généralités vagues, transitions vides, remplissage. Sois spécifique, varie la longueur des phrases.
+
 STRUCTURE RECOMMANDÉE :
-<h2>Introduction : contexte et enjeu</h2>
+<h2>[Réponse directe à l'intention de recherche]</h2>
 <p>...</p>
+<ul><li>Point clé 1</li>...</ul>
 <h2>Pourquoi [problème] coûte cher aux PME</h2>
-<p>...<strong>3h/semaine</strong>...</p>
+<p>...</p>
 <ul><li>...</li></ul>
 <h2>Comment [solution] change la donne</h2>
-<p>...</p>
-[... 4 à 6 autres sections ...]
+<p>...exemple concret EasyDigia...</p>
+[... autres sections en questions ...]
 <h2>Conclusion : passez à l'action</h2>
-<p>...EasyDigia...</p>
+<p>...<a href="/fr/contact">EasyDigia</a>...</p>
 
 JSON strictement valide, chaînes échappées correctement, pas de retour à la ligne brut dans les valeurs.`;
 }

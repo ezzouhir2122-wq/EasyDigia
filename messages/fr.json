@@ -8,6 +8,7 @@
     "realisations": "Réalisations",
     "faq": "FAQ",
     "temoignages": "Témoignages",
+    "formations": "Formations",
     "contact": "Contact",
     "admin": "Admin",
     "cta": "Audit gratuit",
@@ -303,5 +304,24 @@
     "city": "Marrakech, Maroc",
     "copy": "© 2026 EasyDigia. Tous droits réservés.",
     "made": "Marrakech, Maroc"
+  },
+  "formations": {
+    "kicker": "Formations IA",
+    "title": "Formez-vous à l’IA, en pratique",
+    "sub": "Des formations courtes et concrètes pour faire travailler l’IA pour votre entreprise. Sans coder.",
+    "cta": "Réserver ma place",
+    "ctaSub": "Places limitées — nous vous recontactons sous 24 h.",
+    "items": [
+      {
+        "title": "Créez votre premier agent IA",
+        "desc": "En une journée : le contexte, la mission, les outils, les règles… et vous repartez avec un agent prêt à travailler (veille concurrentielle, relances clients, tri des candidatures).",
+        "video": "/videos/formation-agent-ia.mp4"
+      },
+      {
+        "title": "Formation Claude",
+        "desc": "Maîtrisez Claude au quotidien pour gagner des heures sur vos tâches répétitives.",
+        "video": "/videos/formation-claude.mp4"
+      }
+    ]
   }
 }
