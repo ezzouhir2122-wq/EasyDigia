@@ -12,6 +12,7 @@ import type { User } from "@supabase/supabase-js";
 const SERVICES_DROPDOWN = [
   { href: "/services",     icon: "⚙️",  labelKey: "services" },
   { href: "/tarifs",       icon: "💰",  labelKey: "tarifs" },
+  { href: "/formations",   icon: "🎓",  labelKey: "formations" },
   { href: "/realisations", icon: "🏆",  labelKey: "realisations" },
   { href: "/temoignages",  icon: "💬",  labelKey: "temoignages" },
 ] as const;
@@ -57,7 +58,7 @@ export function Header() {
   }
 
   // Detect if current path is in the services group
-  const inServicesGroup = ["/services", "/tarifs", "/realisations", "/temoignages", "/about"].some(
+  const inServicesGroup = ["/services", "/tarifs", "/formations", "/realisations", "/temoignages", "/about"].some(
     (p) => pathname === p || pathname.startsWith(p + "/")
   );
 
@@ -66,6 +67,7 @@ export function Header() {
     { href: "/",             label: t("home") },
     { href: "/services",     label: t("services") },
     { href: "/tarifs",       label: t("tarifs") },
+    { href: "/formations",   label: t("formations") },
     { href: "/realisations", label: t("realisations") },
     { href: "/temoignages",  label: t("temoignages") },
     { href: "/about",        label: t("about") },
