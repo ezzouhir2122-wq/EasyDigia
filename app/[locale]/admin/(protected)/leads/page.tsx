@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { AdminNav } from "@/components/admin/AdminNav";
 import type { QuoteData } from "@/lib/quote-pdf";
 import { waLink } from "@/lib/whatsapp";
+import { isFormationLead } from "@/lib/leadSchema";
 
 type Lead = {
   id: string;
@@ -111,6 +112,7 @@ export default function AdminLeads() {
   const [selected, setSelected] = useState<Lead | null>(null);
   const [filter, setFilter] = useState("all");
   const [sectorFilter, setSectorFilter] = useState("all");
+  const [catFilter, setCatFilter] = useState<"all" | "services" | "formation">("all");
   const [replyOpen, setReplyOpen] = useState(false);
   const [replySubject, setReplySubject] = useState("");
   const [replyMessage, setReplyMessage] = useState("");
@@ -281,8 +283,10 @@ export default function AdminLeads() {
 
   const filtered = leads.filter((l) =>
     (filter === "all" || (l.status ?? "new") === filter) &&
-    (sectorFilter === "all" || (l.sector ?? "") === sectorFilter)
+    (sectorFilter === "all" || (l.sector ?? "") === sectorFilter) &&
+    (catFilter === "all" || isFormationLead(l.service) === (catFilter === "formation"))
   );
+  const formationCount = leads.filter((l) => isFormationLead(l.service)).length;
   const quoteTotal = quoteDraft?.items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0) ?? 0;
 
   const counts: Record<string, number> = { all: leads.length };
@@ -338,6 +342,29 @@ export default function AdminLeads() {
               }`}
             >
               {s.value === "all" ? "Tous" : s.label} ({counts[s.value] ?? 0})
+            </button>
+          ))}
+        </div>
+
+        {/* Catégorie : services vs formation */}
+        <div className="mb-5 flex flex-wrap items-center gap-2">
+          <span className="mr-1 text-[11px] uppercase tracking-[0.08em] text-[#9BA1B0]">Catégorie</span>
+          {([
+            { value: "all", label: "Toutes", n: leads.length },
+            { value: "services", label: "Services", n: leads.length - formationCount },
+            { value: "formation", label: "Formation", n: formationCount },
+          ] as const).map((c) => (
+            <button
+              key={c.value}
+              onClick={() => setCatFilter(c.value)}
+              aria-pressed={catFilter === c.value}
+              className={`rounded-full px-3 py-1 text-[12px] font-medium transition ${
+                catFilter === c.value
+                  ? "bg-white/10 text-[#F5F6FA] ring-1 ring-white/20"
+                  : "border border-white/10 text-[#9BA1B0] hover:border-white/20"
+              }`}
+            >
+              {c.label} ({c.n})
             </button>
           ))}
         </div>
