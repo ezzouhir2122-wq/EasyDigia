@@ -388,7 +388,7 @@ export default function AdminLeads() {
                       <th className="px-4 py-3.5 max-lg:hidden">Société</th>
                       <th className="px-4 py-3.5 max-sm:hidden">Activité</th>
                       <th className="px-4 py-3.5 max-lg:hidden">Ville</th>
-                      <th className="px-4 py-3.5 max-xl:hidden">Téléphone</th>
+                      <th className="px-4 py-3.5 max-md:hidden">Téléphone</th>
                       <th className="px-4 py-3.5 max-sm:hidden">Date</th>
                       <th className="px-4 py-3.5">Statut</th>
                       <th className="px-4 py-3.5 text-center max-md:hidden" title="Email envoyé">✉</th>
@@ -414,7 +414,7 @@ export default function AdminLeads() {
                             : <span className="text-[#9BA1B0]">—</span>}
                         </td>
                         <td className="px-4 py-3.5 text-[#9BA1B0] max-lg:hidden">{lead.city ?? "—"}</td>
-                        <td className="px-4 py-3.5 text-[#9BA1B0] max-xl:hidden">
+                        <td className="px-4 py-3.5 whitespace-nowrap text-[#9BA1B0] max-md:hidden">
                           {lead.phone ? <a href={`tel:${lead.phone}`} onClick={(e) => e.stopPropagation()} className="hover:text-[#C6FF00]">{lead.phone}</a> : "—"}
                           {waLink(lead) && (
                             <button onClick={(e) => openWhatsApp(lead, e)} title="Envoyer le message WhatsApp" aria-label={`WhatsApp ${lead.name}`} className="ml-2 rounded-full bg-[#25D366]/15 px-2 py-0.5 text-[11px] font-semibold text-[#25D366] hover:bg-[#25D366]/25">
