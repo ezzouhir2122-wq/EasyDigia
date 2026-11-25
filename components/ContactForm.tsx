@@ -62,7 +62,7 @@ export function ContactForm() {
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="grid gap-1.5 text-[14px] text-muted">
           {t("phone")}
-          <input name="phone" type="tel" autoComplete="tel" inputMode="tel" maxLength={30} placeholder="+212 6XX XXX XXX" className={field} />
+          <input name="phone" type="tel" autoComplete="tel" inputMode="tel" maxLength={30} pattern="[0-9+\(\)\s\-]*" placeholder="+212 6XX XXX XXX" className={field} />
         </label>
         <label className="grid gap-1.5 text-[14px] text-muted">
           {t("company")}
