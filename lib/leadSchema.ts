@@ -4,6 +4,7 @@ export const leadSchema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
   company: z.string().optional(),
+  phone: z.string().max(30).optional(),
   service: z.string().optional(),
   message: z.string().min(1),
   quoteRequested: z.boolean().default(false),

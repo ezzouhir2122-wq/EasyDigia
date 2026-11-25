@@ -93,6 +93,7 @@
     "name": "Nom",
     "email": "Email",
     "company": "Entreprise",
+    "phone": "Téléphone",
     "service": "Service souhaité",
     "message": "Votre message",
     "submit": "Envoyer",

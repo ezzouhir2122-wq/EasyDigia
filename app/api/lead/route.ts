@@ -17,13 +17,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "validation" }, { status: 400 });
   }
 
-  const { name, email, company, service, message, quoteRequested } = parsed.data;
+  const { name, email, phone, company, service, message, quoteRequested } = parsed.data;
 
   // Save to Supabase (non-blocking — email always goes out even if DB fails)
   try {
     const supabase = getSupabaseAdmin();
     const { error: dbError } = await supabase.from("leads").insert({
-      name, email, company, service, message, locale: parsed.data.locale,
+      name, email, phone, company, service, message, locale: parsed.data.locale,
       quote_requested: quoteRequested,
     });
     if (dbError) console.error("lead insert failed", dbError);
@@ -53,6 +53,7 @@ export async function POST(req: Request) {
             <table style="width:100%;border-collapse:collapse">
               <tr><td style="padding:8px 0;color:#9BA1B0;width:120px">Nom</td><td style="padding:8px 0;font-weight:600">${name}</td></tr>
               <tr><td style="padding:8px 0;color:#9BA1B0">Email</td><td style="padding:8px 0"><a href="mailto:${email}" style="color:#8FD400">${email}</a></td></tr>
+              ${phone ? `<tr><td style="padding:8px 0;color:#9BA1B0">Téléphone</td><td style="padding:8px 0"><a href="tel:${phone}" style="color:#8FD400">${phone}</a></td></tr>` : ""}
               ${company ? `<tr><td style="padding:8px 0;color:#9BA1B0">Entreprise</td><td style="padding:8px 0">${company}</td></tr>` : ""}
               ${service ? `<tr><td style="padding:8px 0;color:#9BA1B0">Service</td><td style="padding:8px 0">${service}</td></tr>` : ""}
             </table>

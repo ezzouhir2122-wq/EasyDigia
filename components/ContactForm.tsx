@@ -14,6 +14,7 @@ export function ContactForm() {
     const payload = {
       name: String(form.get("name") || ""),
       email: String(form.get("email") || ""),
+      phone: String(form.get("phone") || ""),
       company: String(form.get("company") || ""),
       service: String(form.get("service") || ""),
       message: String(form.get("message") || ""),
@@ -60,14 +61,18 @@ export function ContactForm() {
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="grid gap-1.5 text-[14px] text-muted">
+          {t("phone")}
+          <input name="phone" type="tel" autoComplete="tel" inputMode="tel" maxLength={30} placeholder="+212 6XX XXX XXX" className={field} />
+        </label>
+        <label className="grid gap-1.5 text-[14px] text-muted">
           {t("company")}
           <input name="company" className={field} />
         </label>
-        <label className="grid gap-1.5 text-[14px] text-muted">
-          {t("service")}
-          <input name="service" className={field} />
-        </label>
       </div>
+      <label className="grid gap-1.5 text-[14px] text-muted">
+        {t("service")}
+        <input name="service" className={field} />
+      </label>
       <label className="grid gap-1.5 text-[14px] text-muted">
         {t("message")} <span className="text-brand">*</span>
         <textarea name="message" required rows={4} className={field} />
