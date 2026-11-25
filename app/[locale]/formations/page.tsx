@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { FormationDownloadForm } from "@/components/FormationDownloadForm";
 
 export default function Formations() {
   const t = useTranslations("formations");
@@ -47,6 +48,21 @@ export default function Formations() {
           ))}
         </div>
         <p className="mt-6 text-center text-[13px] text-[#9BA1B0]/60">{t("ctaSub")}</p>
+      </section>
+
+      <section id="telecharger" className="mx-auto max-w-[720px] px-[6vw] pb-24">
+        <div className="rounded-[22px] border border-[#8FD400]/20 bg-[#12141C] p-6 sm:p-8">
+          <div className="mb-3 text-center font-mono text-[12px] uppercase tracking-[0.1em] text-[#8FD400]">
+            {t("download.kicker")}
+          </div>
+          <h2 className="text-center font-heading text-[clamp(22px,3vw,30px)] font-bold text-[#F5F6FA]">
+            {t("download.title")}
+          </h2>
+          <p className="mx-auto mt-3 mb-7 max-w-[520px] text-center text-[14.5px] leading-[1.65] text-[#9BA1B0]">
+            {t("download.sub")}
+          </p>
+          <FormationDownloadForm />
+        </div>
       </section>
     </main>
   );

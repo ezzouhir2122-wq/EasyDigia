@@ -312,6 +312,21 @@
     "sub": "Des formations courtes et concrètes pour faire travailler l’IA pour votre entreprise. Sans coder.",
     "cta": "Réserver ma place",
     "ctaSub": "Places limitées — nous vous recontactons sous 24 h.",
+    "download": {
+      "kicker": "Ressources gratuites",
+      "title": "Recevez le guide et le kit de la formation",
+      "sub": "Guide participant (10 pages) + Kit « Mon premier agent IA » (22 pages, 7 modèles). Remplissez le formulaire : les 2 PDF vous sont envoyés par email.",
+      "name": "Nom",
+      "email": "Email",
+      "phone": "Téléphone",
+      "company": "Entreprise",
+      "submit": "Recevoir les PDF par email →",
+      "sending": "Envoi en cours…",
+      "error": "Une erreur est survenue. Réessayez ou contactez-nous.",
+      "successTitle": "C'est envoyé ! Vérifiez votre boîte email",
+      "successSub": "Les 2 PDF ont été envoyés en pièce jointe à",
+      "spam": "Pas reçu d'ici 2 minutes ? Regardez dans vos spams."
+    },
     "items": [
       {
         "title": "Créez votre premier agent IA",
