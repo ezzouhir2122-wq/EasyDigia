@@ -312,6 +312,21 @@
     "sub": "Short, practical training to put AI to work for your business. No coding.",
     "cta": "Book my seat",
     "ctaSub": "Limited seats — we get back to you within 24 h.",
+    "download": {
+      "kicker": "Free resources",
+      "title": "Get the training guide and kit",
+      "sub": "Participant guide (10 pages) + “My first AI agent” kit (22 pages, 7 templates, in French). Fill in the form: both PDFs are sent to your email.",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "company": "Company",
+      "submit": "Send me the PDFs →",
+      "sending": "Sending…",
+      "error": "Something went wrong. Try again or contact us.",
+      "successTitle": "Sent! Check your inbox",
+      "successSub": "Both PDFs were sent as attachments to",
+      "spam": "Nothing within 2 minutes? Check your spam folder."
+    },
     "items": [
       {
         "title": "Build your first AI agent",
