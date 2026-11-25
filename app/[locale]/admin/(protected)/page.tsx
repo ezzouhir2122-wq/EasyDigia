@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { AdminNav } from "@/components/admin/AdminNav";
+import { isFormationLead } from "@/lib/leadSchema";
 
 type Lead = {
   id: string;
@@ -32,11 +33,19 @@ function statusStyle(s?: string) {
   return STATUS_META[s ?? "new"]?.color ?? STATUS_META.new.color;
 }
 
+const CATEGORIES = [
+  { value: "all", label: "Tous les leads" },
+  { value: "services", label: "Leads services" },
+  { value: "formation", label: "Leads formation" },
+] as const;
+type Category = (typeof CATEGORIES)[number]["value"];
+
 export default function AdminDashboard() {
   const params = useParams();
   const locale = (params?.locale as string) ?? "fr";
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
+  const [category, setCategory] = useState<Category>("all");
 
   useEffect(() => {
     (async () => {
@@ -51,27 +60,41 @@ export default function AdminDashboard() {
     })();
   }, []);
 
+  const formationCount = useMemo(() => leads.filter((l) => isFormationLead(l.service)).length, [leads]);
+  const catCounts: Record<Category, number> = {
+    all: leads.length,
+    formation: formationCount,
+    services: leads.length - formationCount,
+  };
+  const scoped = useMemo(
+    () =>
+      category === "all"
+        ? leads
+        : leads.filter((l) => isFormationLead(l.service) === (category === "formation")),
+    [leads, category]
+  );
+
   const stats = useMemo(() => {
-    const total = leads.length;
-    const clients = leads.filter((l) => l.status === "converted").length;
-    const factures = leads.filter((l) => !!l.quote_sent_at).length;
-    const devisEnAttente = leads.filter((l) => l.quote_requested && !l.quote_sent_at).length;
-    const nouveaux = leads.filter((l) => (l.status ?? "new") === "new").length;
+    const total = scoped.length;
+    const clients = scoped.filter((l) => l.status === "converted").length;
+    const factures = scoped.filter((l) => !!l.quote_sent_at).length;
+    const devisEnAttente = scoped.filter((l) => l.quote_requested && !l.quote_sent_at).length;
+    const nouveaux = scoped.filter((l) => (l.status ?? "new") === "new").length;
     const taux = total > 0 ? Math.round((clients / total) * 100) : 0;
     const now = new Date();
-    const ceMois = leads.filter((l) => {
+    const ceMois = scoped.filter((l) => {
       const d = new Date(l.created_at);
       return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
     }).length;
     return { total, clients, factures, devisEnAttente, nouveaux, taux, ceMois };
-  }, [leads]);
+  }, [scoped]);
 
   const recent = useMemo(
     () =>
-      [...leads]
+      [...scoped]
         .sort((a, b) => +new Date(b.created_at) - +new Date(a.created_at))
         .slice(0, 6),
-    [leads]
+    [scoped]
   );
 
   const cards = [
@@ -94,6 +117,24 @@ export default function AdminDashboard() {
           <p className="mt-1 text-[14px] text-[#9BA1B0]">
             Vue d&apos;ensemble des leads, clients et facturation.
           </p>
+        </div>
+
+        {/* Catégories de leads */}
+        <div className="mb-5 flex flex-wrap gap-2">
+          {CATEGORIES.map((c) => (
+            <button
+              key={c.value}
+              onClick={() => setCategory(c.value)}
+              aria-pressed={category === c.value}
+              className={`rounded-full px-4 py-1.5 text-[13px] font-medium transition ${
+                category === c.value
+                  ? "bg-[#8FD400]/15 text-[#C6FF00] ring-1 ring-[#8FD400]/40"
+                  : "border border-white/10 text-[#9BA1B0] hover:border-white/20"
+              }`}
+            >
+              {c.label} ({loading ? "…" : catCounts[c.value]})
+            </button>
+          ))}
         </div>
 
         {/* Stat cards */}
@@ -135,7 +176,14 @@ export default function AdminDashboard() {
                 <tbody>
                   {recent.map((l) => (
                     <tr key={l.id} className="border-b border-white/[0.04] last:border-0">
-                      <td className="px-5 py-3.5 font-medium">{l.name}</td>
+                      <td className="px-5 py-3.5 font-medium">
+                        {l.name}
+                        {isFormationLead(l.service) && (
+                          <span className="ml-2 rounded-full bg-purple-500/20 px-2 py-0.5 text-[10.5px] font-semibold text-purple-300">
+                            Formation
+                          </span>
+                        )}
+                      </td>
                       <td className="px-4 py-3.5 text-[#9BA1B0] max-sm:hidden">{l.email}</td>
                       <td className="px-4 py-3.5 text-[#9BA1B0]/70 max-md:hidden">
                         {new Date(l.created_at).toLocaleDateString("fr-FR")}
@@ -160,7 +208,7 @@ export default function AdminDashboard() {
             ) : (
               <div className="space-y-3">
                 {Object.entries(STATUS_META).map(([key, meta]) => {
-                  const count = leads.filter((l) => (l.status ?? "new") === key).length;
+                  const count = scoped.filter((l) => (l.status ?? "new") === key).length;
                   const pct = stats.total > 0 ? Math.round((count / stats.total) * 100) : 0;
                   return (
                     <div key={key}>

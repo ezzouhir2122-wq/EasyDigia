@@ -13,3 +13,6 @@ export const leadSchema = z.object({
 });
 
 export type LeadInput = z.infer<typeof leadSchema>;
+
+// Formation leads: tagged "Formation …" by /api/formation, or a contact form where the visitor typed "formation" as service
+export const isFormationLead = (service?: string | null) => /formation/i.test(service ?? "");
