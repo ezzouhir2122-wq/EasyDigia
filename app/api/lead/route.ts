@@ -4,6 +4,10 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 import { saveLeadToAirtable } from "@/lib/airtable";
 import { Resend } from "resend";
 
+// User input goes into the notification email HTML: escape it.
+const esc = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+
 export async function POST(req: Request) {
   let body: unknown;
   try {
@@ -51,15 +55,15 @@ export async function POST(req: Request) {
           <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0A0B10;color:#F5F6FA;padding:32px;border-radius:12px">
             <h2 style="color:#8FD400;margin:0 0 24px">Nouveau message EasyDigia</h2>
             <table style="width:100%;border-collapse:collapse">
-              <tr><td style="padding:8px 0;color:#9BA1B0;width:120px">Nom</td><td style="padding:8px 0;font-weight:600">${name}</td></tr>
-              <tr><td style="padding:8px 0;color:#9BA1B0">Email</td><td style="padding:8px 0"><a href="mailto:${email}" style="color:#8FD400">${email}</a></td></tr>
-              ${phone ? `<tr><td style="padding:8px 0;color:#9BA1B0">Téléphone</td><td style="padding:8px 0"><a href="tel:${phone}" style="color:#8FD400">${phone}</a></td></tr>` : ""}
-              ${company ? `<tr><td style="padding:8px 0;color:#9BA1B0">Entreprise</td><td style="padding:8px 0">${company}</td></tr>` : ""}
-              ${service ? `<tr><td style="padding:8px 0;color:#9BA1B0">Service</td><td style="padding:8px 0">${service}</td></tr>` : ""}
+              <tr><td style="padding:8px 0;color:#9BA1B0;width:120px">Nom</td><td style="padding:8px 0;font-weight:600">${esc(name)}</td></tr>
+              <tr><td style="padding:8px 0;color:#9BA1B0">Email</td><td style="padding:8px 0"><a href="mailto:${esc(email)}" style="color:#8FD400">${esc(email)}</a></td></tr>
+              ${phone ? `<tr><td style="padding:8px 0;color:#9BA1B0">Téléphone</td><td style="padding:8px 0"><a href="tel:${esc(phone)}" style="color:#8FD400">${esc(phone)}</a></td></tr>` : ""}
+              ${company ? `<tr><td style="padding:8px 0;color:#9BA1B0">Entreprise</td><td style="padding:8px 0">${esc(company)}</td></tr>` : ""}
+              ${service ? `<tr><td style="padding:8px 0;color:#9BA1B0">Service</td><td style="padding:8px 0">${esc(service)}</td></tr>` : ""}
             </table>
             <div style="margin-top:24px;padding:16px;background:#12141C;border-radius:8px;border-left:3px solid #8FD400">
               <p style="margin:0;color:#9BA1B0;font-size:12px;text-transform:uppercase;letter-spacing:0.08em">Message</p>
-              <p style="margin:8px 0 0;line-height:1.7">${message.replace(/\n/g, "<br>")}</p>
+              <p style="margin:8px 0 0;line-height:1.7">${esc(message).replace(/\n/g, "<br>")}</p>
             </div>
           </div>
         `,
