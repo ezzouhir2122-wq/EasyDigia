@@ -3,17 +3,28 @@ import { Container } from "@/components/Container";
 import { ContactForm } from "@/components/ContactForm";
 import { GuideCTA } from "@/components/GuideCTA";
 
-export const metadata = {
-  title: "Demander un audit gratuit IA & automatisation | EasyDigia",
-  description:
-    "Décrivez votre projet d’automatisation, de chatbot ou d’agent IA. EasyDigia vous répond sous 24h depuis Marrakech, partout au Maroc.",
-  alternates: { canonical: "https://www.easydigia.com/fr/contact" },
-  openGraph: {
-    title: "Demander un audit gratuit | EasyDigia",
-    description: "Identifions ensemble les tâches que votre entreprise peut automatiser.",
-    url: "https://www.easydigia.com/fr/contact",
-  },
-};
+const BASE_URL = "https://www.easydigia.com";
+const LOCALES = ["fr", "en", "ar"];
+
+// /en and /ar are translated pages listed in the sitemap: each must self-canonicalize
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const url = `${BASE_URL}/${locale}/contact`;
+  return {
+    title: "Demander un audit gratuit IA & automatisation | EasyDigia",
+    description:
+      "Décrivez votre projet d’automatisation, de chatbot ou d’agent IA. EasyDigia vous répond sous 24h depuis Marrakech, partout au Maroc.",
+    alternates: {
+      canonical: url,
+      languages: Object.fromEntries(LOCALES.map((l) => [l, `${BASE_URL}/${l}/contact`])),
+    },
+    openGraph: {
+      title: "Demander un audit gratuit | EasyDigia",
+      description: "Identifions ensemble les tâches que votre entreprise peut automatiser.",
+      url,
+    },
+  };
+}
 
 export default function Contact() {
   const t = useTranslations("contact");
